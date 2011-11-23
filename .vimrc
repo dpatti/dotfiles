@@ -150,6 +150,7 @@ highlight Pmenu       guifg=#656763 guibg=#ffffff
 highlight PmenuSel    guifg=#656763 guibg=#ffffff
 highlight PmenuSbar   guifg=#656763 guibg=#ffffff
 highlight PmenuThumb  guifg=#656763 guibg=#ffffff
+highlight Folded      guifg=#ffffff guibg=#555555
 set cul
 
 " Font
@@ -253,7 +254,7 @@ endfunction
 nmap <silent> ,cl :call FillLine('-')<cr>
 
 " A map for the commonly used %s/\(.*\)/...
-function! s:Wrap(start, end, replace)
+function! Wrap(start, end, replace)
 	echo start
 	echo end
 	echo replace
