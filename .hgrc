@@ -1,0 +1,8 @@
+[extensions]
+mq = 
+
+[ui]
+username = dpatti <douglas.patti@gmail.com>
+ssh = plink.exe
+verbose = True
+
