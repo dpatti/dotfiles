@@ -122,6 +122,7 @@ set history=100
 
 " These commands open folds
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+set foldmethod=marker
 
 " When the page starts to scroll, keep the cursor 8 lines from the edge
 set scrolloff=8
