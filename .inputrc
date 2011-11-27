@@ -10,3 +10,7 @@ TAB: menu-complete
 # Ctrl-W will not delete an entire path
 set bind-tty-special-chars Off
 "\C-w": backward-kill-word
+
+# Ctrl+Left/Right to move by whole words
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
