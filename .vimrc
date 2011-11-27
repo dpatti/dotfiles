@@ -1,7 +1,4 @@
 set nocompatible
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
 
 " Forget being compatible with good ol' vi
 set nocompatible
@@ -111,9 +108,6 @@ set laststatus=2
 " Hide the mouse pointer while typing
 set mousehide
 
-" Nix guid shit
-set guioptions=ac
-
 " Timeout for remaps
 set timeoutlen=500
 
@@ -156,9 +150,6 @@ set cul
 
 " Font
 set guifont=Consolas:h10
-
-" Window size
-winsize 230 60
 
 " No backup files
 set nobk
