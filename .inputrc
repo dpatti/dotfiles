@@ -1,2 +1,12 @@
-set completion-ignore-case on
+# Vim-like tab completion
+set completion-ignore-case On
 TAB: menu-complete
+# Bind Shift-Tab to reverse
+"\e[Z": "\e-1\C-i"
+
+# Keeping around old complete for the hell of it
+"\C-f": complete
+
+# Ctrl-W will not delete an entire path
+set bind-tty-special-chars Off
+"\C-w": backward-kill-word
