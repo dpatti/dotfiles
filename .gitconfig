@@ -16,6 +16,7 @@
 [core]
     excludesfile = ~/.gitignore_global
 	autocrlf = input
+	editor = gvim
 [color]
     ui = auto
 [color "branch"]
@@ -32,4 +33,4 @@
     changed = green
     untracked = cyan
 [merge]
-    tool = vimdiff
+    tool = gvimdiff
