@@ -8,7 +8,7 @@
     st = status -sb
     br = branch
     #hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-    hist = log --oneline --decorate --graph -n 20
+    hist = log --oneline --decorate --graph --date-order -n 20
     type = cat-file -t
     dump = cat-file -p
 [apply]
