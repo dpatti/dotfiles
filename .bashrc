@@ -1,5 +1,5 @@
 # Common parameters
-alias ll='ls -l'
+alias ll='ls -al'
 alias grep='grep --color'
 alias ssh='ssh -t -t' # Something about stdin not being a terminal when I use OpenSSH on mintty?
 
