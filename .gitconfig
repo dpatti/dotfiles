@@ -15,8 +15,9 @@
     whitespace = fix
 [core]
     excludesfile = ~/.gitignore_global
-	autocrlf = input
-	editor = gvim
+    autocrlf = input
+    editor = gvim
+    filemode = false
 [color]
     ui = auto
 [color "branch"]
