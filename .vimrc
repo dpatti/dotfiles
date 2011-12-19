@@ -63,6 +63,10 @@ imap <C-BS> <C-W>
 " Change Y to be more consistent with C, D, etc.
 map Y y$
 
+" Session management
+map <F2> :mksession! ~/vim_session <cr>
+map <F3> :source ~/vim_session <cr>
+
 " Close current window, aka "c-w c"
 " noremap <silent> ,cc :close<cr>
 
@@ -259,6 +263,13 @@ function! Symlink()
     execute "!mklink /J " . substitute(expand("$HOME\\vimfiles $HOME\\.vim"), "/", "\\", "g")
 endfunction
 command! Sym call Symlink()
+
+" Open terminal at current location
+function! Terminal()
+    " Currently only for windows
+    execute "!start C:\\cygwin\\bin\\mintty.exe -e /bin/xhere /bin/bash.exe '" . substitute(getcwd(), "^\(.\):/", "/cygdrive/\1/", "") . "'"
+endfunction
+nmap <silent> ,ct :call Terminal()<cr>
 
 " This was here; I don't know what it does
 set diffexpr=MyDiff()
