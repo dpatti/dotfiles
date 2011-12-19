@@ -11,6 +11,7 @@
     hist = log --oneline --decorate --graph --date-order -n 20
     type = cat-file -t
     dump = cat-file -p
+    committed = diff-tree --name-status -r
 [apply]
     whitespace = fix
 [core]
