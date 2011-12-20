@@ -1,39 +1,60 @@
-set nocompatible
+" My .vimrc file
 
-" Forget being compatible with good ol' vi
-set nocompatible
+" --- Options ---------------------------------------------------------------{{{
+set nocompatible        " Disable vi compatability
+set ffs=unix,dos        " File format prefer unix endings
+set eol                 " Add newline at end of file
+set shellslash          " Use forward slashes for file names
+set vb                  " Visual bell instead of beep
+set nobk                " Do not use backup files
+set formatoptions=crq   " Format options: wrap (c)omments at textwidth, insert comment leade(r), and unknown
+set textwidth=80        " 80 characters wide
+set hidden              " Allow unsaved buffers to be hidden
+set laststatus=2        " Always use status line
+set showmode            " Display current mode
+set ch=2                " Command line two lines high
+set wildmenu            " Command line completion helper
+set timeoutlen=500      " Timeout for remaps
+set history=100         " Keep some stuff in the history
+set mousehide           " Hide the mouse pointer while typing
+set scrolloff=8         " Always keep cursor 8 lines from edge
+set virtualedit=all     " Allow the cursor to go to invalid places
+set synmaxcol=1024      " Disable coloring on long lines (helps with large files)
+set cul                 " Highlight current line
+set nowrap              " Disable wrapping by default
+set backspace=2         " Allow backspace over indent, eol, and start of insert
+set cpoptions+=$        " Change commands will display a $ to mark end of changed text
+set wrapscan            " Search will continue past end of document
+set incsearch           " Search as you type
+set ignorecase          " Search will ignore case
+set smartcase           " Search will respect case if any letter is uppercase
+syntax on               " Turn on syntax highlighting
 
-" File format prefer unix endings
-set ffs=unix,dos
+" Tabstops are 4 spaces
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
 
-" Format options
-set formatoptions=crq
-set textwidth=80
+" Set the status line
+set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
 
-" Set filetype stuff to on
+" These commands open folds
+set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+set foldmethod=marker   " Use {{{ }}} for folds
+
+" Filetype specific stuff
 filetype on
 filetype plugin on
 filetype indent on
+" --- }}}
 
-" Turn on syntax highlighting
-syntax on
+" --- Mappings --------------------------------------------------------------{{{
+let mapleader=","       " Set the <Leader> key to comma
 
-" Make sure that unsaved buffers that are to be put in the background are
-" allowed to go in there (ie. the "must save first" error doesn't come up)
-set hidden
-
-" Don't update the display while executing macros
-" set lazydraw
-
-" At least let yourself know what mode you're in
-set showmode
-
-" Enable enhanced command-line completion. Presumes you have compiled
-" with +wildmenu. See :help 'wildmenu'
-set wildmenu
-
-" Set our <Leader> key
-let mapleader=","
+" Moving between wrapped lines
+nnoremap k gk
+nnoremap j gj
 
 " Let's make it easy to edit/source this file ('e'dit 'v'imrc)
 nmap <silent> ,ev :e $HOME/.vimrc<cr>
@@ -42,8 +63,8 @@ nmap <silent> ,sv :so $HOME/.vimrc<cr>
 " Set text wrapping toggles
 nmap <silent> ,w :set invwrap<cr>:set wrap?<cr>
 
-" Toggle paste mode
-nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
+" Toggle paste mode -- I don't know what this is yet
+" nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
 
 " Turn off higlight search
 nmap <silent> ,n :set invhls<cr>:set hls?<cr>
@@ -67,81 +88,12 @@ map Y y$
 map <F2> :mksession! ~/vim_session <cr>
 map <F3> :source ~/vim_session <cr>
 
-" Close current window, aka "c-w c"
-" noremap <silent> ,cc :close<cr>
+" Diff (t)his, Diff (o)ff!
+nmap <silent> ,dt :difft<cr>
+nmap <silent> ,do :diffo!<cr>
+" --- }}}
 
-" Tabstops are 4 spaces
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-
-" No wrapping
-set nowrap
-
-" set the search scan to wrap lines
-set wrapscan
-
-" set the search scan so that it ignores case when the search is all lower
-" case but recognizes uppercase if it's specified
-set ignorecase
-set smartcase
-
-" set the forward slash to be the slash of note. Backslashes suck
-set shellslash
-
-" Make command line two lines high
-set ch=2
-
-" set visual bell -- i hate that damned beeping
-set vb
-
-" Allowing backspacing over indent, eol, and the start of an insert
-set backspace=2
-
-" Make the 'cw' and like commands put a $ at the end instead of just deleting
-" the text and replacing it
-set cpoptions+=$
-
-" Set the status line
-set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
-
-" tell Vim to always put a status line in
-set laststatus=2
-
-" Hide the mouse pointer while typing
-set mousehide
-
-" Timeout for remaps
-set timeoutlen=500
-
-" Keep some stuff in the history
-set history=100
-
-" These commands open folds
-set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
-set foldmethod=marker
-
-" When the page starts to scroll, keep the cursor 8 lines from the edge
-set scrolloff=8
-
-" Allow the cursor to go to invalid places
-set virtualedit=all
-
-" Might include later?
-" set complete=.,w,b,t
-
-" Incrementally match the search
-set incsearch
-
-" Don't color long lines
-set synmaxcol=1024
-
-" Moving between wrapped lines
-nnoremap k gk
-nnoremap j gj
-
-" Style
+" --- Style and font --------------------------------------------------------{{{
 colorscheme railscasts
 highlight Comment     guifg=#656763 ctermfg=180 gui=italic
 highlight NonText     guifg=#656763	ctermfg=180
@@ -150,21 +102,10 @@ highlight PmenuSel    guifg=#656763 guibg=#ffffff
 highlight PmenuSbar   guifg=#656763 guibg=#ffffff
 highlight PmenuThumb  guifg=#656763 guibg=#ffffff
 highlight Folded      guifg=#ffffff guibg=#555555
-set cul
-
-" Font
 set guifont=Consolas:h10
+" --- }}}
 
-" No backup files
-set nobk
-
-" .ntl, .ntj files are really JavaScript
-autocmd BufNewFile,BufRead *.ntl setfiletype javascript
-autocmd BufNewFile,BufRead *.ntj setfiletype javascript
-
-" C function carpet bomb
-" %s/\(.* \)\(\S*\)\((.*\n{\)/\1\2\3\r  printf("\2\\n");/g
-
+" --- Plugin config ---------------------------------------------------------{{{
 " pathogen
 call pathogen#runtime_append_all_bundles()
 
@@ -206,7 +147,9 @@ nmap <silent> ,fl :FSRight<CR>
 
 " NERD Tree Plugin
 nmap <F7> :NERDTreeToggle<CR>
+" --- }}}
 
+" --- Custom commands -------------------------------------------------------{{{
 " Lua Globals - my failed attempt
 highlight Global guifg=#3B3178
 function! LuaGlob()
@@ -250,6 +193,7 @@ endfunction
 nmap <silent> ,cl :call FillLine('-')<cr>
 
 " A map for the commonly used %s/\(.*\)/...
+" Not working yet
 function! Wrap(start, end, replace)
 	echo start
 	echo end
@@ -272,7 +216,7 @@ endfunction
 nmap <silent> ,ct :call Terminal()<cr>
 
 " This was here; I don't know what it does
-set diffexpr=MyDiff()
+" set diffexpr=MyDiff()
 function! MyDiff()
 	let opt = '-a --binary '
 	if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
@@ -296,3 +240,13 @@ function! MyDiff()
 	endif
 	silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
+" --- }}}
+
+" --- Miscellaneous ---------------------------------------------------------{{{
+" .ntl, .ntj files are really JavaScript
+autocmd BufNewFile,BufRead *.ntl setfiletype javascript
+autocmd BufNewFile,BufRead *.ntj setfiletype javascript
+
+" C function carpet bomb
+" %s/\(.* \)\(\S*\)\((.*\n{\)/\1\2\3\r  printf("\2\\n");/g
+" --- }}}
