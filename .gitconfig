@@ -7,8 +7,7 @@
     ci = commit
     st = status -sb
     br = branch
-    #hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-    hist = log --oneline --decorate --graph --date-order -n 20
+    hist = log --oneline --decorate --graph --topo-order -n 20
     type = cat-file -t
     dump = cat-file -p
     committed = diff-tree --name-status -r
@@ -27,9 +26,9 @@
     remote = green
 [color "diff"]
     meta = yellow bold
-    #frag = magenta bold
-    #old = red bold
-    #new = green bold
+    frag = magenta
+    old = red
+    new = green
 [color "status"]
     added = yellow
     changed = green
