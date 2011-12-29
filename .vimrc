@@ -211,7 +211,7 @@ command! Sym call Symlink()
 " Open terminal at current location
 function! Terminal()
     " Currently only for windows
-    execute "!start C:\\cygwin\\bin\\mintty.exe -e /bin/xhere /bin/bash.exe '" . substitute(getcwd(), "^\(.\):/", "/cygdrive/\1/", "") . "'"
+    execute "!start C:\\cygwin\\bin\\mintty.exe -e /bin/xhere /bin/bash.exe '" . getcwd() . "'"
 endfunction
 nmap <silent> ,ct :call Terminal()<cr>
 
@@ -244,8 +244,30 @@ endfunction
 
 " --- Miscellaneous ---------------------------------------------------------{{{
 " .ntl, .ntj files are really JavaScript
-autocmd BufNewFile,BufRead *.ntl setfiletype javascript
-autocmd BufNewFile,BufRead *.ntj setfiletype javascript
+augroup d2botType
+    autocmd!
+    autocmd BufNewFile,BufRead *.ntl setfiletype javascript
+    autocmd BufNewFile,BufRead *.ntj setfiletype javascript
+augroup END
+
+" Change permissions on new files to be -x in cygwin
+augroup filePerms
+    autocmd!
+    autocmd BufWritePre * call NewFileTest()
+augroup END
+function! NewFileTest()
+    if !filereadable(expand('<afile>'))
+        " If the file cannot be found pre-write, add a post-write command
+        autocmd filePerms BufWritePost * call NewFileAlter()
+    endif
+endfunction
+function! NewFileAlter()
+    " Remove command after it is executed once
+    autocmd! filePerms BufWritePost
+    " Change permissions
+    silent execute "!C:\\cygwin\\bin\\bash.exe -c \"/usr/bin/chmod 0644 '" . substitute(expand("<afile>"), "^\\(.\\):/", "/cygdrive/\\1/", "") . "'\""
+endfunction
+
 
 " C function carpet bomb
 " %s/\(.* \)\(\S*\)\((.*\n{\)/\1\2\3\r  printf("\2\\n");/g
