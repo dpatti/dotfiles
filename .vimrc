@@ -250,7 +250,7 @@ augroup d2botType
     autocmd BufNewFile,BufRead *.ntj setfiletype javascript
 augroup END
 
-" Change permissions on new files to be -x in cygwin
+" Change permissions on new files to be 0644 in cygwin
 augroup filePerms
     autocmd!
     autocmd BufWritePre * call NewFileTest()
