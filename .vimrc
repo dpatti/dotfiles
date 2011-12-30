@@ -265,7 +265,7 @@ function! NewFileAlter()
     " Remove command after it is executed once
     autocmd! filePerms BufWritePost
     " Change permissions
-    silent execute "!C:\\cygwin\\bin\\bash.exe -c \"/usr/bin/chmod 0644 '" . substitute(expand("<afile>"), "^\\(.\\):/", "/cygdrive/\\1/", "") . "'\""
+    silent execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod 0644 '" . substitute(expand("<afile>"), "^\\(.\\):/", "/cygdrive/\\1/", "") . "'"
 endfunction
 
 
