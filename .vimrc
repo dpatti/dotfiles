@@ -90,7 +90,7 @@ map <F3> :source ~/vim_session <cr>
 
 " Diff (t)his, Diff (o)ff!
 nmap <silent> ,dt :difft<cr>
-nmap <silent> ,do :diffo!<cr>
+nmap <silent> ,do :diffo!<cr>:set nowrap<cr>:set foldmethod=marker<cr>
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
@@ -251,6 +251,7 @@ augroup d2botType
 augroup END
 
 " Change permissions on new files to be 0644 in cygwin
+" TODO make windows only
 augroup filePerms
     autocmd!
     autocmd BufWritePre * call NewFileTest()
@@ -265,7 +266,7 @@ function! NewFileAlter()
     " Remove command after it is executed once
     autocmd! filePerms BufWritePost
     " Change permissions
-    silent execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod 0644 '" . substitute(expand("<afile>"), "^\\(.\\):/", "/cygdrive/\\1/", "") . "'"
+    silent execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod 0644 \"`/usr/bin/cygpath '" . expand("<afile>") . "'`\" 2>> ~/.vim/error"
 endfunction
 
 
