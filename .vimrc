@@ -56,6 +56,10 @@ let mapleader=","       " Set the <Leader> key to comma
 nnoremap k gk
 nnoremap j gj
 
+" Indent modification keeps visual mode
+vnoremap > >gv
+vnoremap < <gv
+
 " Let's make it easy to edit/source this file ('e'dit 'v'imrc)
 nmap <silent> ,ev :e $HOME/.vimrc<cr>
 nmap <silent> ,sv :so $HOME/.vimrc<cr>
@@ -91,6 +95,10 @@ map <F3> :source ~/vim_session <cr>
 " Diff (t)his, Diff (o)ff!
 nmap <silent> ,dt :difft<cr>
 nmap <silent> ,do :diffo!<cr>:set nowrap<cr>:set foldmethod=marker<cr>
+
+" Fold methods
+nmap <silent> ,fm :set foldmethod=marker<cr>
+nmap <silent> ,fi :set foldmethod=indent<cr>
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
