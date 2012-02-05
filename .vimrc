@@ -273,8 +273,10 @@ endfunction
 function! NewFileAlter()
     " Remove command after it is executed once
     autocmd! filePerms BufWritePost
+    " Get the path of the current file in cygwin terms
+    let cygpath = system("C:\\cygwin\\bin\\cygpath.exe " . expand("<afile>"))
     " Change permissions
-    silent execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod 0644 \"`/usr/bin/cygpath '" . expand("<afile>") . "'`\" 2>> ~/.vim/error"
+    execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod 0644 \"" . cygpath . "\" 2>> ~/.vim/error"
 endfunction
 
 
