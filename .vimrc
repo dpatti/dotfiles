@@ -262,21 +262,31 @@ augroup END
 " TODO make windows only
 augroup filePerms
     autocmd!
-    autocmd BufWritePre * call NewFileTest()
+    " autocmd BufWritePre * call NewFileTest()
 augroup END
 function! NewFileTest()
     if !filereadable(expand('<afile>'))
         " If the file cannot be found pre-write, add a post-write command
-        autocmd filePerms BufWritePost * call NewFileAlter()
+        autocmd filePerms BufWritePost * call FileNoExec()
+    else
+        " If it is already there, check the flags and call if it isn't executable now
+        let cygpath = system("C:\\cygwin\\bin\\cygpath.exe " . expand("<afile>"))
+        echo cygpath
+        let flags = system("C:\\cygwin\\bin\\run.exe /usr/bin/stat --printf=%A " . cygpath)
+        echo flags . "!!"
+        if substitute(flags, "[^x]", "", "g") == ""
+            " This should not be flagged executable
+            autocmd filePerms BufWritePost * call FileNoExec()
+        endif
     endif
 endfunction
-function! NewFileAlter()
+function! FileNoExec()
     " Remove command after it is executed once
     autocmd! filePerms BufWritePost
     " Get the path of the current file in cygwin terms
     let cygpath = system("C:\\cygwin\\bin\\cygpath.exe " . expand("<afile>"))
     " Change permissions
-    execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod 0644 \"" . cygpath . "\" 2>> ~/.vim/error"
+    execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod -x \"" . cygpath . "\" 2>> ~/.vim/error"
 endfunction
 
 
