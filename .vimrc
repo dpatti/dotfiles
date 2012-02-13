@@ -94,7 +94,7 @@ map <F3> :source ~/vim_session <cr>
 
 " Diff (t)his, Diff (o)ff!
 nmap <silent> ,dt :difft<cr>
-nmap <silent> ,do :diffo!<cr>:set nowrap<cr>:set foldmethod=marker<cr>
+nmap <silent> ,do :diffo!<cr>:bufdo set nowrap<cr>:bufdo set foldmethod=marker<cr>
 
 " Fold methods
 nmap <silent> ,fm :set foldmethod=marker<cr>
