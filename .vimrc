@@ -89,8 +89,8 @@ imap <C-BS> <C-W>
 map Y y$
 
 " Session management
-map <F2> :mksession! ~/vim_session <cr>
-map <F3> :source ~/vim_session <cr>
+map <F2> :mksession! .vim_session <cr>
+map <F3> :source .vim_session <cr>
 
 " Diff (t)his, Diff (o)ff!
 nmap <silent> ,dt :difft<cr>
