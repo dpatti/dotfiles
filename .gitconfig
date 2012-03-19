@@ -11,6 +11,7 @@
     type = cat-file -t
     dump = cat-file -p
     sum = diff-tree --name-status -r
+    summary = diff-tree --name-status -r HEAD
 [apply]
     whitespace = fix
 [core]
