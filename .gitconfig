@@ -35,3 +35,7 @@
     untracked = cyan
 [merge]
     tool = gvimdiff
+[branch]
+    autosetuprebase = always
+[push]
+    default = upstream
