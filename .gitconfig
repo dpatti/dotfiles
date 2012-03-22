@@ -12,6 +12,7 @@
     dump = cat-file -p
     sum = diff-tree --name-status -r
     summary = diff-tree --name-status -r HEAD
+    ls = ls-tree --name-only HEAD
 [apply]
     whitespace = fix
 [core]
