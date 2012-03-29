@@ -1,6 +1,6 @@
 # Common parameters
-alias ls='ls --color=tty'
-alias ll='ls -al'
+alias ls='ls -v --color=tty'
+alias ll='ls -val'
 alias grep='grep --color'
 alias ssh='ssh -t -t' # Something about stdin not being a terminal when I use OpenSSH on mintty?
 alias server='python -m SimpleHTTPServer'
