@@ -3,11 +3,23 @@
     email = douglas.patti@gmail.com
 
 [alias]
-    co = checkout
-    ci = commit
+    h = help
+    r = remote
+
     st = status -sb
-    br = branch
+    di = diff
+    dc = diff --cached
+    ds = diff --stat
+
+    co = checkout
+    ci = commit -v
+    ca = commit -va
+
+    br = branch -avv
     hist = log --oneline --decorate --graph --topo-order -n 20
+    hs = "!git hist --stat"
+    hd = "!git hist -p"
+
     type = cat-file -t
     dump = cat-file -p
     sum = diff-tree --name-status -r
