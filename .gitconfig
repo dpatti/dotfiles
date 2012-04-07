@@ -5,6 +5,7 @@
 [alias]
     h = help
     r = remote
+    up = remote update
 
     st = status -sb
     di = diff
@@ -19,6 +20,7 @@
     hist = log --oneline --decorate --graph --topo-order -n 20
     hs = "!git hist --stat"
     hd = "!git hist -p"
+    new = "!git hist ORIG_HEAD.."
 
     type = cat-file -t
     dump = cat-file -p
