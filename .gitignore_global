@@ -3,3 +3,4 @@
 *.exe
 *.stackdump
 .vim_session
+.~*#
