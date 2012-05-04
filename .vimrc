@@ -14,6 +14,7 @@ set laststatus=2        " Always use status line
 set showmode            " Display current mode
 set ch=2                " Command line two lines high
 set wildmenu            " Command line completion helper
+set wildignorecase      " Ignore case when tab-completing files
 set timeoutlen=500      " Timeout for remaps
 set history=100         " Keep some stuff in the history
 set mousehide           " Hide the mouse pointer while typing
@@ -29,6 +30,9 @@ set incsearch           " Search as you type
 set ignorecase          " Search will ignore case
 set smartcase           " Search will respect case if any letter is uppercase
 syntax on               " Turn on syntax highlighting
+
+" Suffixes to de-prioritize
+set suffixes+=.pyc      " Python compiled
 
 " Tabstops are 4 spaces
 set tabstop=4
@@ -110,7 +114,11 @@ highlight PmenuSel    guifg=#656763 guibg=#ffffff
 highlight PmenuSbar   guifg=#656763 guibg=#ffffff
 highlight PmenuThumb  guifg=#656763 guibg=#ffffff
 highlight Folded      guifg=#ffffff guibg=#555555
-set guifont=Consolas:h10
+if has("gui_gtk2")
+    set guifont=Consolas\ 10
+else
+    set guifont=Consolas:h10
+endif
 " --- }}}
 
 " --- Plugin config ---------------------------------------------------------{{{
