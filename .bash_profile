@@ -14,3 +14,4 @@ bind '"\e[B": history-search-forward'
 shopt -s nocaseglob
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$HOME/bin:$PATH
