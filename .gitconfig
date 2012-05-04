@@ -24,6 +24,7 @@
 
     type = cat-file -t
     dump = cat-file -p
+    chmod = update-index --chmod
     sum = diff-tree --name-status -r
     summary = diff-tree --name-status -r HEAD
     ls = ls-tree --name-only HEAD
