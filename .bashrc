@@ -6,6 +6,7 @@ alias ssh='ssh -t -t' # Something about stdin not being a terminal when I use Op
 alias server='python -m SimpleHTTPServer'
 alias diff='colordiff'
 alias gvim='gvim -f'
+alias gvima='gvim --remote-silent'
 
 # PATH augmentation
 PATH=$HOME/bin:$PATH      # Local scripts
