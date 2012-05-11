@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+%w{Black Red Green Yellow Blue Magenta Teal White}.each_with_index do |color, i|
+    ["", "Bold"].each_with_index do |style, s|
+        code = "\\e[#{s};#{i+30}m"
+        print "%-30s" % "#{code.gsub("\\e", "\e")} #{code} #{s>0 ? [style, color].join(" ") : color}\033[0m"
+    end
+    puts
+end
