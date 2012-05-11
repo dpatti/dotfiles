@@ -106,7 +106,14 @@ nmap <silent> ,fi :set foldmethod=indent<cr>
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
-colorscheme railscasts
+if $COLORTERM == 'gnome-terminal'
+    set term=gnome-256color
+    colorscheme railscasts
+elseif has('gui_running')
+    colorscheme railscasts
+else
+    colorscheme default
+endif
 highlight Comment     guifg=#656763 ctermfg=180 gui=italic
 highlight NonText     guifg=#656763	ctermfg=180
 highlight Pmenu       guifg=#656763 guibg=#ffffff
