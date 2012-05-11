@@ -14,7 +14,7 @@ PATH=$HOME/bin:$PATH      # Local scripts
 # Interactive-only commands below
 [ -z "$PS1" ] && return
 
-PS1="\[\033[0;36m\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$\[\033[0m\] "
+PS1="\[\033[0;36m\]\u@\h:\w\$(if [ \$? = 0 ]; then echo -e \"\$\"; else echo -e \"\[\033[0;31m\]\$\"; fi)\[\033[0m\] "
 
 # Up and down search based on what was typed in so far
 bind '"\e[A": history-search-backward'
