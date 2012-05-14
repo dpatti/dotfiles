@@ -1,52 +1,68 @@
-//quit if we're not at an index page
+// Script to add simple links to [Hide]/[Show] a thread
+
+// Quit if we're not at an index page
 if (document.location.href.indexOf("res") != -1)
     return;
 
-var date = new Date();
-date.setTime(date.getTime()+(2*24*60*60*1000));
-var cook = date.toGMTString();
-date.setTime(date.getTime()-(3*24*60*60*1000));
-var del = date.toGMTString();
+var now = Date.now()
+var future = now + 1000*60*60*24*7;
+
+// Check if we have any to clean up
+for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    var exp = localStorage.getItem(key);
+    if (key.indexOf("hidePost_") === 0)
+        if (exp < now)
+            localStorage.removeItem(key);
+        else
+            localStorage.setItem(key, future);
+}
 
 function hidePost(node){
-    node.nextUntil("br[clear]").hide();
-    node.prev().prev().prev().prevUntil(".filesize").hide();
+    var key = "hidePost_" + $(node).attr('id');
+    localStorage.setItem(key, future);
+    $(node).find(".hide.replylink").text("Show");
+    $(node).find(".replyContainer").hide();
+    $(node).find(".summary").hide();
+    $(node).find(".opContainer .file").hide();
+    $(node).find(".opContainer .postMessage").hide();
 }
 
 function showPost(node){
-    node.nextUntil("br[clear]").show();
-    node.prev().prev().prev().prevUntil(".filesize").show();	
+    var key = "hidePost_" + node.attr('id');
+    localStorage.removeItem(key);
+    $(node).find(".hide.replylink").text("Hide");
+    $(node).find(".replyContainer").show();
+    $(node).find(".summary").show();
+    $(node).find(".opContainer .file").show();
+    $(node).find(".opContainer .postMessage").show();
 }
 
-$("span").each(function(){
-    var id = $(this).attr("id");
-    if(id != "" && id.indexOf("nothread") != -1){
-        var action; //what action can be taken on the post
-        if (document.cookie.indexOf(id) != -1){
-            //was hiding
-            action = "Show";
-            //also actually hide the post while we're here
-            hidePost($(this));
-        } else {
-            //was showing
-            action = "Hide";
-        }
-        $(this).find("a:last").before("<span class='hide'><a href='javascript:;'>"+action+"</a>]</span>[");
-            $(this).find(".hide a").click(function(){
-                var node = $(this).parent().parent();
-                var id = node.attr("id");
-                if (document.cookie.indexOf(id) != -1){
-                    //now showing
-                    showPost(node);
-                    $(this).text("Hide");
-                    document.cookie = id+"=; expires="+del+"; path=/";
-                } else {
-                    //now hiding
-                    hidePost(node);
-                    $(this).text("Show");
-                    document.cookie = id+"=true; expires="+cook+"; path=/";
-                }
-            });
-    }
-});
+$("div.thread").each(function(){
+    var id = $(this).attr('id');
 
+    var action; // What action can be taken on the post at load
+    if (localStorage.getItem("hidePost_" + id)) {
+        // Was hiding
+        action = "Show";
+        hidePost(this);
+    } else {
+        action = "Hide";
+    }
+    // Add [Hide]/[Show] links
+    $(this).find(".postInfo span.postNum a:eq(2)")
+        .before(
+            $("<a>")
+                .addClass("hide replylink")
+                .attr('href', "javascript:;")
+                .data('shown', action == "Show")
+                .text(action)
+                .click(function(){
+                    if (localStorage.getItem("hidePost_" + id))
+                        showPost($(this).closest("div.thread"));
+                    else
+                        hidePost($(this).closest("div.thread"));
+                })
+        )
+        .before("]["); // We squeeze this link in between the "[" text and "Reply" link, so clean it up a bit
+});
