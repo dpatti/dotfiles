@@ -123,10 +123,10 @@ endif
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
-if $COLORTERM == 'gnome-terminal'
-    set term=gnome-256color
+if has('gui_running')
     colorscheme railscasts
-elseif has('gui_running')
+elseif $COLORTERM == 'gnome-terminal'
+    set term=gnome-256color
     colorscheme railscasts
 else
     colorscheme default
@@ -148,6 +148,7 @@ endif
 " --- Plugin config ---------------------------------------------------------{{{
 " pathogen
 call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 
 " ctags
 set tags+=$VIM/tags/cpp
