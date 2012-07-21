@@ -34,10 +34,10 @@ syntax on               " Turn on syntax highlighting
 " Suffixes to de-prioritize
 set suffixes+=.pyc      " Python compiled
 
-" Tabstops are 4 spaces
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+" Tabstops are 2 spaces
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 
 " Set the status line
@@ -63,6 +63,10 @@ nnoremap j gj
 " Indent modification keeps visual mode
 vnoremap > >gv
 vnoremap < <gv
+
+" Mappings for easy toggle between 2 and 4 depending on document
+nmap <silent> ,2 :set tabstop=2 softtabstop=2 shiftwidth=2<cr>
+nmap <silent> ,4 :set tabstop=4 softtabstop=4 shiftwidth=4<cr>
 
 " Let's make it easy to edit/source this file ('e'dit 'v'imrc)
 nmap <silent> ,ev :e $HOME/.vimrc<cr>
