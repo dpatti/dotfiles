@@ -72,11 +72,11 @@ nmap <silent> ,4 :set tabstop=4 softtabstop=4 shiftwidth=4<cr>
 " Use Ctrl+C and Ctrl+V to copy/paste in their respective modes
 vnoremap <C-X> "+x
 vnoremap <C-C> "+y
-inoremap <C-V> "+gP
+inoremap <C-V> <C-O>"+gP
 cnoremap <C-V> <C-R>+
 
 " Remap the old C-V in insert mode (escape sequence)
-inoremap <C-S-V> <C-V>
+" inoremap <C-S-V> <C-V>
 
 " Let's make it easy to edit/source this file ('e'dit 'v'imrc)
 nmap <silent> ,ev :e $HOME/.vimrc<cr>
