@@ -1,14 +1,9 @@
-" Need to sort through this and see what we can throw away
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
-
 " Source our .vimrc file
 source ~/.vimrc
 
-" Nix guid shit
-set guioptions=ac
+" Remove menu/scroll/toolbars
+set guioptions=aci
 
 " Window size
-winsize 230 60
+winsize 180 48
 

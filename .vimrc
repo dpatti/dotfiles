@@ -29,6 +29,7 @@ set wrapscan            " Search will continue past end of document
 set incsearch           " Search as you type
 set ignorecase          " Search will ignore case
 set smartcase           " Search will respect case if any letter is uppercase
+set showcmd             " Show command in bottom-right as you type it
 syntax on               " Turn on syntax highlighting
 
 " Suffixes to de-prioritize
@@ -68,6 +69,15 @@ vnoremap < <gv
 nmap <silent> ,2 :set tabstop=2 softtabstop=2 shiftwidth=2<cr>
 nmap <silent> ,4 :set tabstop=4 softtabstop=4 shiftwidth=4<cr>
 
+" Use Ctrl+C and Ctrl+V to copy/paste in their respective modes
+vnoremap <C-X> "+x
+vnoremap <C-C> "+y
+inoremap <C-V> "+gP
+cnoremap <C-V> <C-R>+
+
+" Remap the old C-V in insert mode (escape sequence)
+inoremap <C-S-V> <C-V>
+
 " Let's make it easy to edit/source this file ('e'dit 'v'imrc)
 nmap <silent> ,ev :e $HOME/.vimrc<cr>
 nmap <silent> ,sv :so $HOME/.vimrc<cr>
@@ -75,8 +85,8 @@ nmap <silent> ,sv :so $HOME/.vimrc<cr>
 " Set text wrapping toggles
 nmap <silent> ,w :set invwrap<cr>:set wrap?<cr>
 
-" Toggle paste mode -- I don't know what this is yet
-" nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
+" Toggle paste mode
+nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
 
 " Turn off higlight search
 nmap <silent> ,n :set invhls<cr>:set hls?<cr>
@@ -96,24 +106,31 @@ imap <C-BS> <C-W>
 " Change Y to be more consistent with C, D, etc.
 map Y y$
 
-" Session management
-map <F2> :mksession! .vim_session <cr>
-map <F3> :source .vim_session <cr>
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
 
 " Diff (t)his, Diff (o)ff!
 nmap <silent> ,dt :difft<cr>
-nmap <silent> ,do :diffo!<cr>:bufdo set nowrap<cr>:bufdo set foldmethod=marker<cr>
+nmap <silent> ,do :diffo!<cr>:bufdo set nowrap foldmethod=marker<cr>
 
 " Fold methods
 nmap <silent> ,fm :set foldmethod=marker<cr>
 nmap <silent> ,fi :set foldmethod=indent<cr>
+
+" Alt-Space is System menu
+if has("gui")
+  noremap <M-Space> :simalt ~<CR>
+  inoremap <M-Space> <C-O>:simalt ~<CR>
+  cnoremap <M-Space> <C-C>:simalt ~<CR>
+endif
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
-if $COLORTERM == 'gnome-terminal'
-    set term=gnome-256color
+if has('gui_running')
     colorscheme railscasts
-elseif has('gui_running')
+elseif $COLORTERM == 'gnome-terminal'
+    set term=gnome-256color
     colorscheme railscasts
 else
     colorscheme default
@@ -135,6 +152,7 @@ endif
 " --- Plugin config ---------------------------------------------------------{{{
 " pathogen
 call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 
 " ctags
 set tags+=$VIM/tags/cpp
@@ -242,31 +260,13 @@ function! Terminal()
 endfunction
 nmap <silent> ,ct :call Terminal()<cr>
 
-" This was here; I don't know what it does
-" set diffexpr=MyDiff()
-function! MyDiff()
-	let opt = '-a --binary '
-	if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-	if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-	let arg1 = v:fname_in
-	if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-	let arg2 = v:fname_new
-	if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-	let arg3 = v:fname_out
-	if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-	let eq = ''
-	if $VIMRUNTIME =~ ' '
-		if &sh =~ '\<cmd'
-			let cmd = '""' . $VIMRUNTIME . '\diff"'
-			let eq = '"'
-		else
-			let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-		endif
-	else
-
-	endif
-	silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-endfunction
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
 " --- }}}
 
 " --- Miscellaneous ---------------------------------------------------------{{{
