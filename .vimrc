@@ -14,7 +14,9 @@ set laststatus=2        " Always use status line
 set showmode            " Display current mode
 set ch=2                " Command line two lines high
 set wildmenu            " Command line completion helper
-set wildignorecase      " Ignore case when tab-completing files
+if exists("&wildignorecase") " Windows gvim does not have this (it's automatic)
+  set wildignorecase    " Ignore case when tab-completing files
+endif
 set timeoutlen=500      " Timeout for remaps
 set history=100         " Keep some stuff in the history
 set mousehide           " Hide the mouse pointer while typing
@@ -30,6 +32,7 @@ set incsearch           " Search as you type
 set ignorecase          " Search will ignore case
 set smartcase           " Search will respect case if any letter is uppercase
 set showcmd             " Show command in bottom-right as you type it
+set hls                 " Highlight search
 syntax on               " Turn on syntax highlighting
 
 " Suffixes to de-prioritize
