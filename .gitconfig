@@ -33,7 +33,7 @@
 [core]
     excludesfile = ~/.gitignore_global
     autocrlf = input
-    editor = gvim
+    editor = vim
     filemode = false
 [color]
     ui = auto
@@ -51,7 +51,7 @@
     changed = green
     untracked = cyan
 [merge]
-    tool = gvimdiff
+    tool = vimdiff
 [branch]
     autosetuprebase = always
 [push]

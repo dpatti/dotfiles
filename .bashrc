@@ -1,7 +1,7 @@
 # Common parameters
 alias ls='ls -v --color=tty'
 alias ll='ls -valh'
-alias grep='grep --color -I'
+alias grep='grep --color -In --exclude=*.orig'
 alias ssh='ssh -t -t' # Something about stdin not being a terminal when I use OpenSSH on mintty?
 alias server='python -m SimpleHTTPServer'
 alias diff='colordiff'
@@ -23,4 +23,5 @@ bind '"\e[B": history-search-forward'
 # Case insensitive matching
 shopt -s nocaseglob
 
+HISTSIZE=5000
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

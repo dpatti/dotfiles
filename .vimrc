@@ -27,6 +27,7 @@ set cul                 " Highlight current line
 set nowrap              " Disable wrapping by default
 set backspace=2         " Allow backspace over indent, eol, and start of insert
 set cpoptions+=$        " Change commands will display a $ to mark end of changed text
+set hlsearch            " Search highlights
 set wrapscan            " Search will continue past end of document
 set incsearch           " Search as you type
 set ignorecase          " Search will ignore case
@@ -105,9 +106,14 @@ noremap <silent> ,l :wincmd l<cr>
 
 " Ctrl+Backspace to delete prev word
 imap <C-BS> <C-W>
+cmap <C-BS> <C-W>
 
 " Change Y to be more consistent with C, D, etc.
 map Y y$
+
+" Session management
+map <F2> :mksession! .vim_session <cr>
+map <F3> :source .vim_session <cr>
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.

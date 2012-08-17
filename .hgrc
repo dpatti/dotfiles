@@ -1,8 +1,34 @@
 [extensions]
-mq = 
+mq=
+color=
+graphlog=
+transplant=
+rebase=
+shelve=~/kiln-ext/hgshelve.py
+gestalt=~/kiln-ext/gestalt.py
+kilnauth=~/kiln-ext/kilnauth.py
+kilnpath=~/kiln-ext/kilnpath.py
+big-push=~/kiln-ext/big-push.py
+kiln=~/kiln-ext/kiln.py
+caseguard=~/kiln-ext/caseguard.py
+kbfiles=~/kiln-ext/bfiles/kbfiles
+
+[auth]
+kiln.prefix=
+kiln.username=douglas@fogcreek.com
 
 [ui]
-username = dpatti <douglas.patti@gmail.com>
-ssh = plink.exe
-verbose = True
+username=Doug Patti <douglas@fogcreek.com>
+ignore=~/.hgignore_global
+merge=vimdiff
 
+[merge-tools]
+vimdiff.executable=vim
+vimdiff.args = -d $output $base $local $other -c "wincmd J"
+vimdiff.premerge=keep
+
+[alias]
+st=!$HG bookmark | grep "*"; $HG status; $HG diff | grep --color -In "^+.*\(console\.log\|debugger\)"
+push=push -r.
+out=out -r.
+hist=!$HG log -G -l 20 --template "\x1B[0;33m{rev}\x1B[0m:\x1B[0;33m{node|short}\x1B[0m \x1B[0;32m{bookmarks}\x1B[0m \x1B[1;33m{tags}\x1B[0m {desc|firstline}\n" | grep -v "^[| ]\+$"
