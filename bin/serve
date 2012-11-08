@@ -1,0 +1,6 @@
+#!/bin/sh
+PORT=8000
+if [ $# -gt 0 ]; then
+  PORT=$1
+fi
+python -m SimpleHTTPServer $PORT
