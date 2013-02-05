@@ -1,0 +1,7 @@
+syntax: glob
+*.sw?
+*.o
+*.exe
+*.stackdump
+.vim_session
+.~*#

@@ -5,29 +5,52 @@
 [alias]
     h = help
     r = remote
+    # Update all remotes
     up = remote update
 
-    st = status -sb
+    st = status --short --branch
     di = diff
     dc = diff --cached
     ds = diff --stat
 
     co = checkout
-    ci = commit -v
-    ca = commit -va
+    ci = commit --verbose
+    ca = commit --verbose --all
 
-    br = branch -avv
-    hist = log --oneline --decorate --graph --topo-order -n 20
-    hs = "!git hist --stat"
-    hd = "!git hist -p"
-    new = "!git hist ORIG_HEAD.."
+    # Show branches and their tracking counterparts
+    br = branch --all --verbose --verbose
+    # Replacement for git log
+    hist = log --oneline --decorate --graph --topo-order --max-count=20
+    # Print history with inline file changes
+    hs = !git hist --stat
+    # Print history with inline diffs
+    hd = !git hist --patch
+    # Print history since last push (typically)
+    new = !git hist ORIG_HEAD..
 
+    # I have no idea what these do anymore
     type = cat-file -t
     dump = cat-file -p
+    # Usage: git chmod [+|-]x <file>
     chmod = update-index --chmod
-    sum = diff-tree --name-status -r
-    summary = diff-tree --name-status -r HEAD
+    # Toggle ignoreability of a file (pretty bad to use)
+    ignore = update-index --assume-unchanged
+    unignore = update-index --no-assume-unchanged
+    # Print summary of current HEAD including message and files changed
+    sum = show --stat
+    # See what the source control directory structure looks like
     ls = ls-tree --name-only HEAD
+    # Print untracked files for piping
+    untracked = ls-files --other --exclude-standard
+
+    # Stage tracked files
+    at = git add -u
+    # Stage untracked files
+    au = !git untracked | xargs git add
+    # Remove files deleted from filesystem from staging as well
+    ad = !git status -s | /bin/grep '^ D' | sed 's/ D //' | xargs git add -u
+    # Delete all untracked files(!!) -- this will require -f for safety
+    du = clean -d
 [apply]
     whitespace = fix
 [core]

@@ -4,14 +4,8 @@ color=
 graphlog=
 transplant=
 rebase=
-shelve=~/kiln-ext/hgshelve.py
-gestalt=~/kiln-ext/gestalt.py
-kilnauth=~/kiln-ext/kilnauth.py
-kilnpath=~/kiln-ext/kilnpath.py
-big-push=~/kiln-ext/big-push.py
-kiln=~/kiln-ext/kiln.py
-caseguard=~/kiln-ext/caseguard.py
-kbfiles=~/kiln-ext/bfiles/kbfiles
+shelve=~/.hgext/hgshelve.py
+kilnauth=~/.hgext/kilnauth.py
 
 [auth]
 kiln.prefix=

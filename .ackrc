@@ -1,0 +1,16 @@
+# case sensitivity if mix case used
+--smart-case
+
+# follow symlinks
+--follow
+
+# search by name
+--sort-files
+
+# pipe through less if more than one page (similar to git diff)
+--pager=less -FXRS
+
+# CoffeeScript development
+--type-add=js=.coffee
+--type-set=coffee=.coffee
+--ignore-dir=node_modules

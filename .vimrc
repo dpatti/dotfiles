@@ -163,41 +163,14 @@ endif
 call pathogen#runtime_append_all_bundles()
 call pathogen#infect()
 
-" ctags
-set tags+=$VIM/tags/cpp
-set tags+=$VIM/tags/bwapi
-map <silent> <C-F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-" " OmniCpp
-" let OmniCpp_NamespaceSearch = 1
-" let OmniCpp_GlobalScopeSearch = 1
-" let OmniCpp_ShowAccess = 1
-" let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-" let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-" let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-" let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-" let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD", "BWAPI"]
-" " automatically open and close the popup menu / preview window
-" au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-" set completeopt=menuone,menu,longest,preview
-
-" SuperTab
-" let SuperTabDefaultCompletionType = "<C-X><C-O>"
-" let SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-" let SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
-" let SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
-
+" syntastic
+let g:syntastic_cpp_compiler_options = ' -std=c++0x'
 
 " FSwitch
 nmap <silent> ,fs :FSHere<CR>
 nmap <silent> ,fp :FSSplitRight<CR>
 nmap <silent> ,fh :FSLeft<CR>
 nmap <silent> ,fl :FSRight<CR>
-
-" xptemplate
-" let xptemplate_pum_tab_nav=1
-" let xptemplate_vars="SParg="
-" let xptemplate_key="<C-Tab>"
 
 " NERD Tree Plugin
 nmap <F7> :NERDTreeToggle<CR>
@@ -264,8 +237,12 @@ command! Sym call Symlink()
 
 " Open terminal at current location
 function! Terminal()
+  if has("win32")
     " Currently only for windows
     execute "!start C:\\cygwin\\bin\\mintty.exe -e /bin/xhere /bin/bash.exe '" . getcwd() . "'"
+  elseif has("unix")
+    execute "!gnome-terminal --working-directory='" . getcwd() ."'"
+  endif
 endfunction
 nmap <silent> ,ct :call Terminal()<cr>
 
@@ -286,38 +263,7 @@ augroup d2botType
     autocmd BufNewFile,BufRead *.ntj setfiletype javascript
 augroup END
 
-" Change permissions on new files to be 0644 in cygwin
-" TODO make windows only
-augroup filePerms
-    autocmd!
-    " autocmd BufWritePre * call NewFileTest()
-augroup END
-function! NewFileTest()
-    if !filereadable(expand('<afile>'))
-        " If the file cannot be found pre-write, add a post-write command
-        autocmd filePerms BufWritePost * call FileNoExec()
-    else
-        " If it is already there, check the flags and call if it isn't executable now
-        let cygpath = system("C:\\cygwin\\bin\\cygpath.exe " . expand("<afile>"))
-        echo cygpath
-        let flags = system("C:\\cygwin\\bin\\run.exe /usr/bin/stat --printf=%A " . cygpath)
-        echo flags . "!!"
-        if substitute(flags, "[^x]", "", "g") == ""
-            " This should not be flagged executable
-            autocmd filePerms BufWritePost * call FileNoExec()
-        endif
-    endif
-endfunction
-function! FileNoExec()
-    " Remove command after it is executed once
-    autocmd! filePerms BufWritePost
-    " Get the path of the current file in cygwin terms
-    let cygpath = system("C:\\cygwin\\bin\\cygpath.exe " . expand("<afile>"))
-    " Change permissions
-    execute "!start C:\\cygwin\\bin\\run.exe /usr/bin/chmod -x \"" . cygpath . "\" 2>> ~/.vim/error"
-endfunction
-
-
-" C function carpet bomb
-" %s/\(.* \)\(\S*\)\((.*\n{\)/\1\2\3\r  printf("\2\\n");/g
-" --- }}}
+" File type rewrites
+au BufNewFile,BufRead *.css set filetype=less
+au BufNewFile,BufRead *.md set filetype=markdown
+au BufNewFile,BufRead *.tex set filetype=tex

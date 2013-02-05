@@ -25,3 +25,9 @@
 [submodule ".vim/bundle/easygrep"]
 	path = .vim/bundle/easygrep
 	url = https://github.com/vim-scripts/EasyGrep.git
+[submodule ".vim/bundle/markdown"]
+	path = .vim/bundle/markdown
+	url = https://github.com/tpope/vim-markdown.git
+[submodule ".vim/bundle/youcompleteme"]
+	path = .vim/bundle/youcompleteme
+	url = https://github.com/Valloric/YouCompleteMe.git
