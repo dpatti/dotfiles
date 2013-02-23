@@ -1,0 +1,1 @@
+$("object,embed").remove()
