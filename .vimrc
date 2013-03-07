@@ -151,6 +151,9 @@ highlight PmenuSel    guifg=#656763 guibg=#ffffff
 highlight PmenuSbar   guifg=#656763 guibg=#ffffff
 highlight PmenuThumb  guifg=#656763 guibg=#ffffff
 highlight Folded      guifg=#ffffff guibg=#555555
+highlight CursorLine  guibg=#000000 ctermbg=0
+highlight clear SignColumn
+
 if has("gui_gtk2")
     set guifont=Consolas\ 10
 else
@@ -165,6 +168,8 @@ call pathogen#infect()
 
 " syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++0x'
+nmap <silent> ,m :GitGutterNextHunk<CR>
+nmap <silent> ,M :GitGutterPrevHunk<CR>
 
 " FSwitch
 nmap <silent> ,fs :FSHere<CR>
@@ -241,7 +246,7 @@ function! Terminal()
     " Currently only for windows
     execute "!start C:\\cygwin\\bin\\mintty.exe -e /bin/xhere /bin/bash.exe '" . getcwd() . "'"
   elseif has("unix")
-    execute "!gnome-terminal --working-directory='" . getcwd() ."'"
+    execute "!gnome-terminal --working-directory='" . getcwd() ."' &"
   endif
 endfunction
 nmap <silent> ,ct :call Terminal()<cr>

@@ -4,6 +4,7 @@ color=
 graphlog=
 transplant=
 rebase=
+purge=
 shelve=~/.hgext/hgshelve.py
 kilnauth=~/.hgext/kilnauth.py
 

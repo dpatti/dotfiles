@@ -14,3 +14,4 @@
 --type-add=js=.coffee
 --type-set=coffee=.coffee
 --ignore-dir=node_modules
+--ignore-dir=.coffee

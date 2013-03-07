@@ -44,7 +44,7 @@
     untracked = ls-files --other --exclude-standard
 
     # Stage tracked files
-    at = git add -u
+    at = add -u
     # Stage untracked files
     au = !git untracked | xargs git add
     # Remove files deleted from filesystem from staging as well
