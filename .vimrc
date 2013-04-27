@@ -153,6 +153,7 @@ highlight PmenuThumb  guifg=#656763 guibg=#ffffff
 highlight Folded      guifg=#ffffff guibg=#555555
 highlight CursorLine  guibg=#000000 ctermbg=0
 highlight clear SignColumn
+highlight clear LineNr
 
 if has("gui_gtk2")
     set guifont=Consolas\ 10
@@ -179,6 +180,10 @@ nmap <silent> ,fl :FSRight<CR>
 
 " NERD Tree Plugin
 nmap <F7> :NERDTreeToggle<CR>
+
+" Powerline
+let g:Powerline_symbols = 'compatible'
+call Pl#Theme#InsertSegment('charcode', 'after', 'filetype')
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{

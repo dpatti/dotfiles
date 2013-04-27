@@ -42,13 +42,19 @@
     ls = ls-tree --name-only HEAD
     # Print untracked files for piping
     untracked = ls-files --other --exclude-standard
+    # Create snapshot of working directory changes
+    snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+    # In merge conflicts, take either ours or theirs
+    ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+    theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+
 
     # Stage tracked files
     at = add -u
     # Stage untracked files
     au = !git untracked | xargs git add
     # Remove files deleted from filesystem from staging as well
-    ad = !git status -s | /bin/grep '^ D' | sed 's/ D //' | xargs git add -u
+    ad = !git status -s | /bin/grep '^.D' | sed 's/ D //' | xargs git add -u
     # Delete all untracked files(!!) -- this will require -f for safety
     du = clean -d
 [apply]
@@ -79,3 +85,5 @@
     autosetuprebase = always
 [push]
     default = upstream
+[diff]
+    algorithm = patience
