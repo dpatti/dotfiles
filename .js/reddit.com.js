@@ -17,3 +17,10 @@ $('p.nextprev a:last').each(function(){
   if (parseInt(seen[1]) >= 50)
     $(this).hide().prev().hide();
 });
+
+// check limit search
+$('input[name=restrict_sr]').prop('checked', true);
+
+if (!/(\/message\/|\/comments\/)/.test(document.location.pathname)) {
+  new TimeRestriction({minutes: 15}, {hours: 6});
+}

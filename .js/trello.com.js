@@ -8,7 +8,7 @@ Date.prototype.nextWeekday = function(day) {
   return this;
 };
 
-$(document).on('DOMNodeInserted', function(){
+$(document).on('DOMSubtreeModified', function(){
   var nextFriday = new Date().nextWeekday(5);
   $(this).find('.badge.due-future').each(function(){
     var date = new Date($(this).text() + (new Date().getYear() + 1900));

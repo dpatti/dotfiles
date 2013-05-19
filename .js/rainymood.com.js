@@ -1,5 +1,8 @@
-// RainyMood auto loop and volume preferences
-with (document.getElementsByTagName("video")[0]) {
-	setAttribute("loop", true);
-	volume = 0.3;
-}
+// Facebook is awesome
+$('#jquery_jplayer_1').appendTo('body');
+//$('#myContent').remove();
+console.log($('#volume'));
+console.log($('#volumeDiv'));
+
+// Other shit at the bottom
+$('#footer div:first').remove()

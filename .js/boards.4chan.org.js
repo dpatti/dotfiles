@@ -1,3 +1,4 @@
+/*
 // Script to add simple links to [Hide]/[Show] a thread
 
 // Quit if we're not at an index page
@@ -66,3 +67,4 @@ $("div.thread").each(function(){
         )
         .before("]["); // We squeeze this link in between the "[" text and "Reply" link, so clean it up a bit
 });
+*/

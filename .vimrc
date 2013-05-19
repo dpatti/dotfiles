@@ -121,7 +121,7 @@ inoremap <C-U> <C-G>u<C-U>
 
 " Diff (t)his, Diff (o)ff!
 nmap <silent> ,dt :difft<cr>
-nmap <silent> ,do :diffo!<cr>:bufdo set nowrap foldmethod=marker<cr>
+nmap <silent> ,do :diffo!<cr>
 
 " Fold methods
 nmap <silent> ,fm :set foldmethod=marker<cr>
