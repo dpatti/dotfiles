@@ -1,13 +1,15 @@
 # Common parameters
 alias ls='ls -v --color=tty'
 alias ll='ls -l --all --human-readable'
-alias grep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
+alias cgrep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
 alias server='python -m SimpleHTTPServer'
 alias diff='colordiff'
 alias less='less --quit-if-one-screen --no-init --raw-control-chars'
 alias sagi='sudo apt-get install'
 alias ..='cd ..'
 alias mocha='mocha --reporter dot --compilers coffee:coffee-script --colors'
+
+function port-forward { ssh $1 -R $2:localhost:$2 -g; }
 
 # I just enjoy this
 function say { mplayer "http://translate.google.com/translate_tts?tl=en&q=$*" >/dev/null 2>&1; }

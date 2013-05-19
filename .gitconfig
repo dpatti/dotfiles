@@ -47,6 +47,8 @@
     # In merge conflicts, take either ours or theirs
     ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
     theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+    # Times of commits in unix timestamps
+    times = log --pretty=format:%at
 
 
     # Stage tracked files

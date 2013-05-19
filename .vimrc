@@ -151,7 +151,7 @@ highlight PmenuSel    guifg=#656763 guibg=#ffffff
 highlight PmenuSbar   guifg=#656763 guibg=#ffffff
 highlight PmenuThumb  guifg=#656763 guibg=#ffffff
 highlight Folded      guifg=#ffffff guibg=#555555
-highlight CursorLine  guibg=#000000 ctermbg=0
+highlight CursorLine  guibg=#000000 ctermbg=0 cterm=NONE
 highlight clear SignColumn
 highlight clear LineNr
 
