@@ -133,6 +133,10 @@ if has("gui")
   inoremap <M-Space> <C-O>:simalt ~<CR>
   cnoremap <M-Space> <C-C>:simalt ~<CR>
 endif
+
+" Slide cursor as defined below
+nmap <silent> <C-J> :call SlideCursor(1)<cr>
+nmap <silent> <C-K> :call SlideCursor(-1)<cr>
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
@@ -187,6 +191,32 @@ call Pl#Theme#InsertSegment('charcode', 'after', 'filetype')
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
+" Move up/down until you hit a non-whitespace character (or beginning/end of file)
+function! SlideCursor(dir)
+  " Store position
+  let l:position = getpos('.')
+  " Add together the column and virtual column
+  let l:column = l:position[2] + l:position[3]
+  " But only use the former as the combination of both
+  let l:position[2] = l:column
+  let l:position[3] = 0
+
+  function! l:finished()
+    let l:curchar = getline('.')[col('.') - 1]
+    let l:curline = line('.')
+    return (l:curchar != "" && l:curchar != " " && l:curchar != "\t") || l:curline == 1 || l:curline == line('$')
+  endfunction
+
+  while 1
+    " Move then check
+    let l:position[1] = l:position[1] + a:dir
+    call setpos('.', l:position)
+    if l:finished()
+      break
+    endif
+  endwhile
+endfunction
+
 " Lua Globals - my failed attempt
 highlight Global guifg=#3B3178
 function! LuaGlob()
