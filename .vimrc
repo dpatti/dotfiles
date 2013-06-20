@@ -135,8 +135,8 @@ if has("gui")
 endif
 
 " Slide cursor as defined below
-nmap <silent> <C-J> :call SlideCursor(1)<cr>
-nmap <silent> <C-K> :call SlideCursor(-1)<cr>
+nnoremap <silent> <C-K> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
+nnoremap <silent> <C-J> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
@@ -187,36 +187,19 @@ nmap <F7> :NERDTreeToggle<CR>
 
 " Powerline
 let g:Powerline_symbols = 'compatible'
-call Pl#Theme#InsertSegment('charcode', 'after', 'filetype')
+if exists("*Pl#Theme#InsertSegment")
+  call Pl#Theme#InsertSegment('charcode', 'after', 'filetype')
+endif
+
+" Indent Guide
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_guide_size = 1
+hi IndentGuidesOdd guibg=#202020 ctermbg=NONE
+hi IndentGuidesEven guibg=#202020 ctermbg=NONE
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
-" Move up/down until you hit a non-whitespace character (or beginning/end of file)
-function! SlideCursor(dir)
-  " Store position
-  let l:position = getpos('.')
-  " Add together the column and virtual column
-  let l:column = l:position[2] + l:position[3]
-  " But only use the former as the combination of both
-  let l:position[2] = l:column
-  let l:position[3] = 0
-
-  function! l:finished()
-    let l:curchar = getline('.')[col('.') - 1]
-    let l:curline = line('.')
-    return (l:curchar != "" && l:curchar != " " && l:curchar != "\t") || l:curline == 1 || l:curline == line('$')
-  endfunction
-
-  while 1
-    " Move then check
-    let l:position[1] = l:position[1] + a:dir
-    call setpos('.', l:position)
-    if l:finished()
-      break
-    endif
-  endwhile
-endfunction
-
 " Lua Globals - my failed attempt
 highlight Global guifg=#3B3178
 function! LuaGlob()
