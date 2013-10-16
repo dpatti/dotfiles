@@ -3,6 +3,26 @@
     email = douglas.patti@gmail.com
 
 [alias]
+    abort = reset --hard HEAD
+    undo = reset --hard HEAD^
+
+    upstream = "!f(){ git rev-parse --symbolic-full-name --abbrev-ref $1@{u} 2>/dev/null; }; f"
+    cleanup = "!f(){ UPSTREAM=$(git upstream $1) && git push $(echo $UPSTREAM | sed 's/\\// :/'); git branch -d $1; }; f"
+
+    bs = bisect start
+    bg = bisect good
+    bb = bisect bad
+
+    unmerged = branch --no-merged
+    merged = branch --merged
+    whereis = "!f(){ git branch --all --contains $@; git tag --contains $@; }; f"
+    ancestor = merge-base
+
+    meol = merge -X ignore-space-at-eol
+    deol = diff --ignore-space-at-eol
+    conflicts = diff --name-only --diff-filter=U
+
+    kiln = !gitkiln
     h = help
     r = remote
     # Update all remotes
@@ -21,10 +41,13 @@
     br = branch --all --verbose --verbose
     # Replacement for git log
     hist = log --oneline --decorate --graph --topo-order --max-count=20
+    # History one-liners (no graph)
+    ho = log --oneline --topo-order --no-merges
     # Print history with inline file changes
     hs = !git hist --stat
     # Print history with inline diffs
     hd = !git hist --patch
+    search = log --oneline --no-merges -S
     # Print history since last push (typically)
     new = !git hist ORIG_HEAD..
 
@@ -50,6 +73,12 @@
     # Times of commits in unix timestamps
     times = log --pretty=format:%at
 
+    sl = stash list
+    ss = stash save
+    # Show stash with diff
+    sh = stash show -p
+    sd = stash drop
+    sp = stash pop
 
     # Stage tracked files
     at = add -u
@@ -57,8 +86,12 @@
     au = !git untracked | xargs git add
     # Remove files deleted from filesystem from staging as well
     ad = !git status -s | /bin/grep '^.D' | sed 's/ D //' | xargs git add -u
+    # Add conflicting files
+    ac = !git conflicts | xargs git add
     # Delete all untracked files(!!) -- this will require -f for safety
     du = clean -d
+
+    kar = !git kiln add-remote
 [apply]
     whitespace = fix
 [core]
@@ -89,3 +122,5 @@
     default = upstream
 [diff]
     algorithm = patience
+[credential]
+	helper = cache --timeout 108000
