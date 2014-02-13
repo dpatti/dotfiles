@@ -9,6 +9,9 @@
     upstream = "!f(){ git rev-parse --symbolic-full-name --abbrev-ref $1@{u} 2>/dev/null; }; f"
     cleanup = "!f(){ UPSTREAM=$(git upstream $1) && git push $(echo $UPSTREAM | sed 's/\\// :/'); git branch -d $1; }; f"
 
+    # Commit message
+    cm = show -s --pretty=format:%B
+
     bs = bisect start
     bg = bisect good
     bb = bisect bad
@@ -26,7 +29,7 @@
     h = help
     r = remote
     # Update all remotes
-    up = remote update
+    up = remote update --prune
 
     st = status --short --branch
     di = diff
@@ -37,8 +40,10 @@
     ci = commit --verbose
     ca = commit --verbose --all
 
+    pu = "!f(){ git push -u $1 $(git rev-parse --abbrev-ref HEAD); }; f"
+
     # Show branches and their tracking counterparts
-    br = branch --all --verbose --verbose
+    br = branch --all --verbose --verbose --list
     # Replacement for git log
     hist = log --oneline --decorate --graph --topo-order --max-count=20
     # History one-liners (no graph)
@@ -123,4 +128,4 @@
 [diff]
     algorithm = patience
 [credential]
-	helper = cache --timeout 108000
+	helper = cache --timeout 259200
