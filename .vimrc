@@ -1,13 +1,11 @@
-" My .vimrc file
-
 " --- Options ---------------------------------------------------------------{{{
 set nocompatible        " Disable vi compatability
-set ffs=unix,dos        " File format prefer unix endings
+set ffs=unix            " File format prefer unix endings
 set eol                 " Add newline at end of file
 set shellslash          " Use forward slashes for file names
 set vb                  " Visual bell instead of beep
 set nobk                " Do not use backup files
-set formatoptions=crq   " Format options: wrap (c)omments at textwidth, insert comment leade(r), and unknown
+set formatoptions=croql " Format options: wrap (c)omments at textwidth, insert comment leade(r), and unknown
 set textwidth=80        " 80 characters wide
 set hidden              " Allow unsaved buffers to be hidden
 set laststatus=2        " Always use status line
@@ -34,6 +32,11 @@ set ignorecase          " Search will ignore case
 set smartcase           " Search will respect case if any letter is uppercase
 set showcmd             " Show command in bottom-right as you type it
 set hls                 " Highlight search
+set lazyredraw
+set ttyfast
+set display+=lastline   " Shows partial lines instead of @@@@
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set autoindent
 syntax on               " Turn on syntax highlighting
 
 " Suffixes to de-prioritize
@@ -53,9 +56,7 @@ set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldmethod=marker   " Use {{{ }}} for folds
 
 " Filetype specific stuff
-filetype on
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 " --- }}}
 
 " --- Mappings --------------------------------------------------------------{{{
@@ -94,6 +95,8 @@ nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
 
 " Turn off higlight search
 nmap <silent> ,n :set invhls<cr>:set hls?<cr>
+" Clear highlight search
+nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 
 " cd to directory of file in buffer
 nmap <silent> ,cd :lcd %:h<cr>
@@ -156,8 +159,12 @@ highlight PmenuSbar   guifg=#656763 guibg=#ffffff
 highlight PmenuThumb  guifg=#656763 guibg=#ffffff
 highlight Folded      guifg=#ffffff guibg=#555555
 highlight CursorLine  guibg=#000000 ctermbg=0 cterm=NONE
+highlight SpecialKey  guifg=#444444
 highlight clear SignColumn
 highlight clear LineNr
+
+let &colorcolumn=join(range(80,200),",")
+highlight ColorColumn guibg=#0e0e0e ctermbg=NONE
 
 if has("gui_gtk2")
     set guifont=Consolas\ 10
@@ -170,6 +177,9 @@ endif
 " pathogen
 call pathogen#runtime_append_all_bundles()
 call pathogen#infect()
+
+" coffee-script
+command! -range=% CC <line1>,<line2>CoffeeCompile
 
 " syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++0x'
@@ -194,9 +204,12 @@ endif
 " Indent Guide
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
-let g:indent_guides_guide_size = 1
-hi IndentGuidesOdd guibg=#202020 ctermbg=NONE
-hi IndentGuidesEven guibg=#202020 ctermbg=NONE
+let g:indent_guides_guide_size = 2
+hi IndentGuidesOdd guibg=#1a1a1a ctermbg=NONE
+hi IndentGuidesEven guibg=#151515 ctermbg=NONE
+
+" Ctrl+P
+let g:ctrlp_custom_ignore = 'node_modules'
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
@@ -251,19 +264,9 @@ function! Wrap(start, end, replace)
 endfunction
 command! -range=% -nargs=1 Wrap call <SID>Wrap('<line1>', '<line2>', '<args>')
 
-" Create a symlink for Windows
-function! Symlink()
-    " Need to separate these to force \ in path
-    execute "!mklink /J " . substitute(expand("$HOME\\vimfiles $HOME\\.vim"), "/", "\\", "g")
-endfunction
-command! Sym call Symlink()
-
 " Open terminal at current location
 function! Terminal()
-  if has("win32")
-    " Currently only for windows
-    execute "!start C:\\cygwin\\bin\\mintty.exe -e /bin/xhere /bin/bash.exe '" . getcwd() . "'"
-  elseif has("unix")
+  if has("unix")
     execute "!gnome-terminal --working-directory='" . getcwd() ."' &"
   endif
 endfunction
