@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -e
+
+function all_shas(){
+  git log --pretty=format:"%H %s" -- $@
+}
+
+function clean_sha(){
+  head -n 1 | cut -d' ' -f1
+}
+
+function last_sha_fixup(){
+  all_shas $@ | clean_sha
+}
+
+function last_sha_source(){
+  all_shas $@ | grep -v 'fixup!' | clean_sha
+}
+
+function last_sha(){
+  sha=$(last_sha_source $@)
+  if [ -n "$sha" ]; then
+    echo $sha
+  else
+    last_sha_fixup $@
+  fi
+}
+
+sha=$(last_sha $@)
+
+if [ -z "$sha" ]; then
+  echo "Could not find a viable commit" > /dev/null
+  exit 1
+fi
+
+git commit --fixup $sha $@
