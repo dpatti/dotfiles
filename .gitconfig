@@ -6,6 +6,8 @@
     abort = reset --hard HEAD
     undo = reset --hard HEAD^
 
+    fixup = commit --fixup
+
     upstream = "!f(){ git rev-parse --symbolic-full-name --abbrev-ref $1@{u} 2>/dev/null; }; f"
     wipe = "!f(){ for i in "$@"; do UPSTREAM=$(git upstream $i) && git push $(echo $UPSTREAM | sed 's/\\// :/'); git branch -d $i; done; }; f"
 
@@ -135,3 +137,5 @@
 	helper = cache --timeout 259200
 [rebase]
 	autosquash = true
+[trello]
+	me = doug

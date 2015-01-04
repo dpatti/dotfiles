@@ -4,18 +4,45 @@ alias ll='ls -l --all --human-readable'
 alias cgrep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
 alias server='python -m SimpleHTTPServer'
 alias diff='colordiff'
-alias less='less --quit-if-one-screen --no-init --raw-control-chars'
 alias sagi='sudo apt-get install'
 alias ..='cd ..'
-alias mocha='mocha --reporter dot --compilers coffee:coffee-script --colors'
+alias ci='cabal install --disable-documentation --disable-executable-profiling --disable-library-coverage --disable-benchmarks --disable-library-profiling -j'
+alias dgit='git --git-dir ~/dotfiles/.git'
+alias qgit='git'
 
-function port-forward { ssh $1 -R $2:localhost:$2 -g; }
-
-# I just enjoy this
-function say { mplayer "http://translate.google.com/translate_tts?tl=en&q=$*" >/dev/null 2>&1; }
+LESS='--quit-if-one-screen --no-init --RAW-CONTROL-CHARS --ignore-case --LONG-PROMPT --chop-long-lines --tabs=2'
+HISTSIZE=5000
 
 # PATH augmentation
-PATH=$HOME/bin:$PATH      # Local scripts
+PATH=$HOME/bin:$PATH
+PATH=$HOME/.rvm/bin:$PATH
+PATH=$HOME/.cabal/bin:$PATH
+
+# For easy directory probing -- combines ls and cat depending on the argument
+function p {
+  code=0
+
+  if [ $# -eq 0 ]; then
+    ls
+    return
+  fi
+
+  for arg in $@; do
+    if [ -d "$arg" ]; then
+      ls $arg
+    elif [ -f "$arg" ]; then
+      cat $arg
+    else
+      echo "Not a directory or file: $arg" >&2
+      code=1
+    fi
+  done
+  return $code
+}
+
+# Test upstream and downstream bandwidth to a vps
+function upstream { cat /dev/zero | pv | ssh $@ 'cat > /dev/null'; }
+function downstream { ssh $@ 'cat /dev/zero' | pv | cat > /dev/null; }
 
 # Interactive-only commands below
 [ -z "$PS1" ] && return
@@ -29,15 +56,5 @@ function prompt {
 }
 prompt
 
-# Up and down search based on what was typed in so far
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
-
 # Case insensitive matching
 shopt -s nocaseglob
-
-HISTSIZE=5000
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"

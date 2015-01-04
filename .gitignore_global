@@ -5,3 +5,5 @@
 *.stackdump
 .vim_session
 .~*#
+.ackrc
+*.hi
