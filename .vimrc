@@ -142,6 +142,65 @@ nnoremap <silent> <C-K> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\
 nnoremap <silent> <C-J> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
 " --- }}}
 
+" --- Plugin config ---------------------------------------------------------{{{
+" plug
+call plug#begin('~/.vim/bundle')
+" Languages
+Plug 'kchmck/vim-coffee-script'
+Plug 'tpope/vim-git'
+Plug 'groenewege/vim-less'
+Plug 'tpope/vim-markdown'
+Plug 'juvenn/mustache.vim'
+Plug 'rodjek/vim-puppet'
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+
+" Tools
+Plug 'mileszs/ack.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
+Plug 'Valloric/YouCompleteMe'
+
+" Visual
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'airblade/vim-gitgutter'
+Plug 'Lokaltog/vim-powerline', { 'branch': 'develop' }
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+call plug#end()
+
+" coffee-script
+command! -range=% CC <line1>,<line2>CoffeeCompile
+
+" syntastic
+let g:syntastic_cpp_compiler_options = ' -std=c++0x'
+
+" git gutter
+nmap <silent> ,m :GitGutterNextHunk<CR>
+nmap <silent> ,M :GitGutterPrevHunk<CR>
+
+" NERD Tree Plugin
+nmap <F7> :NERDTreeToggle<CR>
+
+" Powerline
+let g:Powerline_symbols = 'compatible'
+if exists("*Pl#Theme#InsertSegment")
+  call Pl#Theme#InsertSegment('charcode', 'after', 'filetype')
+endif
+
+" Indent Guide
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_guide_size = 2
+hi IndentGuidesOdd guibg=#1a1a1a ctermbg=NONE
+hi IndentGuidesEven guibg=#151515 ctermbg=NONE
+
+" Ctrl+P
+let g:ctrlp_custom_ignore = 'node_modules'
+" --- }}}
+
 " --- Style and font --------------------------------------------------------{{{
 if has('gui_running')
     colorscheme railscasts
@@ -171,45 +230,6 @@ if has("gui_gtk2")
 else
     set guifont=Consolas:h10
 endif
-" --- }}}
-
-" --- Plugin config ---------------------------------------------------------{{{
-" pathogen
-call pathogen#runtime_append_all_bundles()
-call pathogen#infect()
-
-" coffee-script
-command! -range=% CC <line1>,<line2>CoffeeCompile
-
-" syntastic
-let g:syntastic_cpp_compiler_options = ' -std=c++0x'
-nmap <silent> ,m :GitGutterNextHunk<CR>
-nmap <silent> ,M :GitGutterPrevHunk<CR>
-
-" FSwitch
-nmap <silent> ,fs :FSHere<CR>
-nmap <silent> ,fp :FSSplitRight<CR>
-nmap <silent> ,fh :FSLeft<CR>
-nmap <silent> ,fl :FSRight<CR>
-
-" NERD Tree Plugin
-nmap <F7> :NERDTreeToggle<CR>
-
-" Powerline
-let g:Powerline_symbols = 'compatible'
-if exists("*Pl#Theme#InsertSegment")
-  call Pl#Theme#InsertSegment('charcode', 'after', 'filetype')
-endif
-
-" Indent Guide
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_guide_size = 2
-hi IndentGuidesOdd guibg=#1a1a1a ctermbg=NONE
-hi IndentGuidesEven guibg=#151515 ctermbg=NONE
-
-" Ctrl+P
-let g:ctrlp_custom_ignore = 'node_modules'
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
