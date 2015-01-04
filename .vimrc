@@ -233,56 +233,22 @@ endif
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
-" Lua Globals - my failed attempt
-highlight Global guifg=#3B3178
-function! LuaGlob()
-	call clearmatches()
-	let globals = system("luac -l \"" . expand("%:p") . "\" | grep GLOBAL | sed 's/.* \\(.*\\)$/\\1/' | sort | uniq")
-	for kw in split(globals)
-		call matchadd("Global", kw)
-	endfor
-endfunction
-" FindGlobals (globals.lua)
-function! LuaGlob()
-	let file = expand("%:p")
-	botright new
-	setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-	" echo "$read !luac -l -p \"" . file . "\" | lua C:\\Lua\\5.1\\globals.lua \"" . file . "\""
-	silent execute "$read !luac -l -p \"" . file . "\" | lua C:\\Lua\\5.1\\globals.lua \"" . file . "\""
-	setlocal nomodifiable
-endfunction
-nmap <silent> ,gl :call LuaGlob()<cr>
-
-" Combat Log fix for 4.2
-function! FixCombatLog()
-	execute '%s/^\([^,]*,[^,]*,[^,]*,[^,]*,\)[^,]*,\([^,]*,[^,]*,[^,]*\),[^,]*\(.*\)/\1\2\3/g'
-endfunction
-
 " fill rest of line with characters
 function! FillLine( str )
-    " set tw to the desired total length
-    let tw = &textwidth
-    if tw==0 | let tw = 80 | endif
-    " strip trailing spaces first
-    .s/[[:space:]]*$//
-    " calculate total number of 'str's to insert
-    let reps = (tw - col("$")) / len(a:str)
-    " insert them, if there's room, removing trailing spaces (though forcing
-    " there to be one)
-    if reps > 0
-        .s/$/\=(' '.repeat(a:str, reps))/
-    endif
+  " set tw to the desired total length
+  let tw = &textwidth
+  if tw==0 | let tw = 80 | endif
+  " strip trailing spaces first
+  .s/[[:space:]]*$//
+  " calculate total number of 'str's to insert
+  let reps = (tw - col("$")) / len(a:str)
+  " insert them, if there's room, removing trailing spaces (though forcing
+  " there to be one)
+  if reps > 0
+      .s/$/\=(' '.repeat(a:str, reps))/
+  endif
 endfunction
 nmap <silent> ,cl :call FillLine('-')<cr>
-
-" A map for the commonly used %s/\(.*\)/...
-" Not working yet
-function! Wrap(start, end, replace)
-	echo start
-	echo end
-	echo replace
-endfunction
-command! -range=% -nargs=1 Wrap call <SID>Wrap('<line1>', '<line2>', '<args>')
 
 " Open terminal at current location
 function! Terminal()
@@ -297,19 +263,6 @@ nmap <silent> ,ct :call Terminal()<cr>
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+      \ | wincmd p | diffthis
 endif
 " --- }}}
-
-" --- Miscellaneous ---------------------------------------------------------{{{
-" .ntl, .ntj files are really JavaScript
-augroup d2botType
-    autocmd!
-    autocmd BufNewFile,BufRead *.ntl setfiletype javascript
-    autocmd BufNewFile,BufRead *.ntj setfiletype javascript
-augroup END
-
-" File type rewrites
-au BufNewFile,BufRead *.css set filetype=less
-au BufNewFile,BufRead *.md set filetype=markdown
-au BufNewFile,BufRead *.tex set filetype=tex
