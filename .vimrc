@@ -124,7 +124,7 @@ inoremap <C-U> <C-G>u<C-U>
 
 " Diff (t)his, Diff (o)ff!
 nmap <silent> ,dt :difft<cr>
-nmap <silent> ,do :diffo!<cr>
+nmap <silent> ,do :diffo!<cr>:windo set nowrap foldmethod=marker<cr>
 
 " Fold methods
 nmap <silent> ,fm :set foldmethod=marker<cr>
@@ -199,6 +199,9 @@ hi IndentGuidesEven guibg=#151515 ctermbg=NONE
 
 " Ctrl+P
 let g:ctrlp_custom_ignore = 'node_modules'
+
+" ycm
+let g:ycm_semantic_triggers = {'haskell': ['.']}
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
