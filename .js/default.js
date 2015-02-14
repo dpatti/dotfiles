@@ -42,3 +42,33 @@ var TimeRestriction = (function(){
 
   return TimeRestriction;
 })();
+
+// Because I press Ctrl+W way too often in a textarea trying to delete a word.
+// There is no way to catch the tab close event in Chrome, so the best we can do
+// is the beforeunload event.
+var warning = function(e) {
+  var active = document.activeElement;
+
+  // Only bother if it isn't blank. This could be an input, textarea, or
+  // contenteditable.
+  if (active.value || active.innerText) {
+    e.returnValue = "You're typing, man. You sure about this?";
+  }
+};
+// Whenever we change focus, check the activeElement. We do it this way because
+// moving away from the tab fires a blur event, but we don't want to unregister
+// because closing the tab without re-focusing means we might lose content.
+// Okay, a little out of scope, but whatever. We'll try it.
+var focusChange = function(e) {
+  if (document.activeElement.matches(':read-write')) {
+    // Add our warning to beforeunload so that Ctrl+W doesn't close the tab
+    // immediately.
+    window.addEventListener('beforeunload', warning);
+  } else {
+    // Clear the warning.
+    window.removeEventListener('beforeunload', warning);
+  }
+};
+['focusin', 'focusout'].forEach(function(eventType){
+  document.addEventListener(eventType, focusChange, true);
+});
