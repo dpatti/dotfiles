@@ -53,22 +53,28 @@ var warning = function(e) {
   // contenteditable.
   if (active.value || active.innerText) {
     e.returnValue = "You're typing, man. You sure about this?";
-  }
-};
-// Whenever we change focus, check the activeElement. We do it this way because
-// moving away from the tab fires a blur event, but we don't want to unregister
-// because closing the tab without re-focusing means we might lose content.
-// Okay, a little out of scope, but whatever. We'll try it.
-var focusChange = function(e) {
-  if (document.activeElement.matches(':read-write')) {
-    // Add our warning to beforeunload so that Ctrl+W doesn't close the tab
-    // immediately.
-    window.addEventListener('beforeunload', warning);
-  } else {
-    // Clear the warning.
+    // Also unregister the event because letting go of ctrl won't fire the keyup
+    // below.
     window.removeEventListener('beforeunload', warning);
   }
 };
-['focusin', 'focusout'].forEach(function(eventType){
-  document.addEventListener(eventType, focusChange, true);
-});
+// We are looking for the ctrl key when inside an input. If we press ctrl and
+// we're inside an input, we register the handler to prevent us from closing
+// accidentally. If we let go of ctrl, we should unregister the event.
+var keyEvent = function(e) {
+  var activeIsInput = document.activeElement.matches(':read-write');
+  var isDown = (e.type == 'keydown')
+  var isCtrl = (e.keyCode == 17);
+
+  // Enable
+  if (isDown && isCtrl && activeIsInput) {
+    window.addEventListener('beforeunload', warning);
+  }
+
+  // Disable
+  if (!isDown && isCtrl) {
+    window.removeEventListener('beforeunload', warning);
+  }
+};
+document.addEventListener('keydown', keyEvent, true);
+document.addEventListener('keyup', keyEvent, true);
