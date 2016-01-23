@@ -1,5 +1,6 @@
 *.sw?
 *.sv?
+!*.svg
 *.o
 *.exe
 *.stackdump
@@ -7,3 +8,4 @@
 .~*#
 .ackrc
 *.hi
+npm-debug.log

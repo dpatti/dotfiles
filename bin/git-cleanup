@@ -13,18 +13,11 @@ echo "Finding merged branches in $(git symbolic-ref -q HEAD)"
 for ref in $(git for-each-ref --format='%(refname)' refs/heads); do
   branch=$(echo $ref | cut -d/ -f3-)
   upstream=$(git rev-parse --symbolic-full-name --abbrev-ref --quiet --verify $branch@{u} 2>/dev/null)
-
-  if [ -n "$upstream" ]; then
-    display_name="$branch ($upstream)"
-  else
-    display_name="$branch (local)"
-  fi
   
   # Check if branch was merged
   if git merge-base --is-ancestor $ref HEAD; then
     # ...and is not something sitting on top of master
     if git merge-base --is-ancestor HEAD $ref; then
-      echo "Branch $display_name is not a branch at all"
       continue
     fi
 
@@ -33,10 +26,13 @@ for ref in $(git for-each-ref --format='%(refname)' refs/heads); do
 
     git log --oneline --decorate --graph $merge_base..$branch
 
-    prompt "Can we clean up $display_name [Y/n]? " \
-      || continue
+    # Prompt if the upstream still exists
+    if [ -n "$upstream" ]; then
+      prompt "Can we clean up $branch ($upstream) [Y/n]? " \
+        || continue
+    fi
 
-    # Yes we can
+    # Delete it locally
     git branch -d $branch || continue
 
     # If that succeeded, push too

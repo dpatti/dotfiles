@@ -1,5 +1,5 @@
 # Common parameters
-alias ls='ls -v --color=tty'
+alias ls='ls -Fv --color=tty'
 alias ll='ls -l --all --human-readable'
 alias cgrep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
 alias server='python -m SimpleHTTPServer'
@@ -7,16 +7,21 @@ alias diff='colordiff'
 alias sagi='sudo apt-get install'
 alias ..='cd ..'
 alias ci='cabal install --disable-documentation --disable-executable-profiling --disable-library-coverage --disable-benchmarks --disable-library-profiling -j'
-alias dgit='git --git-dir ~/dotfiles/.git'
 alias qgit='git'
+alias each='for i in $(cat);'
 
-LESS='--quit-if-one-screen --no-init --RAW-CONTROL-CHARS --ignore-case --LONG-PROMPT --chop-long-lines --tabs=2'
+export LESS='--quit-if-one-screen --no-init --RAW-CONTROL-CHARS --ignore-case --LONG-PROMPT --chop-long-lines --tabs=2'
 HISTSIZE=5000
 
 # PATH augmentation
 PATH=$HOME/bin:$PATH
+PATH=$HOME/.local/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
-PATH=$HOME/.cabal/bin:$PATH
+
+# Language managers
+alias nvm='REINSTALL_PACKAGES_FROM=default nvm'
+[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+[ -f ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm
 
 # For easy directory probing -- combines ls and cat depending on the argument
 function p {

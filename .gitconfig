@@ -3,6 +3,9 @@
   email = douglas.patti@gmail.com
 
 [alias]
+  # git git <command> -> git <command>
+  git = !git
+
   abort = reset --hard HEAD
   undo = reset --hard HEAD^
 
@@ -14,9 +17,19 @@
   # Commit message
   cm = show -s --pretty=format:%B
 
+  ff = merge --ff-only
+
   bs = bisect start
   bg = bisect good
   bb = bisect bad
+
+  ri = rebase -i
+  rc = rebase --continue
+  ra = rebase --abort
+
+  # Deletes all remote branches that have been merged into their master
+  # Usage: git prune-remote <remote>
+  prune-remote = "!f(){ git push --delete $1 $(git branch --list --remote $1/* --merged $1/master | grep -v $1/master | cut -d'/' -f2-); }; f"
 
   unmerged = branch --no-merged
   merged = branch --merged
@@ -42,6 +55,9 @@
   ca = commit --verbose --all
 
   pu = "!f(){ git push -u $1 $(git rev-parse --abbrev-ref HEAD); }; f"
+
+  # Recently committed to
+  recent = for-each-ref --count=5 --sort=-committerdate --format='%(refname:short)' refs/heads
 
     # Show branches and their tracking counterparts
   br = branch --all --verbose --verbose --list
@@ -127,6 +143,7 @@
   untracked = cyan
 [merge]
   tool = vimdiff
+  ff = false
 [branch]
   autosetuprebase = always
 [push]
@@ -137,5 +154,6 @@
   helper = cache --timeout 259200
 [rebase]
   autosquash = true
+  autostash = true
 [trello]
   me = doug

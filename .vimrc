@@ -32,6 +32,8 @@ set ignorecase          " Search will ignore case
 set smartcase           " Search will respect case if any letter is uppercase
 set showcmd             " Show command in bottom-right as you type it
 set hls                 " Highlight search
+set nojoinspaces        " Joining or formatting lines will not add two spaces after a period
+set autoread            " Automatically load files that change if they haven't changed in vim
 set lazyredraw
 set ttyfast
 set display+=lastline   " Shows partial lines instead of @@@@
@@ -154,6 +156,7 @@ Plug 'juvenn/mustache.vim'
 Plug 'rodjek/vim-puppet'
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
+Plug 'eagletmt/neco-ghc'
 
 " Tools
 Plug 'mileszs/ack.vim'
