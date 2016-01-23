@@ -1,159 +1,169 @@
 [user]
-  name = Doug Patti
-  email = douglas.patti@gmail.com
+name = Doug Patti
+email = douglas.patti@gmail.com
 
 [alias]
-  # git git <command> -> git <command>
-  git = !git
+# git git <command> -> git <command>
+git = !git
 
-  abort = reset --hard HEAD
-  undo = reset --hard HEAD^
+abort = reset --hard HEAD
+undo = reset --hard HEAD^
 
-  fixup = commit --fixup
+fixup = commit --fixup
 
-  upstream = "!f(){ git rev-parse --symbolic-full-name --abbrev-ref $1@{u} 2>/dev/null; }; f"
-  wipe = "!f(){ for i in "$@"; do UPSTREAM=$(git upstream $i) && git push $(echo $UPSTREAM | sed 's/\\// :/'); git branch -d $i; done; }; f"
+upstream = "!f(){ git rev-parse --symbolic-full-name --abbrev-ref $1@{u} 2>/dev/null; }; f"
+wipe = "!f(){ for i in "$@"; do UPSTREAM=$(git upstream $i) && git push $(echo $UPSTREAM | sed 's/\\// :/'); git branch -d $i; done; }; f"
 
-  # Commit message
-  cm = show -s --pretty=format:%B
+# Commit message
+cm = show -s --pretty=format:%B
 
-  ff = merge --ff-only
+ff = merge --ff-only
 
-  bs = bisect start
-  bg = bisect good
-  bb = bisect bad
+bs = bisect start
+bg = bisect good
+bb = bisect bad
 
-  ri = rebase -i
-  rc = rebase --continue
-  ra = rebase --abort
+ri = rebase -i
+rc = rebase --continue
+ra = rebase --abort
 
-  # Deletes all remote branches that have been merged into their master
-  # Usage: git prune-remote <remote>
-  prune-remote = "!f(){ git push --delete $1 $(git branch --list --remote $1/* --merged $1/master | grep -v $1/master | cut -d'/' -f2-); }; f"
+# Deletes all remote branches that have been merged into their master
+# Usage: git prune-remote <remote>
+prune-remote = "!f(){ git push --delete $1 $(git branch --list --remote $1/* --merged $1/master | grep -v $1/master | cut -d'/' -f2-); }; f"
 
-  unmerged = branch --no-merged
-  merged = branch --merged
-  whereis = "!f(){ git branch --all --contains $@; git tag --contains $@; }; f"
-  ancestor = merge-base
+unmerged = branch --no-merged
+merged = branch --merged
+whereis = "!f(){ git branch --all --contains $@; git tag --contains $@; }; f"
+ancestor = merge-base
 
-  meol = merge -X ignore-space-at-eol
-  deol = diff --ignore-space-at-eol
-  conflicts = diff --name-only --diff-filter=U
+meol = merge -X ignore-space-at-eol
+deol = diff --ignore-space-at-eol
+conflicts = diff --name-only --diff-filter=U
 
-  h = help
-  r = remote
-    # Update all remotes
-  up = remote update --prune
+h = help
+r = remote
+# Update all remotes
+up = remote update --prune
 
-  st = status --short --branch
-  di = diff
-  dc = diff --cached
-  ds = diff --stat
+st = status --short --branch
+di = diff
+dc = diff --cached
+ds = diff --stat
 
-  co = checkout
-  ci = commit --verbose
-  ca = commit --verbose --all
+co = checkout
+ci = commit --verbose
+ca = commit --verbose --all
 
-  pu = "!f(){ git push -u $1 $(git rev-parse --abbrev-ref HEAD); }; f"
+pu = "!f(){ git push -u $1 $(git rev-parse --abbrev-ref HEAD); }; f"
 
-  # Recently committed to
-  recent = for-each-ref --count=5 --sort=-committerdate --format='%(refname:short)' refs/heads
+# Recently committed to
+recent = for-each-ref --count=5 --sort=-committerdate --format='%(refname:short)' refs/heads
 
-    # Show branches and their tracking counterparts
-  br = branch --all --verbose --verbose --list
-    # Replacement for git log
-  hist = log --oneline --decorate --graph --topo-order
-    # History one-liners (no graph)
-  ho = log --oneline --topo-order --no-merges
-    # Print history with inline file changes
-  hs = !git hist --stat
-    # Print history with inline diffs
-  hd = !git hist --patch
-    # Print linear merge history
-  hm = !git hist --merges --first-parent
-  search = log --oneline --no-merges -S
-    # Print history since last push (typically)
-  new = !git hist ORIG_HEAD..
+# Show branches and their tracking counterparts
+br = branch --all --verbose --verbose --list
+# Replacement for git log
+hist = log --oneline --decorate --graph --topo-order
+# History one-liners (no graph)
+ho = log --oneline --topo-order --no-merges
+# Print history with inline file changes
+hs = !git hist --stat
+# Print history with inline diffs
+hd = !git hist --patch
+# Print linear merge history
+hm = !git hist --merges --first-parent
+search = log --oneline --no-merges -S
+# Print history since last push (typically)
+new = !git hist ORIG_HEAD..
 
-    # Amend without changing the message
-  amend = commit --amend --no-edit
+# Amend without changing the message
+amend = commit --amend --no-edit
 
-    # I have no idea what these do anymore
-  type = cat-file -t
-  dump = cat-file -p
-    # Usage: git chmod [+|-]x <file>
-  chmod = update-index --chmod
-    # Toggle ignoreability of a file (pretty bad to use)
-  ignore = update-index --assume-unchanged
-  unignore = update-index --no-assume-unchanged
-    # Print summary of current HEAD including message and files changed
-  sum = show --stat
-    # See what the source control directory structure looks like
-  ls = ls-tree --name-only HEAD
-    # Print untracked files for piping
-  untracked = ls-files --other --exclude-standard
-    # Create snapshot of working directory changes
-  snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
-    # In merge conflicts, take either ours or theirs
-  ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
-  theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
-    # Times of commits in unix timestamps
-  times = log --pretty=format:%at
+# I have no idea what these do anymore
+type = cat-file -t
+dump = cat-file -p
+# Usage: git chmod [+|-]x <file>
+chmod = update-index --chmod
+# Toggle ignoreability of a file (pretty bad to use)
+ignore = update-index --assume-unchanged
+unignore = update-index --no-assume-unchanged
+# Print summary of current HEAD including message and files changed
+sum = show --stat
+# See what the source control directory structure looks like
+ls = ls-tree --name-only HEAD
+# Print untracked files for piping
+untracked = ls-files --other --exclude-standard
+# Create snapshot of working directory changes
+snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+# In merge conflicts, take either ours or theirs
+ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+# Times of commits in unix timestamps
+times = log --pretty=format:%at
 
-  sl = stash list
-  ss = stash save
-    # Show stash with diff
-  sh = stash show -p
-  sd = stash drop
-  sp = stash pop
+sl = stash list
+ss = stash save
+# Show stash with diff
+sh = stash show -p
+sd = stash drop
+sp = stash pop
 
-    # Stage tracked files
-  at = add -u
-    # Stage untracked files
-  au = !git untracked | xargs git add
-    # Remove files deleted from filesystem from staging as well
-  ad = !git status -s | /bin/grep '^.D' | sed 's/ D //' | xargs git add -u
-    # Add conflicting files
-  ac = !git conflicts | xargs git add
-    # Delete all untracked files(!!) -- this will require -f for safety
-  du = clean -d
+# Stage tracked files
+at = add -u
+# Stage untracked files
+au = !git untracked | xargs git add
+# Remove files deleted from filesystem from staging as well
+ad = !git status -s | /bin/grep '^.D' | sed 's/ D //' | xargs git add -u
+# Add conflicting files
+ac = !git conflicts | xargs git add
+# Delete all untracked files(!!) -- this will require -f for safety
+du = clean -d
 
-  kar = !git kiln add-remote
+kar = !git kiln add-remote
+
 [apply]
-  whitespace = fix
+whitespace = fix
+
 [core]
-  excludesfile = ~/.gitignore_global
-  autocrlf = input
-  editor = vim
-  filemode = false
+excludesfile = ~/.gitignore_global
+autocrlf = input
+editor = vim
+filemode = false
+
 [color]
-  ui = auto
+ui = auto
+
 [color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
+current = yellow reverse
+local = yellow
+remote = green
+
 [color "diff"]
-  meta = yellow bold
-  frag = magenta
-  old = red
-  new = green
+meta = yellow bold
+frag = magenta
+old = red
+new = green
+
 [color "status"]
-  added = yellow
-  changed = green
-  untracked = cyan
+added = yellow
+changed = green
+untracked = cyan
+
 [merge]
-  tool = vimdiff
-  ff = false
+tool = vimdiff
+ff = false
+
 [branch]
-  autosetuprebase = always
+autosetuprebase = always
+
 [push]
-  default = upstream
+default = upstream
+
 [diff]
-  algorithm = patience
+algorithm = patience
+
 [credential]
-  helper = cache --timeout 259200
+helper = cache --timeout 259200
+
 [rebase]
-  autosquash = true
-  autostash = true
-[trello]
-  me = doug
+autosquash = true
+autostash = true

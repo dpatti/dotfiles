@@ -12,9 +12,7 @@ set laststatus=2        " Always use status line
 set showmode            " Display current mode
 set ch=2                " Command line two lines high
 set wildmenu            " Command line completion helper
-if exists("&wildignorecase") " Windows gvim does not have this (it's automatic)
-  set wildignorecase    " Ignore case when tab-completing files
-endif
+set wildignorecase      " Ignore case when tab-completing files
 set timeoutlen=500      " Timeout for remaps
 set history=100         " Keep some stuff in the history
 set mousehide           " Hide the mouse pointer while typing
@@ -139,7 +137,7 @@ if has("gui")
   cnoremap <M-Space> <C-C>:simalt ~<CR>
 endif
 
-" Slide cursor as defined below
+" Slide cursor to the next/previous line of the same indent level
 nnoremap <silent> <C-K> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
 nnoremap <silent> <C-J> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
 " --- }}}
@@ -209,12 +207,11 @@ let g:ycm_semantic_triggers = {'haskell': ['.']}
 
 " --- Style and font --------------------------------------------------------{{{
 if has('gui_running')
-    colorscheme railscasts
-elseif $COLORTERM == 'gnome-terminal'
-    set term=gnome-256color
-    colorscheme railscasts
+  colorscheme railscasts
+elseif &t_Co == 256
+  colorscheme railscasts
 else
-    colorscheme default
+  colorscheme default
 endif
 highlight Comment     guifg=#656763 ctermfg=180 gui=italic
 highlight NonText     guifg=#656763	ctermfg=180
@@ -232,9 +229,9 @@ let &colorcolumn=join(range(80,200),",")
 highlight ColorColumn guibg=#0e0e0e ctermbg=NONE
 
 if has("gui_gtk2")
-    set guifont=Consolas\ 10
+  set guifont=Inconsolata\ 11
 else
-    set guifont=Consolas:h10
+  set guifont=Inconsolata:h11
 endif
 " --- }}}
 
@@ -251,7 +248,7 @@ function! FillLine( str )
   " insert them, if there's room, removing trailing spaces (though forcing
   " there to be one)
   if reps > 0
-      .s/$/\=(' '.repeat(a:str, reps))/
+    .s/$/\=(' '.repeat(a:str, reps))/
   endif
 endfunction
 nmap <silent> ,cl :call FillLine('-')<cr>
