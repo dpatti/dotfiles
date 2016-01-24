@@ -225,7 +225,7 @@ highlight SpecialKey  guifg=#444444
 highlight clear SignColumn
 highlight clear LineNr
 
-let &colorcolumn=join(range(80,200),",")
+let &colorcolumn=join(range(81,200),",")
 highlight ColorColumn guibg=#0e0e0e ctermbg=NONE
 
 if has("gui_gtk2")

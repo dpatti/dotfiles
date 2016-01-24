@@ -1,0 +1,39 @@
+# Config common to .zshrc and .bashrc
+# ex: ft=sh
+
+alias ls='ls -v --classify --group-directories-first --color=auto'
+alias ll='ls -l --all --human-readable'
+alias cgrep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
+alias server='python -m SimpleHTTPServer'
+alias diff='colordiff'
+alias qgit='git'
+alias each='for i in $(cat);'
+
+# Default LESS parameters
+export LESS='--quit-if-one-screen --no-init --RAW-CONTROL-CHARS --ignore-case --LONG-PROMPT --chop-long-lines --tabs=2'
+
+# Shell history
+export HISTSIZE=10000
+
+# PATH augmentation
+PATH=$HOME/bin:$PATH
+PATH=$HOME/.local/bin:$PATH
+PATH=$HOME/.rvm/bin:$PATH
+
+# Language managers
+[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+[ -f ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm
+
+# For easy directory probing -- combines ls and cat depending on the argument
+function p {
+  if [ $# -eq 0 ]; then
+    ls
+  elif [ -d "$1" ]; then
+    ls $arg
+  elif [ -f "$1" ]; then
+    cat $arg
+  else
+    echo "Not a directory or file: $arg" >&2
+    return 1
+  fi
+}
