@@ -1,0 +1,7 @@
+#!/usr/bin/env /bin/bash
+
+git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
+# Link non-source-controlled files
+for f in zlogin zlogout zprofile zshenv; do
+  ln -s .zprezto/runcoms/$f ~/.$f
+done

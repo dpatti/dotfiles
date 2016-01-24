@@ -1,0 +1,4 @@
+#!/usr/bin/env /bin/bash
+
+git clone --recursive https://github.com/creationx/nvm.git ~/.nvm
+source ~/.nvm/nvm.sh

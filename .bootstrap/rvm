@@ -1,0 +1,4 @@
+#!/usr/bin/env /bin/bash
+
+git clone --recursive https://github.com/rvm/rvm.git ~/.rvm
+source ~/.rvm/scripts/rvm
