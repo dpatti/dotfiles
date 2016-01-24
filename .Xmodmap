@@ -1,0 +1,3 @@
+!Turn Caps Lock into a second Escape key
+remove Lock = Caps_Lock
+keysym Caps_Lock = Escape
