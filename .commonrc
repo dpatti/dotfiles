@@ -21,8 +21,12 @@ PATH=$HOME/.local/bin:$PATH
 PATH=$HOME/.rvm/bin:$PATH
 
 # Language managers
-[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
-[ -f ~/.rvm/scripts/rvm ] && source ~/.rvm/scripts/rvm
+[ -f $HOME/.nvm/nvm.sh ] && source $HOME/.nvm/nvm.sh
+[ -f $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
+
+# Colorscheme
+export BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
+[ -f $BASE16_SHELL ] && source $BASE16_SHELL
 
 # For easy directory probing -- combines ls and cat depending on the argument
 function p {

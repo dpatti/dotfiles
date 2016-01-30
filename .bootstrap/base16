@@ -1,0 +1,5 @@
+#!/usr/bin/env /bin/bash
+
+mkdir -p ~/.config
+git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+[ -f $BASE16_SHELL ] && source $BASE16_SHELL

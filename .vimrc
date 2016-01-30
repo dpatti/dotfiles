@@ -170,6 +170,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Lokaltog/vim-powerline', { 'branch': 'develop' }
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
+Plug 'chriskempson/base16-vim'
 call plug#end()
 
 " coffee-script
@@ -206,33 +207,24 @@ let g:ycm_semantic_triggers = {'haskell': ['.']}
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
+set background=dark
+let base16colorspace=256
+
 if has('gui_running')
-  colorscheme railscasts
+  colorscheme base16-tomorrow
 elseif &t_Co == 256
-  colorscheme railscasts
+  colorscheme base16-tomorrow
 else
   colorscheme default
 endif
-highlight Comment     guifg=#656763 ctermfg=180 gui=italic
-highlight NonText     guifg=#656763	ctermfg=180
-highlight Pmenu       guifg=#656763 guibg=#ffffff
-highlight PmenuSel    guifg=#656763 guibg=#ffffff
-highlight PmenuSbar   guifg=#656763 guibg=#ffffff
-highlight PmenuThumb  guifg=#656763 guibg=#ffffff
-highlight Folded      guifg=#ffffff guibg=#555555
-highlight CursorLine  guibg=#000000 ctermbg=0 cterm=NONE
-highlight SpecialKey  guifg=#444444
-highlight clear SignColumn
-highlight clear LineNr
-
-let &colorcolumn=join(range(81,200),",")
-highlight ColorColumn guibg=#0e0e0e ctermbg=NONE
 
 if has("gui_gtk2")
   set guifont=Hack\ 10
 else
-  set guifont=Hack:h10
+  set guifont=Hack:h13
 endif
+
+let &colorcolumn=join(range(81,200),",")
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
