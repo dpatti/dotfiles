@@ -112,7 +112,7 @@ at = add -u
 # Stage untracked files
 au = !git untracked | xargs git add
 # Remove files deleted from filesystem from staging as well
-ad = !git status -s | /bin/grep '^.D' | sed 's/ D //' | xargs git add -u
+ad = !git status -s | command grep '^.D' | sed 's/ D //' | xargs git add -u
 # Add conflicting files
 ac = !git conflicts | xargs git add
 # Delete all untracked files(!!) -- this will require -f for safety
@@ -167,3 +167,6 @@ helper = cache --timeout 259200
 [rebase]
 autosquash = true
 autostash = true
+
+[hub]
+protocol = https
