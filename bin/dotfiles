@@ -2,6 +2,6 @@
 set -e
 
 cd
-git clone --no-checkout git@github.com:dpatti/dotfiles.git
+git clone --no-checkout https://github.com/dpatti/dotfiles.git
 git --git-dir dotfiles/.git config core.worktree ~
 git --git-dir dotfiles/.git reset
