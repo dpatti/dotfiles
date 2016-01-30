@@ -229,9 +229,9 @@ let &colorcolumn=join(range(81,200),",")
 highlight ColorColumn guibg=#0e0e0e ctermbg=NONE
 
 if has("gui_gtk2")
-  set guifont=Inconsolata\ 11
+  set guifont=Hack\ 10
 else
-  set guifont=Inconsolata:h11
+  set guifont=Hack:h10
 endif
 " --- }}}
 
