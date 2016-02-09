@@ -62,7 +62,7 @@ recent = for-each-ref --count=5 --sort=-committerdate --format='%(refname:short)
 # Show branches and their tracking counterparts
 br = branch --all --verbose --verbose --list
 # Replacement for git log
-hist = log --oneline --decorate --graph --topo-order
+hist = log --graph --topo-order --pretty='format:%C(auto)%h%d %C(magenta)[%aN]%C(reset) %s %C(blue)(%ar)'
 # History one-liners (no graph)
 ho = log --oneline --topo-order --no-merges
 # Print history with inline file changes
@@ -128,6 +128,7 @@ excludesfile = ~/.gitignore_global
 autocrlf = input
 editor = vim
 filemode = false
+pager = diff-highlight | less
 
 [color]
 ui = auto

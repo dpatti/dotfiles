@@ -15,6 +15,10 @@ export LESS='--quit-if-one-screen --no-init --RAW-CONTROL-CHARS --ignore-case --
 # Shell history
 export HISTSIZE=10000
 
+# Editor
+export VISUAL=vim
+export EDITOR=vim
+
 # PATH augmentation
 PATH=$HOME/bin:$PATH
 PATH=$HOME/.local/bin:$PATH
