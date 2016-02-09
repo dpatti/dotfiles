@@ -155,6 +155,10 @@ Plug 'rodjek/vim-puppet'
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
 Plug 'eagletmt/neco-ghc'
+Plug 'burnettk/vim-angular'
+Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-bundler'
 
 " Tools
 Plug 'mileszs/ack.vim'
@@ -163,6 +167,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'qpkorr/vim-bufkill'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
 
 " Visual
 Plug 'nathanaelkane/vim-indent-guides'
@@ -204,6 +212,14 @@ let g:ctrlp_custom_ignore = 'node_modules'
 
 " ycm
 let g:ycm_semantic_triggers = {'haskell': ['.']}
+
+" angular
+let g:angular_source_directory = 'app/assets/javascripts/application'
+
+" bufkill
+nnoremap <silent> <Leader>bd :BD<CR>
+nnoremap <silent> <Leader>bD :BD!<CR>
+nnoremap <silent> <Leader>BD :BD!<CR>
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
@@ -224,7 +240,7 @@ else
   set guifont=Hack:h13
 endif
 
-let &colorcolumn=join(range(81,200),",")
+set colorcolumn=81
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{

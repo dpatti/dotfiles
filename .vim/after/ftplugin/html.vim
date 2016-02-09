@@ -1,1 +1,1 @@
-set fo-=c
+setlocal fo-=c
