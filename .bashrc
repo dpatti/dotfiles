@@ -20,3 +20,5 @@ prompt
 
 # Case insensitive matching
 shopt -s nocaseglob
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

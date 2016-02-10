@@ -5,7 +5,6 @@ alias ls='ls -v --classify --group-directories-first --color=auto'
 alias ll='ls -l --all --human-readable'
 alias cgrep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
 alias server='python -m SimpleHTTPServer'
-alias diff='colordiff'
 alias qgit='git'
 alias each='for i in $(cat);'
 
