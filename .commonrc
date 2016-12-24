@@ -8,6 +8,8 @@ alias server='python -m SimpleHTTPServer'
 alias qgit='git'
 alias each='for i in $(cat);'
 
+alias be='bundle exec'
+
 # Default LESS parameters
 export LESS='--quit-if-one-screen --no-init --RAW-CONTROL-CHARS --ignore-case --LONG-PROMPT --chop-long-lines --tabs=2'
 
@@ -43,4 +45,8 @@ function p {
     echo "Not a directory or file: $arg" >&2
     return 1
   fi
+}
+
+function pkp {
+  ps -ef | fzf --multi --header-lines=1 | awk '{ print $2 }' | xargs -t kill "$@"
 }

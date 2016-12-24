@@ -6,6 +6,11 @@ email = douglas.patti@gmail.com
 # git git <command> -> git <command>
 git = !git
 
+ppr = !git pu origin && hub pull-request -o
+
+wip = commit -am wip --no-verify
+
+archive-branch = "!f(){ git show-ref -q refs/heads/$1 && git tag archive/$1 $1 && git branch -D $1; }; f"
 abort = reset --hard HEAD
 undo = reset --hard HEAD^
 
@@ -26,6 +31,7 @@ bb = bisect bad
 ri = rebase -i
 rc = rebase --continue
 ra = rebase --abort
+rco = rebase master@{u}
 
 # Deletes all remote branches that have been merged into their master
 # Usage: git prune-remote <remote>
@@ -77,6 +83,8 @@ new = !git hist ORIG_HEAD..
 
 # Amend without changing the message
 amend = commit --amend --no-edit
+# Only amend the message
+reword = commit --amend --verbose
 
 # I have no idea what these do anymore
 type = cat-file -t

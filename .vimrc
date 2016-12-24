@@ -159,18 +159,21 @@ Plug 'burnettk/vim-angular'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-bundler'
+Plug 'leafgarland/typescript-vim'
 
 " Tools
 Plug 'mileszs/ack.vim'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
+Plug 'rbong/vim-vertical'
+Plug 'shougo/vimproc.vim', { 'do': 'make' }
 
 " Visual
 Plug 'nathanaelkane/vim-indent-guides'
@@ -181,13 +184,27 @@ Plug 'scrooloose/syntastic'
 Plug 'chriskempson/base16-vim'
 call plug#end()
 
+" vim-ruby
+let ruby_no_expensive=1
+
+" ack
+cnoreabbrev A Ack!
+nmap <silent> <C-A> :Ack!<CR>
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 " coffee-script
 command! -range=% CC <line1>,<line2>CoffeeCompile
 
 " syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++0x'
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_ruby_checkers = ['rubocop']
 
 " git gutter
+let g:gitgutter_realtime = 0
 nmap <silent> ,m :GitGutterNextHunk<CR>
 nmap <silent> ,M :GitGutterPrevHunk<CR>
 
@@ -209,6 +226,7 @@ hi IndentGuidesEven guibg=#151515 ctermbg=NONE
 
 " Ctrl+P
 let g:ctrlp_custom_ignore = 'node_modules'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " ycm
 let g:ycm_semantic_triggers = {'haskell': ['.']}
@@ -220,6 +238,17 @@ let g:angular_source_directory = 'app/assets/javascripts/application'
 nnoremap <silent> <Leader>bd :BD<CR>
 nnoremap <silent> <Leader>bD :BD!<CR>
 nnoremap <silent> <Leader>BD :BD!<CR>
+
+" multiple-cursors
+let g:multi_cursor_exit_from_visual_mode = 0
+let g:multi_cursor_exit_from_insert_mode = 1
+
+" vim-vertical (overwrites C-K and C-J above)
+if exists(':Vertical')
+  nnoremap <silent> <C-K> :Vertical b<CR>
+  nnoremap <silent> <C-J> :Vertical f<CR>
+end
+
 " --- }}}
 
 " --- Style and font --------------------------------------------------------{{{
@@ -227,9 +256,9 @@ set background=dark
 let base16colorspace=256
 
 if has('gui_running')
-  colorscheme base16-tomorrow
+  colorscheme base16-tomorrow-night
 elseif &t_Co == 256
-  colorscheme base16-tomorrow
+  colorscheme base16-tomorrow-night
 else
   colorscheme default
 endif
@@ -240,7 +269,7 @@ else
   set guifont=Hack:h13
 endif
 
-set colorcolumn=81
+set colorcolumn=81,121
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
@@ -276,4 +305,12 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
       \ | wincmd p | diffthis
 endif
+
+function! SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
 " --- }}}

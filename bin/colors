@@ -7,3 +7,8 @@
     end
     puts
 end
+
+(0..255).each do |color|
+  code = "\\e[38;5;#{color}m"
+  puts "%-30s" % "#{code.gsub("\\e", "\e")} #{code}\033[0m"
+end
