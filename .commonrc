@@ -71,4 +71,4 @@ function pkp {
   ps -ef | fzf --multi --header-lines=1 | awk '{ print $2 }' | xargs -t kill "$@"
 }
 
-source-if-exists .commonrc.local
+source-if-exists $HOME/.commonrc.local
