@@ -32,6 +32,7 @@ set showcmd             " Show command in bottom-right as you type it
 set hls                 " Highlight search
 set nojoinspaces        " Joining or formatting lines will not add two spaces after a period
 set autoread            " Automatically load files that change if they haven't changed in vim
+set shortmess+=c        " No completion menu errors as you're typing
 set lazyredraw
 set ttyfast
 set display+=lastline   " Shows partial lines instead of @@@@
@@ -145,21 +146,30 @@ nnoremap <silent> <C-J> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\
 " --- Plugin config ---------------------------------------------------------{{{
 " plug
 call plug#begin('~/.vim/bundle')
+
 " Languages
+" JavaScript
+Plug 'pangloss/vim-javascript'
 Plug 'kchmck/vim-coffee-script'
+Plug 'burnettk/vim-angular'
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/tsuquyomi'
+Plug 'flowtype/vim-flow'
+Plug 'mxw/vim-jsx'
+" Ruby
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-bundler'
+" Haskell
+Plug 'neovimhaskell/haskell-vim'
+Plug 'eagletmt/neco-ghc'
+" Misc
 Plug 'tpope/vim-git'
 Plug 'groenewege/vim-less'
 Plug 'tpope/vim-markdown'
 Plug 'juvenn/mustache.vim'
 Plug 'rodjek/vim-puppet'
-Plug 'tpope/vim-rails'
-Plug 'vim-ruby/vim-ruby'
-Plug 'eagletmt/neco-ghc'
-Plug 'burnettk/vim-angular'
 Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'tpope/vim-bundler'
-Plug 'leafgarland/typescript-vim'
 
 " Tools
 Plug 'mileszs/ack.vim'
@@ -178,11 +188,15 @@ Plug 'shougo/vimproc.vim', { 'do': 'make' }
 " Visual
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'airblade/vim-gitgutter'
-Plug 'Lokaltog/vim-powerline', { 'branch': 'develop' }
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'chriskempson/base16-vim'
 call plug#end()
+
+" vim-javascript
+let g:javascript_plugin_flow = 1
 
 " vim-ruby
 let ruby_no_expensive=1
@@ -202,6 +216,8 @@ let g:syntastic_cpp_compiler_options = ' -std=c++0x'
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
+let g:syntastic_javascript_flow_exec = 'node_modules/.bin/flow'
 
 " git gutter
 let g:gitgutter_realtime = 0
@@ -212,10 +228,19 @@ nmap <silent> ,M :GitGutterPrevHunk<CR>
 nmap <F7> :NERDTreeToggle<CR>
 
 " Powerline
-let g:Powerline_symbols = 'compatible'
-if exists("*Pl#Theme#InsertSegment")
-  call Pl#Theme#InsertSegment('charcode', 'after', 'filetype')
+let g:airline_section_y = '0x%02B'
+let g:airline_theme = 'base16_tomorrow'
+let g:airline_powerline_fonts = 0
+let g:airline_skip_empty_sections = 1
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
 endif
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
 
 " Indent Guide
 let g:indent_guides_enable_on_vim_startup = 1
@@ -229,10 +254,7 @@ let g:ctrlp_custom_ignore = 'node_modules'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " ycm
-let g:ycm_semantic_triggers = {'haskell': ['.']}
-
-" angular
-let g:angular_source_directory = 'app/assets/javascripts/application'
+let g:ycm_semantic_triggers = {'haskell': ['re!.']}
 
 " bufkill
 nnoremap <silent> <Leader>bd :BD<CR>
@@ -248,6 +270,13 @@ if exists(':Vertical')
   nnoremap <silent> <C-K> :Vertical b<CR>
   nnoremap <silent> <C-J> :Vertical f<CR>
 end
+
+" vim-flow
+nmap <silent> ,ft :FlowType<cr>
+
+" neco-ghc
+let g:haskellmode_completion_ghc = 0
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 " --- }}}
 
@@ -314,3 +343,7 @@ function! SynStack()
 endfunc
 
 " --- }}}
+
+if filereadable("~/.vimrc.local")
+  source ~/.vimrc.local
+endif

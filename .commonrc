@@ -4,14 +4,23 @@
 alias ls='ls -v --classify --group-directories-first --color=auto'
 alias ll='ls -l --all --human-readable'
 alias cgrep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
-alias server='python -m SimpleHTTPServer'
 alias qgit='git'
 alias each='for i in $(cat);'
+alias sc='sudo systemctl'
+alias scu='systemctl --user'
 
 alias be='bundle exec'
 
 # Default LESS parameters
-export LESS='--quit-if-one-screen --no-init --RAW-CONTROL-CHARS --ignore-case --LONG-PROMPT --chop-long-lines --tabs=2'
+export LESS="\
+  --quit-if-one-screen \
+  --no-init \
+  --RAW-CONTROL-CHARS \
+  --ignore-case \
+  --LONG-PROMPT \
+  --chop-long-lines \
+  --tabs=2 \
+"
 
 # Shell history
 export HISTSIZE=10000
@@ -20,27 +29,38 @@ export HISTSIZE=10000
 export VISUAL=vim
 export EDITOR=vim
 
+function source-if-exists {
+  [ -f $1 ] && source $1
+}
+
 # PATH augmentation
-PATH=$HOME/bin:$PATH
-PATH=$HOME/.local/bin:$PATH
-PATH=$HOME/.rvm/bin:$PATH
+function prepend-path {
+  [ -d $1 ] && case ":${PATH:=$1}:" in
+    *:$1:*) ;;
+    *) PATH="$1:$PATH" ;;
+  esac
+}
+
+prepend-path $HOME/bin
+prepend-path $HOME/.local/bin
+prepend-path /usr/local/heroku/bin
 
 # Language managers
-[ -f $HOME/.nvm/nvm.sh ] && source $HOME/.nvm/nvm.sh
-[ -f $HOME/.rvm/scripts/rvm ] && source $HOME/.rvm/scripts/rvm
+eval "$(rbenv init -)"
+eval "$(nodenv init -)"
 
 # Colorscheme
 export BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
-[ -f $BASE16_SHELL ] && source $BASE16_SHELL
+source-if-exists $BASE16_SHELL
 
-# For easy directory probing -- combines ls and cat depending on the argument
-function p {
+# For easy directory probing -- combines ls and less depending on the argument
+function l {
   if [ $# -eq 0 ]; then
     ls
   elif [ -d "$1" ]; then
     ls $arg
   elif [ -f "$1" ]; then
-    cat $arg
+    less $arg
   else
     echo "Not a directory or file: $arg" >&2
     return 1
@@ -50,3 +70,5 @@ function p {
 function pkp {
   ps -ef | fzf --multi --header-lines=1 | awk '{ print $2 }' | xargs -t kill "$@"
 }
+
+source-if-exists .commonrc.local

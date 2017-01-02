@@ -25,4 +25,4 @@ fzf-executable-widget() {
 zle -N fzf-executable-widget
 bindkey '^X' fzf-executable-widget
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source-if-exists ~/.fzf.zsh

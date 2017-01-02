@@ -178,4 +178,4 @@ autosquash = true
 autostash = true
 
 [hub]
-protocol = https
+protocol = ssh
