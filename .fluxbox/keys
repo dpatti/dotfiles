@@ -89,6 +89,7 @@ Mod1 F2 :Exec kupfer
 
 # volume settings, using common keycodes
 # if these don't work, use xev to find out your real keycodes
-121 :Exec amixer sset Master,0 toggle
-122 :Exec amixer sset Master,0 1-
-123 :Exec amixer sset Master,0 1+
+121 :Exec pulseaudio-ctl mute
+122 :Exec pulseaudio-ctl down 1
+123 :Exec pulseaudio-ctl up 1
+198 :Exec pulseaudio-ctl mute-input

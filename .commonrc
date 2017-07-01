@@ -44,6 +44,7 @@ function prepend-path {
 prepend-path $HOME/bin
 prepend-path $HOME/.local/bin
 prepend-path /usr/local/heroku/bin
+prepend-path $HOME/.yarn/bin
 
 # Language managers
 eval "$(rbenv init -)"
@@ -54,15 +55,16 @@ export BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
 source-if-exists $BASE16_SHELL
 
 # For easy directory probing -- combines ls and less depending on the argument
+unalias l 2> /dev/null
 function l {
   if [ $# -eq 0 ]; then
-    ls
+    ls -a
   elif [ -d "$1" ]; then
-    ls $arg
+    ls -a "$1"
   elif [ -f "$1" ]; then
-    less $arg
+    less "$1"
   else
-    echo "Not a directory or file: $arg" >&2
+    echo "Not a directory or file: $1" >&2
     return 1
   fi
 }
@@ -70,5 +72,27 @@ function l {
 function pkp {
   ps -ef | fzf --multi --header-lines=1 | awk '{ print $2 }' | xargs -t kill "$@"
 }
+
+function cb {
+  if command -v xclip > /dev/null; then
+    local copy=(xclip -selection clip-board -in)
+    local paste=(xclip -selection clip-board -out)
+  elif command -v pbcopy > /dev/null; then
+    local copy=(pbcopy)
+    local paste=(pbpaste)
+  else
+    echo "cb: no clipboard interface available" >&2
+    return -1
+  fi
+
+  if [ ! -t 0 ]; then
+    "${copy[@]}"
+  else
+    "${paste[@]}"
+  fi
+}
+
+# This enables gnome-terminal to open a new tab in the same window
+source-if-exists /etc/profile.d/vte.sh
 
 source-if-exists $HOME/.commonrc.local

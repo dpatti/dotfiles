@@ -1,30 +1,46 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
-profiles="/etc/xprofile $HOME/.xprofile"
-resources="/etc/X11/xinit/.Xresources $HOME/.Xresources"
-modmap="/etc/X11/xinit/.Xmodmap $HOME/.Xmodmap"
-
-for f in $profiles; do
-  [ -f $f ] && source $f
-done
-
-for f in $resources; do
-  [ -f $f ] && xrdb -merge $f
-done
-
-for f in $modmap; do
-  [ -f $f ] && xmodmap $f
-done
-
-if [ -d /etc/X11/xinit/xinitrc.d ]; then
-  for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
-    [ -x "$f" ] && . "$f"
+function isfile { [ -f $1 ]; }
+function filter {
+  while read -r i; do
+    if "$@" "$i"; then
+      echo $i
+    fi
   done
-fi
+}
+function runeach {
+  while read -r f; do
+    echo "$@" "$f"
+    "$@" "$f"
+    echo "Exit status: $?"
+  done
+}
+function runfiles { filter isfile | runeach "$@"; }
+
+runfiles source <<PROFILES
+  /etc/xprofile
+  $HOME/.xprofile
+PROFILES
+
+runfiles xrdb -merge <<RESOURCES
+  /etc/X11/xinit/.Xresources
+  $HOME/.Xresources
+RESOURCES
+
+# Set left-win as the compose key
+# Note this must happen *before* xmodmap
+setxkbmap -option compose:lwin
+
+runfiles xmodmap <<MODMAPS
+  /etc/X11/xinit/.Xmodmap
+  $HOME/.Xmodmap
+MODMAPS
+
+echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
 # exec i3
 cbatticon &
 dropbox &
 xscreensaver &
-shutter --min_at_startup &
+# shutter --min_at_startup &
 exec fluxbox

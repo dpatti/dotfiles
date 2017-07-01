@@ -14,6 +14,7 @@ set ch=2                " Command line two lines high
 set wildmenu            " Command line completion helper
 set wildignorecase      " Ignore case when tab-completing files
 set timeoutlen=500      " Timeout for remaps
+set ttimeoutlen=10      " Timeout for escape sequences
 set history=100         " Keep some stuff in the history
 set mousehide           " Hide the mouse pointer while typing
 set scrolloff=8         " Always keep cursor 8 lines from edge
@@ -156,6 +157,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'flowtype/vim-flow'
 Plug 'mxw/vim-jsx'
+Plug 'raichoo/purescript-vim'
+Plug 'FrigoEU/psc-ide-vim'
 " Ruby
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
@@ -170,6 +173,11 @@ Plug 'tpope/vim-markdown'
 Plug 'juvenn/mustache.vim'
 Plug 'rodjek/vim-puppet'
 Plug 'othree/html5.vim'
+Plug 'cespare/vim-toml'
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+Plug '887/cargo.vim'
+Plug 'chr4/sslsecure.vim'
 
 " Tools
 Plug 'mileszs/ack.vim'
@@ -215,9 +223,12 @@ command! -range=% CC <line1>,<line2>CoffeeCompile
 let g:syntastic_cpp_compiler_options = ' -std=c++0x'
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_rust_checkers = ['cargo', 'clippy']
 let g:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
 let g:syntastic_javascript_flow_exec = 'node_modules/.bin/flow'
+let g:syntastic_always_populate_loc_list = 1
+" This pops up every time
+" let g:syntastic_auto_loc_list = 1
 
 " git gutter
 let g:gitgutter_realtime = 0
@@ -272,7 +283,16 @@ if exists(':Vertical')
 end
 
 " vim-flow
-nmap <silent> ,ft :FlowType<cr>
+let g:flow#flowpath = 'node_modules/.bin/flow'
+autocmd FileType javascript nmap <buffer> <silent> ,ft :FlowType<cr>
+
+" psc-ide-vim
+autocmd FileType purescript nmap <buffer> <silent> ,ft :PSCIDEtype<cr>
+autocmd FileType purescript nmap <buffer> <silent> ,fg :PSCIDEgoToDefinition<cr>
+autocmd FileType purescript nmap <buffer> <silent> ,fi :PSCIDEimportIdentifier<cr>
+autocmd FileType purescript nmap <buffer> <silent> ,fa :PSCIDEaddTypeAnnotation<cr>
+autocmd FileType purescript nmap <buffer> <silent> ,fs :PSCIDEapplySuggestion<cr>
+autocmd FileType purescript nmap <buffer> <silent> ,fr :PSCIDEload<cr>
 
 " neco-ghc
 let g:haskellmode_completion_ghc = 0
@@ -292,7 +312,7 @@ else
   colorscheme default
 endif
 
-if has("gui_gtk2")
+if has("gui_gtk")
   set guifont=Hack\ 10
 else
   set guifont=Hack:h13
@@ -340,6 +360,17 @@ function! SynStack()
         return
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+function! ProfileStart()
+  profile start vim-profile.log
+  profile func *
+  profile file *
+endfunc
+
+function! ProfileEnd()
+  profile pause
+  echo 'You must quit vim for profiling to be written to disk'
 endfunc
 
 " --- }}}

@@ -26,3 +26,7 @@ zle -N fzf-executable-widget
 bindkey '^X' fzf-executable-widget
 
 source-if-exists ~/.fzf.zsh
+
+function reset {
+  command reset && source ~/.zshrc
+}

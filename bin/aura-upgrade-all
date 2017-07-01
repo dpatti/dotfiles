@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+aura -Syu
+aura -Aux --noconfirm
