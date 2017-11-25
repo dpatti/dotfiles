@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+xmodmap -e 'keycode 65 = space NoSymbol space'
+xmodmap -e 'keycode 49 = grave asciitilde grave asciitilde'
+pkill xcape

@@ -1,1 +1,5 @@
 xset r rate 200 40
+
+# Set left-win as the compose key
+# Note this must happen *before* xmodmap
+setxkbmap -option compose:lwin

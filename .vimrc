@@ -177,7 +177,7 @@ Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 Plug '887/cargo.vim'
-Plug 'chr4/sslsecure.vim'
+" Plug 'chr4/sslsecure.vim'
 
 " Tools
 Plug 'mileszs/ack.vim'

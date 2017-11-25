@@ -27,10 +27,6 @@ runfiles xrdb -merge <<RESOURCES
   $HOME/.Xresources
 RESOURCES
 
-# Set left-win as the compose key
-# Note this must happen *before* xmodmap
-setxkbmap -option compose:lwin
-
 runfiles xmodmap <<MODMAPS
   /etc/X11/xinit/.Xmodmap
   $HOME/.Xmodmap
@@ -38,9 +34,7 @@ MODMAPS
 
 echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
-# exec i3
+urxvtd --quiet --opendisplay --fork
 cbatticon &
 dropbox &
-xscreensaver &
-# shutter --min_at_startup &
-exec fluxbox
+exec xmonad

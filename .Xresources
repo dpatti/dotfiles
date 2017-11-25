@@ -48,3 +48,35 @@
 *.color20:      base04
 *.color21:      base06
 
+URxvt.font: xft:Hack:style=Regular:size=10:antialias=true:hinting=true
+URxvt.iso14755: false
+! nicer scrollback
+URxvt.scrollstyle: plain
+! copy/paste
+URxvt.keysym.C-S-C: eval:selection_to_clipboard
+URxvt.keysym.C-S-V: eval:paste_clipboard
+! missing escape codes I was used to
+URxvt.keysym.Control-Up:    \033[1;5A
+URxvt.keysym.Control-Down:  \033[1;5B
+URxvt.keysym.Control-Left:  \033[1;5D
+URxvt.keysym.Control-Right: \033[1;5C
+! less aggressive paging
+URxvt.keysym.Shift-Up:      command:\033]720;10\007
+URxvt.keysym.Shift-Down:    command:\033]721;10\007
+! history
+URxvt.saveLines: 65535
+! autoscroll behavior
+URxvt.scrollTtyOutput: False
+URxvt.scrollWithBuffer: True
+URxvt.scrollTtyKeypress: True
+! confirm paste to prevent multiline pastes
+URxvt.perl-ext: default,confirm-paste
+
+! for when there is no urxvt
+XTerm*faceName: Hack:style=Regular:size=10:antialias=true:hinting=true
+XTerm*SaveLines: 20000
+XTerm*Translations: #override \
+  Shift Ctrl <Key>C: copy-selection(CLIPBOARD)\n \
+  Shift Ctrl <Key>V: insert-selection(CLIPBOARD)\n
+XTerm*highlightColorMode: true
+XTerm*scrollTtyOutput: false

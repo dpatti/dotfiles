@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+xmodmap -e 'keycode 65 = Mode_switch NoSymbol Mode_switch'
+xmodmap -e 'keycode 49 = BackSpace asciitilde grave asciitilde'
+xcape -e 'Mode_switch=space'
