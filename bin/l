@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+# For easy directory probing -- combines ls and less depending on the argument
+if [ $# -eq 0 ]; then
+  ls -a
+elif [ -d "$1" ]; then
+  ls -a "$1"
+elif [ -f "$1" ]; then
+  less "$1"
+else
+  echo "Not a directory or file: $1" >&2
+  exit 1
+fi

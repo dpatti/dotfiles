@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+grep -v '^\s*$' | nl | { echo "plot '-'"; cat; echo e; } | gnuplot -persist

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if command -v xclip > /dev/null; then
+  copy=(xclip -selection clipboard -in)
+  paste=(xclip -selection clipboard -out)
+elif command -v pbcopy > /dev/null; then
+  copy=(pbcopy)
+  paste=(pbpaste)
+else
+  echo "cb: no clipboard interface available" >&2
+  return 1
+fi
+
+if [ ! -t 0 ]; then
+  "${copy[@]}"
+else
+  "${paste[@]}"
+fi

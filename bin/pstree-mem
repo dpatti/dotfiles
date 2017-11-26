@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <PID>" >&2
+  exit 1
+fi
+
+pid=$1
+
+{
+  echo "$pid"
+  ps h --ppid "$pid" -o pid
+} | xargs -i% cat /proc/%/smaps 2>/dev/null \
+  | grep Pss \
+  | awk '{ s += $2 } END { print s / 1024 "M" }'

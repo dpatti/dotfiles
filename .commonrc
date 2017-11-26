@@ -8,7 +8,7 @@ alias qgit='git'
 alias each='for i in $(cat);'
 alias sc='sudo systemctl'
 alias scu='systemctl --user'
-
+alias ag='ag --smart-case --follow --pager=less'
 alias be='bundle exec'
 
 # Default LESS parameters
@@ -33,6 +33,10 @@ function source-if-exists {
   [ -f $1 ] && source $1
 }
 
+function is-on-path {
+  command "$1" 2>/dev/null
+}
+
 # PATH augmentation
 function prepend-path {
   [ -d $1 ] && case ":${PATH:=$1}:" in
@@ -47,52 +51,22 @@ prepend-path /usr/local/heroku/bin
 prepend-path $HOME/.yarn/bin
 
 # Language managers
-eval "$(rbenv init -)"
-eval "$(nodenv init -)"
+is-on-path rbenv && eval "$(rbenv init -)"
+is-on-path rbenv && eval "$(nodenv init -)"
 
 # Colorscheme
 export BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
 source-if-exists $BASE16_SHELL
 
-# For easy directory probing -- combines ls and less depending on the argument
-unalias l 2> /dev/null
-function l {
-  if [ $# -eq 0 ]; then
-    ls -a
-  elif [ -d "$1" ]; then
-    ls -a "$1"
-  elif [ -f "$1" ]; then
-    less "$1"
-  else
-    echo "Not a directory or file: $1" >&2
-    return 1
-  fi
-}
-
+# Note to self: if the function you're writing does not have to be run at the
+# shell, consider putting it in bin/ instead.
 function pkp {
   ps -ef | fzf --multi --header-lines=1 | awk '{ print $2 }' | xargs -t kill "$@"
 }
 
-function cb {
-  if command -v xclip > /dev/null; then
-    local copy=(xclip -selection clip-board -in)
-    local paste=(xclip -selection clip-board -out)
-  elif command -v pbcopy > /dev/null; then
-    local copy=(pbcopy)
-    local paste=(pbpaste)
-  else
-    echo "cb: no clipboard interface available" >&2
-    return -1
-  fi
+function words { xargs -n1 echo; }
+function unwords { xargs echo; }
 
-  if [ ! -t 0 ]; then
-    "${copy[@]}"
-  else
-    "${paste[@]}"
-  fi
-}
-
-# This enables gnome-terminal to open a new tab in the same window
-source-if-exists /etc/profile.d/vte.sh
+function reorient { cd "$(readlink -f .)"; }
 
 source-if-exists $HOME/.commonrc.local

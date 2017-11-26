@@ -3,8 +3,11 @@ set nocompatible        " Disable vi compatability
 set ffs=unix            " File format prefer unix endings
 set eol                 " Add newline at end of file
 set shellslash          " Use forward slashes for file names
-set vb                  " Visual bell instead of beep
-set nobk                " Do not use backup files
+set visualbell          " Visual bell instead of beep
+set nobackup            " Do not use backup files
+set noswapfile          " Do not use swap files
+set undodir=~/.vim/tmp/undo
+set undofile
 set formatoptions=croql " Format options: wrap (c)omments at textwidth, insert comment leade(r), and unknown
 set textwidth=80        " 80 characters wide
 set hidden              " Allow unsaved buffers to be hidden
@@ -17,11 +20,13 @@ set timeoutlen=500      " Timeout for remaps
 set ttimeoutlen=10      " Timeout for escape sequences
 set history=100         " Keep some stuff in the history
 set mousehide           " Hide the mouse pointer while typing
-set scrolloff=8         " Always keep cursor 8 lines from edge
+set scrolloff=8         " Always keep cursor 8 lines from vertical edge
+set sidescrolloff=3     " Always keep cursor 3 lines from horizontal edge
 set virtualedit=all     " Allow the cursor to go to invalid places
 set synmaxcol=1024      " Disable coloring on long lines (helps with large files)
 set cul                 " Highlight current line
 set nowrap              " Disable wrapping by default
+set linebreak           " Wrap lines at a nice character
 set backspace=2         " Allow backspace over indent, eol, and start of insert
 set cpoptions+=$        " Change commands will display a $ to mark end of changed text
 set hlsearch            " Search highlights
@@ -34,11 +39,16 @@ set hls                 " Highlight search
 set nojoinspaces        " Joining or formatting lines will not add two spaces after a period
 set autoread            " Automatically load files that change if they haven't changed in vim
 set shortmess+=c        " No completion menu errors as you're typing
+set pumheight=10        " Show no more than 10 items in the popup window
+set completeopt+=menuone " Show completion popup even if there is one suggestion
 set lazyredraw
 set ttyfast
 set display+=lastline   " Shows partial lines instead of @@@@
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set autoindent
+set viminfo+=%          " save buffer list on exit
+set nostartofline       " movement keys don't also move your cursor to start of line (G, C-D, etc)
+set report=0            " report how many lines a : command changes
 syntax on               " Turn on syntax highlighting
 
 " Suffixes to de-prioritize
@@ -65,12 +75,12 @@ filetype plugin indent on
 let mapleader=","       " Set the <Leader> key to comma
 
 " Moving between wrapped lines
-nnoremap k gk
-nnoremap j gj
+nnoremap <silent> k gk
+nnoremap <silent> j gj
 
 " Indent modification keeps visual mode
-vnoremap > >gv
-vnoremap < <gv
+vnoremap <silent> > >gv
+vnoremap <silent> < <gv
 
 " Mappings for easy toggle between 2 and 4 depending on document
 nmap <silent> ,2 :set tabstop=2 softtabstop=2 shiftwidth=2<cr>
@@ -94,6 +104,9 @@ nmap <silent> ,w :set invwrap<cr>:set wrap?<cr>
 
 " Toggle paste mode
 nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
+
+" Toggle text wrap
+nmap <silent> ,t :if stridx(&fo, 't') == -1 \| set fo+=t \| else \| set fo-=t \| endif<cr>:set fo?
 
 " Turn off higlight search
 nmap <silent> ,n :set invhls<cr>:set hls?<cr>
@@ -132,6 +145,10 @@ nmap <silent> ,do :diffo!<cr>:windo set nowrap foldmethod=marker<cr>
 nmap <silent> ,fm :set foldmethod=marker<cr>
 nmap <silent> ,fi :set foldmethod=indent<cr>
 
+" lookup keyword is almost never used, invert J instead
+nnoremap K i<CR><Esc>k$
+vunmap K
+
 " Alt-Space is System menu
 if has("gui")
   noremap <M-Space> :simalt ~<CR>
@@ -142,6 +159,10 @@ endif
 " Slide cursor to the next/previous line of the same indent level
 nnoremap <silent> <C-K> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
 nnoremap <silent> <C-J> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
+
+" Tabs
+nnoremap <silent> <A-[> :tabprevious<CR>
+nnoremap <silent> <A-]> :tabnext<CR>
 " --- }}}
 
 " --- Plugin config ---------------------------------------------------------{{{
@@ -180,8 +201,11 @@ Plug '887/cargo.vim'
 " Plug 'chr4/sslsecure.vim'
 
 " Tools
+Plug 'mhinz/vim-startify'
 Plug 'mileszs/ack.vim'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mhinz/vim-startify'
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
@@ -192,6 +216,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'rbong/vim-vertical'
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
+Plug 'sjl/gundo.vim'
+Plug 'ConradIrwin/vim-bracketed-paste'
 
 " Visual
 Plug 'nathanaelkane/vim-indent-guides'
@@ -202,6 +228,28 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'chriskempson/base16-vim'
 call plug#end()
+
+" startify
+let g:startify_list_order = [
+      \ ['Most recently used'],
+      \ 'dir',
+      \ ['Bookmarks'],
+      \ 'bookmarks',
+      \ ['Sessions'],
+      \ 'sessions',
+      \ ['Commands'],
+      \ 'commands',
+      \ ]
+let g:startify_commands = [
+      \ {'l': ['project tree', 'e .']}
+      \ ]
+let g:startify_custom_header = [getcwd()]
+let g:startify_change_to_dir = 0
+nnoremap <silent> ~ :Startify<CR>
+
+" vim-altr
+nmap <leader>a <Plug>(altr-forward)
+
 
 " vim-javascript
 let g:javascript_plugin_flow = 1
@@ -232,10 +280,11 @@ let g:syntastic_always_populate_loc_list = 1
 
 " git gutter
 let g:gitgutter_realtime = 0
+let g:gitgutter_map_keys = 0
 nmap <silent> ,m :GitGutterNextHunk<CR>
 nmap <silent> ,M :GitGutterPrevHunk<CR>
 
-" NERD Tree Plugin
+" NERD Tree
 nmap <F7> :NERDTreeToggle<CR>
 
 " Powerline
@@ -260,9 +309,12 @@ let g:indent_guides_guide_size = 2
 hi IndentGuidesOdd guibg=#1a1a1a ctermbg=NONE
 hi IndentGuidesEven guibg=#151515 ctermbg=NONE
 
-" Ctrl+P
-let g:ctrlp_custom_ignore = 'node_modules'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+" fzf.vim
+let g:fzf_command_prefix = 'Fzf'
+let g:fzf_layout = { 'down': '~40%' }
+let g:fzf_launcher = 'urxvt -fn "xft:Bitstream Vera Sans Mono:pixelsize=18" -title FZF +sb -bg bla
+nnoremap <silent> <C-P> :FzfJane<CR>
+nnoremap <silent> <C-B> :FzfBuffers<CR>
 
 " ycm
 let g:ycm_semantic_triggers = {'haskell': ['re!.']}
@@ -281,6 +333,9 @@ if exists(':Vertical')
   nnoremap <silent> <C-K> :Vertical b<CR>
   nnoremap <silent> <C-J> :Vertical f<CR>
 end
+
+" vim-surround
+vmap s S
 
 " vim-flow
 let g:flow#flowpath = 'node_modules/.bin/flow'
@@ -319,6 +374,12 @@ else
 endif
 
 set colorcolumn=81,121
+
+augroup whitespace
+  au!
+  au InsertEnter * if exists('w:m_trailing') | try | call matchdelete(w:m_trailing) | finally | unlet w:m_trailing | endtry | endif
+  au InsertLeave * if !exists('w:m_trailing') | let w:m_trailing=matchadd('Error', '\s\+$', -1) | endif
+augroup end
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{

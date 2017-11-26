@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+function now_ns { date +%s.%N; }
+
+start=$(now_ns)
+
+"$@" | while read -r line; do
+  diff=$(bc <<< "$(now_ns) - $start")
+  printf "[%0.2f] %s\n" "$diff" "$line"
+done

@@ -11,7 +11,7 @@ unsetopt share_history
 bindkey '^U' backward-kill-line
 
 fzf-git-branch-widget() {
-LBUFFER="${LBUFFER}$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf)"
+  LBUFFER="${LBUFFER}$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf)"
   zle redisplay
 }
 zle -N fzf-git-branch-widget

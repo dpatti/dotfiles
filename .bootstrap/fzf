@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Doesn't actually install fzf, just links the scripts
+cp /usr/share/fzf/key-bindings.bash ~/.fzf.bash
+cp /usr/share/fzf/key-bindings.zsh ~/.fzf.zsh

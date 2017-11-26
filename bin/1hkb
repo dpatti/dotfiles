@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# space to special modifier
 xmodmap -e 'keycode 65 = Mode_switch NoSymbol Mode_switch'
+# tilde is backspace by default now
 xmodmap -e 'keycode 49 = BackSpace asciitilde grave asciitilde'
+# tapping space still prints a space
 xcape -e 'Mode_switch=space'
