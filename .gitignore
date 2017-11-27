@@ -2,4 +2,6 @@
 !/bin
 !/.bootstrap
 !/.vim
+/.vim/autoload/plug.vim.old
 /.vim/bundle
+/.vim/tmp

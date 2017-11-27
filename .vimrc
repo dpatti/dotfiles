@@ -41,6 +41,7 @@ set autoread            " Automatically load files that change if they haven't c
 set shortmess+=c        " No completion menu errors as you're typing
 set pumheight=10        " Show no more than 10 items in the popup window
 set completeopt+=menuone " Show completion popup even if there is one suggestion
+set completeopt+=noselect " Don't select, just pop up
 set lazyredraw
 set ttyfast
 set display+=lastline   " Shows partial lines instead of @@@@
@@ -106,7 +107,7 @@ nmap <silent> ,w :set invwrap<cr>:set wrap?<cr>
 nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
 
 " Toggle text wrap
-nmap <silent> ,t :if stridx(&fo, 't') == -1 \| set fo+=t \| else \| set fo-=t \| endif<cr>:set fo?
+nmap <silent> ,t :if stridx(&fo, 't') == -1 \| set fo+=t \| else \| set fo-=t \| endif<cr>:set fo?<cr>
 
 " Turn off higlight search
 nmap <silent> ,n :set invhls<cr>:set hls?<cr>
@@ -147,7 +148,6 @@ nmap <silent> ,fi :set foldmethod=indent<cr>
 
 " lookup keyword is almost never used, invert J instead
 nnoremap K i<CR><Esc>k$
-vunmap K
 
 " Alt-Space is System menu
 if has("gui")
@@ -187,6 +187,7 @@ Plug 'tpope/vim-bundler'
 " Haskell
 Plug 'neovimhaskell/haskell-vim'
 Plug 'eagletmt/neco-ghc'
+Plug 'eagletmt/ghcmod-vim'
 " Misc
 Plug 'tpope/vim-git'
 Plug 'groenewege/vim-less'
@@ -209,7 +210,15 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"Plug 'ervandew/supertab'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
@@ -218,6 +227,7 @@ Plug 'rbong/vim-vertical'
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
 Plug 'sjl/gundo.vim'
 Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'w0rp/ale'
 
 " Visual
 Plug 'nathanaelkane/vim-indent-guides'
@@ -225,9 +235,16 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'chriskempson/base16-vim'
 call plug#end()
+
+" ale
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_linters = {
+      \ 'haskell': ['ghc-mod', 'hdevtools', 'hlint']
+      \}
 
 " startify
 let g:startify_list_order = [
@@ -312,12 +329,17 @@ hi IndentGuidesEven guibg=#151515 ctermbg=NONE
 " fzf.vim
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~40%' }
-let g:fzf_launcher = 'urxvt -fn "xft:Bitstream Vera Sans Mono:pixelsize=18" -title FZF +sb -bg bla
-nnoremap <silent> <C-P> :FzfJane<CR>
+let g:fzf_launcher = 'urxvtc -fn "xft:Bitstream Vera Sans Mono:pixelsize=18" -title FZF +sb -bg black -fg lightgray -geometry 120x30 -e bash -ic %s'
+nnoremap <silent> <C-P> :FzfFiles<CR>
 nnoremap <silent> <C-B> :FzfBuffers<CR>
 
-" ycm
-let g:ycm_semantic_triggers = {'haskell': ['re!.']}
+" deoplete
+let g:deoplete#enable_at_startup = 1
+
+" supertab
+let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabContextDefaultCompletionType = '<c-n>'
+let g:SuperTabLongestHighlight = 0
 
 " bufkill
 nnoremap <silent> <Leader>bd :BD<CR>
@@ -352,6 +374,7 @@ autocmd FileType purescript nmap <buffer> <silent> ,fr :PSCIDEload<cr>
 " neco-ghc
 let g:haskellmode_completion_ghc = 0
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+autocmd FileType haskell nmap <buffer> <silent> ,ft :GhcModType<cr>
 
 " --- }}}
 
