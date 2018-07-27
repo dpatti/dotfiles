@@ -186,8 +186,13 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-bundler'
 " Haskell
 Plug 'neovimhaskell/haskell-vim'
+" I really don't know what works. I'm kind of holding out for
+" https://github.com/w0rp/ale/issues/1578
+if 0
 Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/ghcmod-vim'
+Plug 'bitc/vim-hdevtools'
+endif
 " Misc
 Plug 'tpope/vim-git'
 Plug 'groenewege/vim-less'
@@ -199,7 +204,6 @@ Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 Plug '887/cargo.vim'
-" Plug 'chr4/sslsecure.vim'
 
 " Tools
 Plug 'mhinz/vim-startify'
@@ -210,7 +214,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -232,7 +235,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
-"Plug 'scrooloose/syntastic'
 Plug 'chriskempson/base16-vim'
 call plug#end()
 
@@ -378,12 +380,6 @@ autocmd FileType purescript nmap <buffer> <silent> ,fi :PSCIDEimportIdentifier<c
 autocmd FileType purescript nmap <buffer> <silent> ,fa :PSCIDEaddTypeAnnotation<cr>
 autocmd FileType purescript nmap <buffer> <silent> ,fs :PSCIDEapplySuggestion<cr>
 autocmd FileType purescript nmap <buffer> <silent> ,fr :PSCIDEload<cr>
-
-" neco-ghc
-let g:haskellmode_completion_ghc = 0
-let g:necoghc_enable_detailed_browse = 1
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-autocmd FileType haskell nmap <buffer> <silent> ,ft :HdevtoolsType<cr>
 
 " --- }}}
 
