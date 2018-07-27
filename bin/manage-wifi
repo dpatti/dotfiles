@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$USER" != "root" ]; then
+  echo "Must be root to run" >&2
+  exit 1
+fi
+
+if [ -z "${EDITOR:-}" ]; then
+  echo "Use \`sudo -E\` to preserve \$EDITOR" >&2
+  exit 1
+fi
+
+function pick-profile {
+  netctl list | sed -s 's/^\s*//' | fzf
+}
+
+profile=${1:-$(pick-profile)}
+
+if [ -z "$profile" ]; then
+  exit 1
+fi
+
+root=/etc/netctl
+path="$root/$profile"
+
+function profile {
+  cat <<EOF
+Description='Automatically generated profile by add-wifi'
+Interface=wlp3s0
+Connection=wireless
+IP=dhcp
+
+Security=wpa
+ESSID=
+Key=
+EOF
+}
+
+if [ ! -f "$path" ]; then
+  profile | tee "$path" > /dev/null
+fi
+
+before=$(md5sum "$path")
+if "$EDITOR" "$path" && [ "$before" != "$(md5sum "$path")" ]; then
+  echo "Restarting netctl-auto..."
+  systemctl restart netctl-auto@wlp3s0
+else
+  echo "No changes detected"
+fi

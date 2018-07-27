@@ -10,6 +10,8 @@ alias sc='sudo systemctl'
 alias scu='systemctl --user'
 alias ag='ag --smart-case --follow --pager=less'
 alias be='bundle exec'
+alias vi='nvim'
+alias vim='nvim'
 
 # Default LESS parameters
 export LESS="\
@@ -34,7 +36,7 @@ function source-if-exists {
 }
 
 function is-on-path {
-  command "$1" 2>/dev/null
+  command -v "$1" >& /dev/null
 }
 
 # PATH augmentation
@@ -52,7 +54,7 @@ prepend-path $HOME/.yarn/bin
 
 # Language managers
 is-on-path rbenv && eval "$(rbenv init -)"
-is-on-path rbenv && eval "$(nodenv init -)"
+is-on-path nodenv && eval "$(nodenv init -)"
 
 # Colorscheme
 export BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"

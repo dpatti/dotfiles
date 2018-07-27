@@ -16,7 +16,7 @@ defaultLayout = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 
 layout = defaultLayout ||| reflectVert (Mirror defaultLayout) ||| simpleTabbed
 
 launcherKeys =
-  [ ("M-S-l", spawn "xscreensaver-command -lock")
+  [ ("M-S-l", spawn "slock")
   ]
 
 volumeKeys =

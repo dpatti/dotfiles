@@ -211,13 +211,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-"Plug 'ervandew/supertab'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'ervandew/supertab'
 endif
 Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-eunuch'
@@ -243,7 +240,7 @@ call plug#end()
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_linters = {
-      \ 'haskell': ['ghc-mod', 'hdevtools', 'hlint']
+      \ 'haskell': ['hdevtools', 'hlint', 'stack-build']
       \}
 
 " startify
@@ -335,6 +332,17 @@ nnoremap <silent> <C-B> :FzfBuffers<CR>
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#max_abbr_width = 0
+let g:deoplete#max_menu_width = 0
+" tab to complete
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
 
 " supertab
 let g:SuperTabDefaultCompletionType = 'context'
@@ -373,8 +381,9 @@ autocmd FileType purescript nmap <buffer> <silent> ,fr :PSCIDEload<cr>
 
 " neco-ghc
 let g:haskellmode_completion_ghc = 0
+let g:necoghc_enable_detailed_browse = 1
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-autocmd FileType haskell nmap <buffer> <silent> ,ft :GhcModType<cr>
+autocmd FileType haskell nmap <buffer> <silent> ,ft :HdevtoolsType<cr>
 
 " --- }}}
 

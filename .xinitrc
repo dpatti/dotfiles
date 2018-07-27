@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-function isfile { [ -f $1 ]; }
+function isfile { [ -f "$1" ]; }
 function filter {
   while read -r i; do
     if "$@" "$i"; then
@@ -37,4 +37,5 @@ echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 urxvtd --quiet --opendisplay --fork
 cbatticon &
 dropbox &
+xmonad --recompile
 exec xmonad

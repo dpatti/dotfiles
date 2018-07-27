@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
+set -xeuo pipefail
 
-aura -Syu
-aura -Aux --noconfirm
+# pacman -Qtdq
+# (aura prints errors to stdout, so I don't use it here)
+unused=$(pacman --query --unrequired --deps --quiet || true)
+
+if [ -n "$unused" ]; then
+  aura --remove --nosave --recursive $unused
+else
+  echo "No orphan packages to remove"
+fi
+
+# aura -Syu
+aura --sync --refresh --sysupgrade
+
+# aura -Aux --noconfirm
+aura --aursync --sysupgrade --unsuppress --noconfirm
