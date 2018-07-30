@@ -55,6 +55,7 @@ prepend-path $HOME/.yarn/bin
 # Language managers
 is-on-path rbenv && eval "$(rbenv init -)"
 is-on-path nodenv && eval "$(nodenv init -)"
+is-on-path opam && eval "$(opam config env)"
 
 # Colorscheme
 export BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"

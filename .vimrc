@@ -193,6 +193,9 @@ Plug 'eagletmt/neco-ghc'
 Plug 'eagletmt/ghcmod-vim'
 Plug 'bitc/vim-hdevtools'
 endif
+" Ocaml
+Plug 'ocaml/merlin', { 'rtp': 'vim/merlin' }
+Plug 'copy/deoplete-ocaml'
 " Misc
 Plug 'tpope/vim-git'
 Plug 'groenewege/vim-less'
