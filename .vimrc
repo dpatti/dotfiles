@@ -26,7 +26,7 @@ set virtualedit=all     " Allow the cursor to go to invalid places
 set synmaxcol=1024      " Disable coloring on long lines (helps with large files)
 set cul                 " Highlight current line
 set nowrap              " Disable wrapping by default
-set linebreak           " Wrap lines at a nice character
+set linebreak           " Try to break at a nice character
 set backspace=2         " Allow backspace over indent, eol, and start of insert
 set cpoptions+=$        " Change commands will display a $ to mark end of changed text
 set hlsearch            " Search highlights
@@ -42,6 +42,7 @@ set shortmess+=c        " No completion menu errors as you're typing
 set pumheight=10        " Show no more than 10 items in the popup window
 set completeopt+=menuone " Show completion popup even if there is one suggestion
 set completeopt+=noselect " Don't select, just pop up
+set completeopt-=preview  " Don't open preview window
 set lazyredraw
 set ttyfast
 set display+=lastline   " Shows partial lines instead of @@@@
@@ -211,7 +212,6 @@ Plug '887/cargo.vim'
 " Tools
 Plug 'mhinz/vim-startify'
 Plug 'mileszs/ack.vim'
-Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
@@ -231,6 +231,8 @@ Plug 'shougo/vimproc.vim', { 'do': 'make' }
 Plug 'sjl/gundo.vim'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'w0rp/ale'
+Plug 'kana/vim-altr'
+Plug 'godlygeek/tabular'
 
 " Visual
 Plug 'nathanaelkane/vim-indent-guides'
@@ -269,7 +271,6 @@ nnoremap <silent> ~ :Startify<CR>
 " vim-altr
 nmap <leader>a <Plug>(altr-forward)
 
-
 " vim-javascript
 let g:javascript_plugin_flow = 1
 
@@ -305,6 +306,7 @@ nmap <silent> ,M :GitGutterPrevHunk<CR>
 
 " NERD Tree
 nmap <F7> :NERDTreeToggle<CR>
+let NERDTreeRespectWildIgnore = 1
 
 " Powerline
 let g:airline_section_y = '0x%02B'
@@ -364,10 +366,8 @@ let g:multi_cursor_exit_from_visual_mode = 0
 let g:multi_cursor_exit_from_insert_mode = 1
 
 " vim-vertical (overwrites C-K and C-J above)
-if exists(':Vertical')
-  nnoremap <silent> <C-K> :Vertical b<CR>
-  nnoremap <silent> <C-J> :Vertical f<CR>
-end
+nnoremap <silent> <C-K> :Vertical b<CR>
+nnoremap <silent> <C-J> :Vertical f<CR>
 
 " vim-surround
 vmap s S

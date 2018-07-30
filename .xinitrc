@@ -1,10 +1,10 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 function isfile { [ -f "$1" ]; }
 function filter {
   while read -r i; do
     if "$@" "$i"; then
-      echo $i
+      echo "$i"
     fi
   done
 }
