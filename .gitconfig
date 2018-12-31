@@ -134,7 +134,6 @@ whitespace = fix
 [core]
 excludesfile = ~/.gitignore_global
 autocrlf = input
-editor = vim
 filemode = false
 pager = diff-highlight | less
 

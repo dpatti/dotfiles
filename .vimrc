@@ -247,7 +247,7 @@ call plug#end()
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_linters = {
-      \ 'haskell': ['hdevtools', 'hlint', 'stack-build']
+      \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build']
       \}
 
 " startify
@@ -383,6 +383,12 @@ autocmd FileType purescript nmap <buffer> <silent> ,fi :PSCIDEimportIdentifier<c
 autocmd FileType purescript nmap <buffer> <silent> ,fa :PSCIDEaddTypeAnnotation<cr>
 autocmd FileType purescript nmap <buffer> <silent> ,fs :PSCIDEapplySuggestion<cr>
 autocmd FileType purescript nmap <buffer> <silent> ,fr :PSCIDEload<cr>
+
+" gundo
+if has('python3')
+  let g:gundo_prefer_python3 = 1
+endif
+nnoremap <silent> ,gu :GundoToggle<CR>
 
 " --- }}}
 

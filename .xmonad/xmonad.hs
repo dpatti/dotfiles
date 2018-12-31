@@ -9,7 +9,7 @@ import XMonad.Util.EZConfig (additionalKeys, additionalKeysP, removeKeysP)
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Config.Desktop
 import System.IO (hPutStrLn)
-import System.Exit (exitWith, ExitCode(..))
+import System.Exit (exitSuccess)
 
 defaultLayout = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 1/2 }
 
@@ -31,8 +31,9 @@ incMasterKeys =
   ]
 
 quitKeys =
-  [ ("M-C-S-q", io (exitWith ExitSuccess))
+  [ ("M-C-S-q", io exitSuccess)
   ]
+
 main = do
   xmobar <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
   xmonad . fullscreenSupport . docks $ desktopConfig
@@ -40,6 +41,7 @@ main = do
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmobar
       , ppTitle = xmobarColor "green" "" . shorten 50
+      , ppOrder = take 1
       }
     , focusFollowsMouse = False
     , clickJustFocuses = False

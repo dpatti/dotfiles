@@ -4,6 +4,7 @@ source ~/.commonrc
 
 alias -g L='|& less'
 alias -g .log='$(git log --reverse --pretty=oneline --abbrev-commit -20 | fzf +s --prompt="fixup> " | awk ''{ print $1 }'')'
+alias s='source ~/.zshrc'
 
 unsetopt nomatch
 unsetopt share_history

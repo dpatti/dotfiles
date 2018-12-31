@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# I feel like I should be using `-euo pipefail`, but I also need to figure out
+# how to get errors to bubble or be logged somewhere instead of just ending the
+# X session.
+
 function isfile { [ -f "$1" ]; }
 function filter {
   while read -r i; do
@@ -34,8 +38,7 @@ MODMAPS
 
 echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
+twmnd &
 urxvtd --quiet --opendisplay --fork
-cbatticon &
-dropbox &
 xmonad --recompile
 exec xmonad

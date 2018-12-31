@@ -9,21 +9,18 @@ Config
   , commands =
       [ Run Network "wlp3s0" ["-L","0","-H","128000","--high","orange"] 10
       , Run Wireless "wlp3s0" ["-L", "50", "-H", "80", "--low", "red"] 10
-      , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
-      , Run Memory ["-t","Mem: <usedratio>%"] 10
-      , Run Swap ["-H", "75", "--high", "red"] 10
+      , Run Cpu ["-L","20","-H","50","--normal","green","--high","red"] 10
+      , Run Memory ["-t","Mem: <available>M", "-L", "500", "-H", "1000", "--low", "red", "--normal", "orange"] 10
+      , Run Swap ["-t","Swap: <usedratio>%", "-L", "50", "-H", "75", "--normal", "orange", "--high", "red"] 10
       , Run Date "%a %b %_d %H:%M" "date" 10
       , Run StdinReader
-      , Run Battery [
-        "-t", "<acstatus>: <watts>, <left>% (<timeleft>)",
-        "--",
-        "-O", "AC",
-        "-o", "Bat",
-        "-h", "red",
-        "-m", "yellow",
-        "-l", "green",
-        "-p", "blue"
-        ] 10
+      , Run Battery
+          [ "-t", "<left>% (<timeleft>) | <acstatus>: <watts>W"
+          , "-L", "10", "-H", "25", "--low", "red", "--normal", "orange"
+          , "--"
+          , "-O", "AC"
+          , "-o", "Bat"
+          ] 10
       ]
   , sepChar = "%"
   , alignSep = "}{"

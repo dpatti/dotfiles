@@ -5,7 +5,8 @@ alias ls='ls -v --classify --group-directories-first --color=auto'
 alias ll='ls -l --all --human-readable'
 alias cgrep='grep --color --binary-files=without-match --line-number --exclude=*.orig'
 alias qgit='git'
-alias each='for i in $(cat);'
+alias each-word='for __ in $(cat);'
+alias each-line='while read -r __ || [ -n "$__" ];'
 alias sc='sudo systemctl'
 alias scu='systemctl --user'
 alias ag='ag --smart-case --follow --pager=less'
@@ -28,8 +29,8 @@ export LESS="\
 export HISTSIZE=10000
 
 # Editor
-export VISUAL=vim
-export EDITOR=vim
+export VISUAL=nvim
+export EDITOR=nvim
 
 function source-if-exists {
   [ -f $1 ] && source $1
