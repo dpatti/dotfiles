@@ -42,7 +42,7 @@ set shortmess+=c        " No completion menu errors as you're typing
 set pumheight=10        " Show no more than 10 items in the popup window
 set completeopt+=menuone " Show completion popup even if there is one suggestion
 set completeopt+=noselect " Don't select, just pop up
-set completeopt-=preview  " Don't open preview window
+set completeopt-=preview  " Don't show preview window
 set lazyredraw
 set ttyfast
 set display+=lastline   " Shows partial lines instead of @@@@
@@ -52,6 +52,9 @@ set viminfo+=%          " save buffer list on exit
 set nostartofline       " movement keys don't also move your cursor to start of line (G, C-D, etc)
 set report=0            " report how many lines a : command changes
 syntax on               " Turn on syntax highlighting
+
+set comments-=n:>       " > is not a comment
+set comments+=b:>       " okay it kind of is, but only when there's a space after (i don't think 'n' works with 'b')
 
 " Suffixes to de-prioritize
 set suffixes+=.pyc      " Python compiled
@@ -89,10 +92,12 @@ nmap <silent> ,2 :set tabstop=2 softtabstop=2 shiftwidth=2<cr>
 nmap <silent> ,4 :set tabstop=4 softtabstop=4 shiftwidth=4<cr>
 
 " Use Ctrl+C and Ctrl+V to copy/paste in their respective modes
-vnoremap <C-X> "+x
-vnoremap <C-C> "+y
-inoremap <C-V> <C-O>"+gP
-cnoremap <C-V> <C-R>+
+if has("clipboard")
+  vnoremap <C-X> "+x
+  vnoremap <C-C> "+y
+  inoremap <C-V> <C-O>"+gP
+  cnoremap <C-V> <C-R>+
+endif
 
 " Remap the old C-V in insert mode (escape sequence)
 " inoremap <C-S-V> <C-V>
@@ -100,6 +105,9 @@ cnoremap <C-V> <C-R>+
 " Let's make it easy to edit/source this file ('e'dit 'v'imrc)
 nmap <silent> ,ev :e $HOME/.vimrc<cr>
 nmap <silent> ,sv :so $HOME/.vimrc<cr>
+
+" Edit directory of current file
+nmap <silent> ,ed :e %:h<cr>
 
 " Set text wrapping toggles
 nmap <silent> ,w :set invwrap<cr>:set wrap?<cr>
@@ -195,6 +203,7 @@ Plug 'eagletmt/ghcmod-vim'
 Plug 'bitc/vim-hdevtools'
 endif
 " Ocaml
+Plug 'ocaml/vim-ocaml'
 Plug 'ocaml/merlin', { 'rtp': 'vim/merlin' }
 Plug 'copy/deoplete-ocaml'
 " Misc
@@ -224,7 +233,7 @@ else
 endif
 Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-commentary'
+Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-endwise'
 Plug 'rbong/vim-vertical'
 Plug 'shougo/vimproc.vim', { 'do': 'make' }
@@ -233,28 +242,38 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'w0rp/ale'
 Plug 'kana/vim-altr'
 Plug 'godlygeek/tabular'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
 Plug 'thaerkh/vim-workspace'
+Plug 'AndrewRadev/linediff.vim'
+Plug 'pixelastic/vim-undodir-tree'
 
 " Visual
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'chriskempson/base16-vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
 call plug#end()
 
 " ale
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_linters = {
-      \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build']
+      \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build'],
+      \ 'ocaml': []
       \}
 nmap <buffer> <silent> ,ft :ALEHover<cr>
 nmap <buffer> <silent> ,fg :ALEGoToDefinition<cr>
 nmap <buffer> <silent> ,fd :ALEGoToTypeDefinition<cr>
+
+" linediff
+nnoremap <silent> ,dm :LinediffMerge<CR>
+nnoremap <silent> ,dk :LinediffPick<CR>
+nnoremap <silent> ,dr :LinediffReset<CR>
+vnoremap <silent> ,da :LinediffAdd<CR>
+vnoremap <silent> ,db :LinediffLast<CR>
 
 " startify
 let g:startify_list_order = [
@@ -276,6 +295,7 @@ nnoremap <silent> ~ :Startify<CR>
 
 " vim-altr
 nmap <leader>a <Plug>(altr-forward)
+call altr#define('%/%.ml', '%/%.mli', '%/%_intf.ml', '%/%0.ml', '%/%0.mli', '%/%1.ml', '%/%1.mli', '%/%.mly')
 
 " vim-javascript
 let g:javascript_plugin_flow = 1
@@ -286,23 +306,12 @@ let ruby_no_expensive=1
 " ack
 cnoreabbrev A Ack!
 nmap <silent> <C-A> :Ack!<CR>
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
 endif
 
 " coffee-script
 command! -range=% CC <line1>,<line2>CoffeeCompile
-
-" syntastic
-let g:syntastic_cpp_compiler_options = ' -std=c++0x'
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_rust_checkers = ['cargo', 'clippy']
-let g:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
-let g:syntastic_javascript_flow_exec = 'node_modules/.bin/flow'
-let g:syntastic_always_populate_loc_list = 1
-" This pops up every time
-" let g:syntastic_auto_loc_list = 1
 
 " git gutter
 let g:gitgutter_realtime = 0
@@ -338,12 +347,12 @@ hi IndentGuidesEven guibg=#151515 ctermbg=NONE
 
 " fzf.vim
 let g:fzf_command_prefix = 'Fzf'
-let g:fzf_layout = { 'down': '~40%' }
-let g:fzf_launcher = 'urxvtc -fn "xft:Bitstream Vera Sans Mono:pixelsize=18" -title FZF +sb -bg black -fg lightgray -geometry 120x30 -e bash -ic %s'
-nnoremap <silent> <C-P> :FzfFiles<CR>
+nnoremap <silent> <C-P> :FzfGitFiles<CR>
 nnoremap <silent> <C-B> :FzfBuffers<CR>
+nnoremap <silent> <C-T> :FzfMerlin<CR>
 
 " deoplete
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#max_abbr_width = 0
 let g:deoplete#max_menu_width = 0
@@ -352,10 +361,19 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ deoplete#mappings#manual_complete()
+inoremap <silent><expr> <S-TAB>
+      \ pumvisible() ? "\<C-p>" :
+      \ <SID>check_back_space() ? "\<S-TAB>" :
+      \ deoplete#mappings#manual_complete()
 function! s:check_back_space() abort "{{{
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
+
+let g:deoplete#sources = {}
+let g:deoplete#sources.ocaml = ['ocaml', 'buffer', 'around', 'member', 'tag']
+call deoplete#custom#source('_', 'max_abbr_width', 0)
+call deoplete#custom#source('_', 'max_menu_width', 0)
 
 " supertab
 let g:SuperTabDefaultCompletionType = 'context'
@@ -400,7 +418,40 @@ let g:workspace_autosave_untrailspaces = 0
 if has('python3')
   let g:gundo_prefer_python3 = 1
 endif
-nnoremap <silent> ,gu :GundoToggle<CR>
+nnoremap <silent> ,gt :GundoToggle<CR>
+
+" nerdcommenter
+let g:NERDSpaceDelims = 1
+nmap <silent> gc ,c<space>
+vmap <silent> gc ,c<space>
+nmap <silent> gm ,cm
+vmap <silent> gm ,cm
+
+" merlin
+function! MerlinLocateMli()
+   let g:merlin_locate_preference = 'mli'
+   :MerlinLocate
+   let g:merlin_locate_preference = 'ml'
+endfunction
+nmap <silent> ,fg :MerlinLocate<cr>
+nmap <silent> ,fd :call MerlinLocateMli()<cr>
+nmap <silent> ,ft :MerlinTypeOf<cr>
+vmap <silent> ,ft :MerlinTypeOfSel<cr>
+nmap <silent> ,fy :MerlinYankLatestType<cr>
+
+" tabularize
+" map <leader>= and <leader>- to perform the most common alignments
+vnoremap <leader>- :Tabularize /-><cr>
+vnoremap <leader>; :Tabularize /^[^:]*\zs:<cr>
+vnoremap <leader>= :Tabularize /^[^=]*\zs=<cr>
+
+" limelight
+" (assuming markdown only right now)
+let g:limelight_bop = '^#'
+let g:limelight_eop = '\ze\n^#'
+
+" vim-ocaml
+let g:ocaml_highlight_operators = 1
 
 " --- }}}
 
@@ -422,6 +473,13 @@ else
   set guifont=Hack:h13
 endif
 
+" Some ocaml overrides, some attemts to make ALE more bearable
+highlight! EnclosingExpr ctermbg=17 guibg=#2d362a
+highlight! SpellBad cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666
+highlight! link Operator Keyword
+highlight! link ocamlPpxIdentifier Keyword
+highlight! link sexplibUnquotedAtom NONE
+
 set colorcolumn=81,121
 
 augroup whitespace
@@ -429,6 +487,13 @@ augroup whitespace
   au InsertEnter * if exists('w:m_trailing') | try | call matchdelete(w:m_trailing) | finally | unlet w:m_trailing | endtry | endif
   au InsertLeave * if !exists('w:m_trailing') | let w:m_trailing=matchadd('Error', '\s\+$', -1) | endif
 augroup end
+
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup end
+
 " --- }}}
 
 " --- Custom commands -------------------------------------------------------{{{
@@ -477,11 +542,50 @@ function! ProfileStart()
   profile func *
   profile file *
 endfunc
+command! -nargs=0 ProfileStart :call ProfileStart()
 
-function! ProfileEnd()
+function! ProfileStop()
   profile pause
   echo 'You must quit vim for profiling to be written to disk'
 endfunc
+command! -nargs=0 ProfileStop :call ProfileStop()
+
+function! s:merlin_insert(lines)
+  let s = matchstr(a:lines[0], '^\S*')
+  call feedkeys("i" . s)
+endfunction
+
+function! Fzf_merlin()
+  let start = merlin#Complete(1, "")
+  let base = strpart(getline('.'), start, col('.') - 1 - start)
+  let source = map(merlin#Complete(0, base), 'printf("%-25s %s", v:val.word, v:val.menu)')
+
+  call fzf#run(fzf#wrap('merlin', {
+        \ 'source': source,
+        \ 'sink*': function('s:merlin_insert'),
+        \ 'options': '+x -n 1,1..',
+        \ }))
+endfunction
+
+function! Fzf_git_files()
+  if empty($FZF_DEFAULT_COMMAND)
+    let $FZF_DEFAULT_COMMAND='rg --files'
+  endif
+
+  if trim(system("git rev-parse --is-inside-work-tree")) == "true"
+    " git-files defined in ~/bin/git-files
+    "call s:merge_opts(args, get(g:, 'fzf_files_options', []))
+    call fzf#run(fzf#vim#with_preview(fzf#wrap('git', {
+          \ 'source': 'git files',
+          \ 'options': '-m --prompt "git> "',
+          \ })))
+  else
+    execute("FzfFiles")
+  endif
+endfunction
+
+command! FzfGitFiles :call Fzf_git_files()
+command! FzfMerlin :call Fzf_merlin()
 
 " --- }}}
 

@@ -12,7 +12,13 @@ strip=
 [ui]
 username=Doug Patti <douglas.patti@gmail.com>
 ignore=~/.hgignore_global
-merge=vimdiff
+merge=:merge3
+
+[pager]
+pager=less
+attend-help=true
+attend-hist=true
+attend-dag=true
 
 [merge-tools]
 vimdiff.executable=vim

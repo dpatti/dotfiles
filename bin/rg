@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+function rg {
+  /usr/bin/rg --no-messages --smart-case --follow "$@"
+}
+
+if [ -t 1 ]; then
+  rg --pretty "$@" | less
+else
+  rg "$@"
+fi

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Prints out the relative path to all files under source control, even those in
+# parent directories. The reason this is a script instead of an alias is because
+# aliases are always run from the root, so if your cwd is not root, you won't
+# get usable paths.
+
+git ls-files --cached --others --exclude-standard "$(git rev-parse --show-toplevel)"

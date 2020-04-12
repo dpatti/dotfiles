@@ -9,10 +9,10 @@ alias each-word='for __ in $(cat);'
 alias each-line='while read -r __ || [ -n "$__" ];'
 alias sc='sudo systemctl'
 alias scu='systemctl --user'
-alias ag='ag --smart-case --follow --pager=less'
-alias be='bundle exec'
 alias vi='nvim'
 alias vim='nvim'
+alias lock='slock'
+alias patch='patch -p1 --merge=diff3'
 
 # Default LESS parameters
 export LESS="\
@@ -23,6 +23,8 @@ export LESS="\
   --LONG-PROMPT \
   --chop-long-lines \
   --tabs=2 \
+  --jump-target=4 \
+  --status-column \
 "
 
 # Shell history
@@ -33,7 +35,7 @@ export VISUAL=nvim
 export EDITOR=nvim
 
 function source-if-exists {
-  [ -f $1 ] && source $1
+  [ -f "$1" ] && source "$1"
 }
 
 function is-on-path {
@@ -42,25 +44,30 @@ function is-on-path {
 
 # PATH augmentation
 function prepend-path {
-  [ -d $1 ] && case ":${PATH:=$1}:" in
+  [ -d "$1" ] && case ":${PATH:=$1}:" in
     *:$1:*) ;;
     *) PATH="$1:$PATH" ;;
   esac
 }
 
-prepend-path $HOME/bin
-prepend-path $HOME/.local/bin
-prepend-path /usr/local/heroku/bin
-prepend-path $HOME/.yarn/bin
+prepend-path "/usr/local/heroku/bin"
+prepend-path "$HOME/.yarn/bin"
+prepend-path "$HOME/.local/bin"
+prepend-path "$HOME/bin"
 
 # Language managers
 is-on-path rbenv && eval "$(rbenv init -)"
 is-on-path nodenv && eval "$(nodenv init -)"
 is-on-path opam && eval "$(opam config env)"
 
+function is-interactive {
+  [[ $- == *i* ]]
+}
+
 # Colorscheme
-export BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
-source-if-exists $BASE16_SHELL
+export BASE16_SHELL="$HOME/.config/base16-shell"
+source-if-exists "$BASE16_SHELL"
+is-interactive && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # Note to self: if the function you're writing does not have to be run at the
 # shell, consider putting it in bin/ instead.
@@ -73,4 +80,8 @@ function unwords { xargs echo; }
 
 function reorient { cd "$(readlink -f .)"; }
 
-source-if-exists $HOME/.commonrc.local
+source-if-exists "$HOME/.commonrc.local"
+
+# FZF
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_COMMAND="rg --files --hidden --glob '!.git' --glob '!.hg'"
