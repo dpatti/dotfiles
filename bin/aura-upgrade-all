@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
+pacman-key --populate archlinux
+pacman-key --refresh-keys
+
 # pacman -Qtdq
 # (aura prints errors to stdout, so I don't use it here)
 unused=$(pacman --query --unrequired --deps --quiet || true)

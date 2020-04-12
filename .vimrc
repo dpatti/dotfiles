@@ -233,6 +233,9 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'w0rp/ale'
 Plug 'kana/vim-altr'
 Plug 'godlygeek/tabular'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'thaerkh/vim-workspace'
 
 " Visual
 Plug 'nathanaelkane/vim-indent-guides'
@@ -249,6 +252,9 @@ let g:ale_lint_on_insert_leave = 1
 let g:ale_linters = {
       \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build']
       \}
+nmap <buffer> <silent> ,ft :ALEHover<cr>
+nmap <buffer> <silent> ,fg :ALEGoToDefinition<cr>
+nmap <buffer> <silent> ,fd :ALEGoToTypeDefinition<cr>
 
 " startify
 let g:startify_list_order = [
@@ -374,7 +380,8 @@ vmap s S
 
 " vim-flow
 let g:flow#flowpath = 'node_modules/.bin/flow'
-autocmd FileType javascript nmap <buffer> <silent> ,ft :FlowType<cr>
+" I should switch to using ALE
+" autocmd FileType javascript nmap <buffer> <silent> ,ft :FlowType<cr>
 
 " psc-ide-vim
 autocmd FileType purescript nmap <buffer> <silent> ,ft :PSCIDEtype<cr>
@@ -383,6 +390,11 @@ autocmd FileType purescript nmap <buffer> <silent> ,fi :PSCIDEimportIdentifier<c
 autocmd FileType purescript nmap <buffer> <silent> ,fa :PSCIDEaddTypeAnnotation<cr>
 autocmd FileType purescript nmap <buffer> <silent> ,fs :PSCIDEapplySuggestion<cr>
 autocmd FileType purescript nmap <buffer> <silent> ,fr :PSCIDEload<cr>
+
+" vim-workspace
+let g:workspace_session_name = '.session.vim'
+let g:workspace_autosave = 0
+let g:workspace_autosave_untrailspaces = 0
 
 " gundo
 if has('python3')
