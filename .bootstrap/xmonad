@@ -6,5 +6,5 @@ dir=$HOME/.xmonad/shadow
 mkdir -p "$dir"
 
 for bin in ghc ghci ghc-pkg xmonad; do
-  ln -sf "/usr/bin/$bin" "$DIR/$bin"
+  ln -sf "/usr/bin/$bin" "$dir/$bin"
 done

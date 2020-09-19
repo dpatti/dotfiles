@@ -1,14 +1,20 @@
-#!/usr/bin/env /bin/bash
+#!/usr/bin/env zsh
 
-mkdir -p ~/.config
-target=~/.config/base16-shell
-if [ -d "$target" ]; then
-  (cd "$target" && git update)
+mkdir -p $HOME/.config
+
+export BASE16_SHELL="$HOME/.config/base16-shell"
+
+if [ -d "$BASE16_SHELL" ]; then
+  (cd "$BASE16_SHELL" && git pull)
 else
-  git clone https://github.com/chriskempson/base16-shell.git "$target"
+  git clone https://github.com/chriskempson/base16-shell.git "$BASE16_SHELL"
 fi
 
-[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+if [ -s "$BASE16_SHELL/profile_helper.sh" ]; then
   eval "$("$BASE16_SHELL/profile_helper.sh")"
+  _base16 "$BASE16_SHELL/base16-shell/scripts/base16-tomorrow-night.sh" tomorrow-night
+else
+  echo "Failed to source profile_helper.sh" >&2
+  exit 1
+fi
 
-base16_tomorrow-night
