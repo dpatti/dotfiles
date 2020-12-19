@@ -159,6 +159,7 @@ untracked = cyan
 [merge]
 tool = vimdiff
 ff = false
+conflictstyle = diff3
 
 [branch]
 autosetuprebase = always

@@ -199,7 +199,6 @@ Plug 'neovimhaskell/haskell-vim'
 " https://github.com/w0rp/ale/issues/1578
 if 0
 Plug 'eagletmt/neco-ghc'
-Plug 'eagletmt/ghcmod-vim'
 Plug 'bitc/vim-hdevtools'
 endif
 " Ocaml
@@ -262,11 +261,15 @@ let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_linters = {
       \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build'],
-      \ 'ocaml': []
+      \ 'ocaml': ['merlin']
       \}
-nmap <buffer> <silent> ,ft :ALEHover<cr>
-nmap <buffer> <silent> ,fg :ALEGoToDefinition<cr>
-nmap <buffer> <silent> ,fd :ALEGoToTypeDefinition<cr>
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+      \ 'ocaml': ['ocamlformat']
+      \}
+" nmap <buffer> <silent> ,ft :ALEHover<cr>
+" nmap <buffer> <silent> ,fg :ALEGoToDefinition<cr>
+" nmap <buffer> <silent> ,fd :ALEGoToTypeDefinition<cr>
 
 " linediff
 nnoremap <silent> ,dm :LinediffMerge<CR>
