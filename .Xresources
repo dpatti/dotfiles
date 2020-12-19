@@ -49,6 +49,7 @@
 *.color21:      base06
 
 URxvt.font: xft:Hack:style=Regular:size=10:antialias=true:hinting=true
+URxvt.letterSpace: -1
 URxvt.iso14755: false
 ! nicer scrollback
 URxvt.scrollstyle: plain
