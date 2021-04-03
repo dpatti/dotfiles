@@ -6,7 +6,7 @@ import XMonad.Layout.Reflect (reflectVert)
 import XMonad.Layout.Tabbed (simpleTabbed)
 import XMonad.Layout.Fullscreen (fullscreenSupport)
 import XMonad.Util.EZConfig (additionalKeys, additionalKeysP, removeKeysP)
-import XMonad.Util.Run (spawnPipe)
+import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Config.Desktop
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
@@ -15,8 +15,12 @@ defaultLayout = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 
 
 layout = defaultLayout ||| reflectVert (Mirror defaultLayout) ||| simpleTabbed
 
+terminalCommand = "urxvtc"
+
 launcherKeys =
   [ ("M-S-l", spawn "slock")
+  , ("M-S-<Return>", safeSpawn terminalCommand ["-e", "tmux"])
+  , ("M-C-S-<Return>", safeSpawn terminalCommand [])
   ]
 
 volumeKeys =
@@ -45,7 +49,7 @@ main = do
       }
     , focusFollowsMouse = False
     , clickJustFocuses = False
-    , terminal = "urxvtc"
+    , terminal = terminalCommand
     }
     `additionalKeysP` (volumeKeys ++ launcherKeys ++ incMasterKeys ++ quitKeys)
     `removeKeysP` ["M-,", "M-.", "M-S-q"]

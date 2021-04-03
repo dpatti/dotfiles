@@ -186,7 +186,7 @@ Plug 'burnettk/vim-angular'
 Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'flowtype/vim-flow'
-Plug 'mxw/vim-jsx'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'raichoo/purescript-vim'
 Plug 'FrigoEU/psc-ide-vim'
 " Ruby
@@ -265,11 +265,17 @@ let g:ale_linters = {
       \}
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
-      \ 'ocaml': ['ocamlformat']
+      \ 'ocaml': ['ocamlformat'],
+      \ 'javascript': ['prettier'],
+      \ 'javascriptreact': ['prettier'],
+      \ 'json': ['prettier'],
+      \ 'typescript': ['prettier'],
+      \ 'typescriptreact': ['prettier'],
       \}
-" nmap <buffer> <silent> ,ft :ALEHover<cr>
-" nmap <buffer> <silent> ,fg :ALEGoToDefinition<cr>
-" nmap <buffer> <silent> ,fd :ALEGoToTypeDefinition<cr>
+nmap <silent> ,ft :ALEHover<cr>
+nmap <silent> ,fg :ALEGoToDefinition<cr>
+nmap <silent> ,fd :ALEGoToTypeDefinition<cr>
+nmap <silent> ,fn :ALENextWrap<cr>
 
 " linediff
 nnoremap <silent> ,dm :LinediffMerge<CR>
@@ -363,18 +369,17 @@ let g:deoplete#max_menu_width = 0
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#mappings#manual_complete()
+      \ deoplete#manual_complete()
 inoremap <silent><expr> <S-TAB>
       \ pumvisible() ? "\<C-p>" :
       \ <SID>check_back_space() ? "\<S-TAB>" :
-      \ deoplete#mappings#manual_complete()
+      \ deoplete#manual_complete()
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
 
-let g:deoplete#sources = {}
-let g:deoplete#sources.ocaml = ['ocaml', 'buffer', 'around', 'member', 'tag']
+call deoplete#custom#option('sources.ocaml', ['ocaml', 'buffer', 'around', 'member', 'tag'])
 call deoplete#custom#source('_', 'max_abbr_width', 0)
 call deoplete#custom#source('_', 'max_menu_width', 0)
 
@@ -436,11 +441,11 @@ function! MerlinLocateMli()
    :MerlinLocate
    let g:merlin_locate_preference = 'ml'
 endfunction
-nmap <silent> ,fg :MerlinLocate<cr>
-nmap <silent> ,fd :call MerlinLocateMli()<cr>
-nmap <silent> ,ft :MerlinTypeOf<cr>
-vmap <silent> ,ft :MerlinTypeOfSel<cr>
-nmap <silent> ,fy :MerlinYankLatestType<cr>
+autocmd FileType ocaml nmap <silent> ,fg :MerlinLocate<cr>
+autocmd FileType ocaml nmap <silent> ,fd :call MerlinLocateMli()<cr>
+autocmd FileType ocaml nmap <silent> ,ft :MerlinTypeOf<cr>
+autocmd FileType ocaml vmap <silent> ,ft :MerlinTypeOfSel<cr>
+autocmd FileType ocaml nmap <silent> ,fy :MerlinYankLatestType<cr>
 
 " tabularize
 " map <leader>= and <leader>- to perform the most common alignments
@@ -482,6 +487,10 @@ highlight! SpellBad cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc
 highlight! link Operator Keyword
 highlight! link ocamlPpxIdentifier Keyword
 highlight! link sexplibUnquotedAtom NONE
+
+" vim-typescript looks upsettingly different from vim-javascript
+highlight! link typescriptEndColons jsNoise
+highlight! link typescriptOpSymbols jsOperator
 
 set colorcolumn=81,121
 
