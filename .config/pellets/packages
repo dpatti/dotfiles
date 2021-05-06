@@ -1,0 +1,131 @@
+# From pacman -Qt[e][g]
+
+# Package management
+aura-bin [aur]
+
+# Sound
+alsa-utils
+pulseaudio
+pulseaudio-ctl [aur]
+sof-firmware
+
+# Fonts
+noto-fonts-emoji
+ttf-inconsolata
+ttf-ubuntu-font-family
+ttf-hack
+ttf-unifont [aur] # for rendering some exotic characters in the terminal
+freetype2
+cairo
+fontconfig
+# ?unused? fonts-meta-extended-lt [aura]
+
+# Networking
+netctl
+ifplugd
+wpa_actiond [aur]
+dhcpcd
+
+# System
+bolt # thunderbolt controller
+chrony # time sync
+efibootmgr
+grub
+nss-mdns # hostname.local resolution
+
+# Core (things you're surprised aren't already there)
+bind # dig(1)
+bzip2
+gawk
+gnu-netcat
+gnuplot
+iw
+lsof
+moreutils
+openssh
+rsync
+sudo
+strace
+tree
+unzip
+usbutils
+which
+zip
+
+# Tools
+cloc
+colordiff
+fd
+fzf
+git
+hub
+jq
+maim # screenshots
+nix [aur]
+nmap
+ripgrep
+# ?unused? simple-mtpfs [aur] # Android filesystem mounting
+
+# Development
+base-devel [group]
+cmake
+valgrind
+perf
+
+# Terminal Apps
+atop
+htop
+mtr
+ncdu
+neovim
+python-neovim # for neovim plugin support
+rxvt-unicode
+tmux
+xterm
+zsh
+
+# Lang
+nodenv [aur]
+nodenv-node-build [aur]
+ocaml
+opam
+python2
+rbenv [aur]
+ruby
+ruby-build [aur]
+rustup
+shellcheck
+stack
+
+# Services
+postgresql
+redis
+cups # printing
+# ?unused? battify [aur] # udev battery hooks
+
+# Windowed Apps
+google-chrome [aur]
+dropbox [aur]
+dropbox-cli [aur] # for managing the exclude list
+firefox
+# ?unused? silentcast [aur]
+vlc
+viewnior
+spotify [aur]
+thunar # file system
+discord
+
+# X
+xf86-video-intel
+xf86-input-synaptics
+xorg [group]
+xorg-xinit
+xclip
+xcape
+xsecurelock
+xmonad
+xmonad-contrib
+xmobar
+dmenu # launcher
+dunst # notifications
+arandr
