@@ -27,6 +27,7 @@ volumeKeys =
   [ ("<XF86AudioRaiseVolume>", spawn "pulseaudio-ctl up 5")
   , ("<XF86AudioLowerVolume>", spawn "pulseaudio-ctl down 5")
   , ("<XF86AudioMute>", spawn "pulseaudio-ctl mute")
+  , ("<XF86AudioMicMute>", spawn "pulseaudio-ctl mute-input")
   ]
 
 incMasterKeys =

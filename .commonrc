@@ -51,6 +51,7 @@ function prepend-path {
 }
 
 prepend-path "/usr/local/heroku/bin"
+prepend-path "$HOME/.cargo/bin"
 prepend-path "$HOME/.yarn/bin"
 prepend-path "$HOME/.local/bin"
 prepend-path "$HOME/bin"

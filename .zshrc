@@ -12,6 +12,7 @@ unsetopt share_history
 bindkey '^U' backward-kill-line
 
 fzf-git-branch-widget() {
+  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
   LBUFFER="${LBUFFER}$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf)"
   zle redisplay
 }
@@ -19,6 +20,7 @@ zle -N fzf-git-branch-widget
 bindkey '^B' fzf-git-branch-widget
 
 fzf-executable-widget() {
+  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
   (($#)) || set ''
   LBUFFER="${LBUFFER}$(print -lr -- $^path/*$^@*(N:t) | sort -u | fzf)"
   zle redisplay

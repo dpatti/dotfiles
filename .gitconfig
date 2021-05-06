@@ -56,6 +56,9 @@ di = diff
 dc = diff --cached
 ds = diff --stat
 
+# Augment any command with split to get side-by-side diffs, e.g., git split diff
+split = "!f(){ DELTA_FEATURES=side-by-side git \"$@\"; }; f"
+
 co = checkout
 ci = commit --verbose
 ca = commit --verbose --all
@@ -135,7 +138,7 @@ whitespace = fix
 excludesfile = ~/.gitignore_global
 autocrlf = input
 filemode = false
-pager = diff-highlight | less
+pager = delta
 
 [color]
 ui = auto
@@ -169,6 +172,7 @@ default = upstream
 
 [diff]
 algorithm = patience
+colorMoved = default
 
 [credential]
 helper = cache --timeout 259200
@@ -179,3 +183,9 @@ autostash = true
 
 [hub]
 protocol = ssh
+
+[delta]
+features = navigate
+
+[delta "side-by-side"]
+side-by-side = true
