@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+maim --select --hidecursor --tolerance=0 | convert - -resize 1x1\! -format '%[pixel:p{0,0}]' info:- | cb

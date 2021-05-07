@@ -1,14 +1,21 @@
 #!/usr/bin/env ruby
 
-%w{Black Red Green Yellow Blue Magenta Teal White}.each_with_index do |color, i|
-    ["", "Bold"].each_with_index do |style, s|
-        code = "\\e[#{s};#{i+30}m"
-        print "%-30s" % "#{code.gsub("\\e", "\e")} #{code} #{s>0 ? [style, color].join(" ") : color}\033[0m"
+[30, 40].each do |offset|
+  %w{Black Red Green Yellow Blue Magenta Teal White}.each_with_index do |color, i|
+    color = "%-7s" % color
+    {"" => 0, "Bold " => 1, "Invert " => 7}.each do |style, s|
+      code = "\\e[#{s};#{i+offset}m"
+      print "%s%s\e[0m " % ["#{code.gsub("\\e", "\e")}", "#{code} #{s>0 ? [style, color].join("") : color}"]
     end
     puts
+  end
+  puts
 end
 
 (0..255).each do |color|
-  code = "\\e[38;5;#{color}m"
-  puts "%-30s" % "#{code.gsub("\\e", "\e")} #{code}\033[0m"
+  ["38", "48"].each do |code|
+    code = "\\e[#{code};5;#{color}m"
+    print "%s%-16s\e[0m " % ["#{code.gsub("\\e", "\e")}", code]
+  end
+  puts
 end

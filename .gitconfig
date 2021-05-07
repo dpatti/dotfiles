@@ -186,6 +186,7 @@ protocol = ssh
 
 [delta]
 features = navigate
+diff-so-fancy = true
 
 [delta "side-by-side"]
 side-by-side = true

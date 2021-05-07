@@ -24,7 +24,6 @@ export LESS="\
   --chop-long-lines \
   --tabs=2 \
   --jump-target=4 \
-  --status-column \
 "
 
 # Shell history
