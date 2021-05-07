@@ -11,7 +11,6 @@ alias sc='sudo systemctl'
 alias scu='systemctl --user'
 alias vi='nvim'
 alias vim='nvim'
-alias lock='slock'
 alias patch='patch -p1 --merge=diff3'
 
 # Default LESS parameters
@@ -24,6 +23,7 @@ export LESS="\
   --chop-long-lines \
   --tabs=2 \
   --jump-target=4 \
+  --hilite-search \
 "
 
 # Shell history
@@ -32,6 +32,10 @@ export HISTSIZE=10000
 # Editor
 export VISUAL=nvim
 export EDITOR=nvim
+
+# FZF
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_COMMAND="rg --files --hidden --glob '!.git' --glob '!.hg'"
 
 function source-if-exists {
   [ -f "$1" ] && source "$1"
@@ -69,12 +73,6 @@ export BASE16_SHELL="$HOME/.config/base16-shell"
 source-if-exists "$BASE16_SHELL"
 is-interactive && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL/profile_helper.sh")"
 
-# Nix
-# I am manually controlling this because I don't want to have root channels and
-# the nix-daemon.sh in /etc/profile.d doesn't give me an option.
-export NIX_PATH="$HOME/.nix-defexpr/channels"
-source-if-exists "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-
 # Note to self: if the function you're writing does not have to be run at the
 # shell, consider putting it in bin/ instead.
 function pkp {
@@ -87,7 +85,3 @@ function unwords { xargs echo; }
 function reorient { cd "$(readlink -f .)"; }
 
 source-if-exists "$HOME/.commonrc.local"
-
-# FZF
-export FZF_DEFAULT_COMMAND='rg --files'
-export FZF_CTRL_T_COMMAND="rg --files --hidden --glob '!.git' --glob '!.hg'"

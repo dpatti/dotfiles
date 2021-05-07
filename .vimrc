@@ -106,9 +106,6 @@ endif
 nmap <silent> ,ev :e $HOME/.vimrc<cr>
 nmap <silent> ,sv :so $HOME/.vimrc<cr>
 
-" Edit directory of current file
-nmap <silent> ,ed :e %:h<cr>
-
 " Set text wrapping toggles
 nmap <silent> ,w :set invwrap<cr>:set wrap?<cr>
 
@@ -172,6 +169,9 @@ nnoremap <silent> <C-J> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\
 " Tabs
 nnoremap <silent> <A-[> :tabprevious<CR>
 nnoremap <silent> <A-]> :tabnext<CR>
+
+" Command abbreviations
+cnoreabbrev CWD %:h
 " --- }}}
 
 " --- Plugin config ---------------------------------------------------------{{{
@@ -244,12 +244,12 @@ Plug 'godlygeek/tabular'
 Plug 'thaerkh/vim-workspace'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'pixelastic/vim-undodir-tree'
+Plug 'tpope/vim-vinegar'
 
 " Visual
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'scrooloose/nerdtree'
 Plug 'chriskempson/base16-vim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -327,10 +327,6 @@ let g:gitgutter_realtime = 0
 let g:gitgutter_map_keys = 0
 nmap <silent> ,m :GitGutterNextHunk<CR>
 nmap <silent> ,M :GitGutterPrevHunk<CR>
-
-" NERD Tree
-nmap <F7> :NERDTreeToggle<CR>
-let NERDTreeRespectWildIgnore = 1
 
 " Powerline
 let g:airline_section_y = '0x%02B'

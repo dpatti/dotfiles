@@ -19,3 +19,14 @@ end
   end
   puts
 end
+puts
+
+# true color test
+width = `tput cols`.to_i
+scale = 255 / width + 1
+["%d;0;0", "0;%d;0", "0;0;%d"].each do |format|
+  (0..255).step(scale) do |c|
+    print "\e[48;2;#{format}m \e[0m" % c
+  end
+  puts
+end

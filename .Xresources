@@ -71,7 +71,7 @@ URxvt.scrollTtyOutput: False
 URxvt.scrollWithBuffer: True
 URxvt.scrollTtyKeypress: True
 ! confirm paste to prevent multiline pastes
-URxvt.perl-ext: default,confirm-paste
+URxvt.perl-ext: default,confirm-paste,resize-font
 
 ! for when there is no urxvt
 XTerm*faceName: Hack:style=Regular:size=10:antialias=true:hinting=true
