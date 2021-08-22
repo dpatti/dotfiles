@@ -33,3 +33,13 @@ source-if-exists ~/.fzf.zsh
 function reset {
   command reset && source ~/.zshrc
 }
+
+# Allow Ctrl-z to toggle between suspend and resume
+function bg-resume {
+    fg
+    zle push-input
+    BUFFER=""
+    zle accept-line
+}
+zle -N bg-resume
+bindkey '^Z' bg-resume
