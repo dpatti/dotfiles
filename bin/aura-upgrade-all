@@ -1,18 +1,13 @@
 #!/usr/bin/env bash
 set -xeuo pipefail
 
-pacman-key --populate archlinux
-pacman-key --refresh-keys
+# If these become necessary again, I should figure out a better solution that
+# isn't slow and doesn't delay the confirmations. Some sort of auto-sync with
+# systemd might be nice.
+# pacman-key --populate archlinux
+# pacman-key --refresh-keys
 
-# pacman -Qtdq
-# (aura prints errors to stdout, so I don't use it here)
-unused=$(pacman --query --unrequired --deps --quiet || true)
-
-if [ -n "$unused" ]; then
-  aura --remove --nosave --recursive $unused
-else
-  echo "No orphan packages to remove"
-fi
+pellets
 
 # aura -Syu
 aura --sync --refresh --sysupgrade

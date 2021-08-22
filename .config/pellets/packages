@@ -1,7 +1,6 @@
-# From pacman -Qt[e][g]
-
 # Package management
 aura-bin [aur]
+pacman-contrib # for `pacdiff`
 
 # Sound
 alsa-utils
@@ -25,6 +24,8 @@ netctl
 ifplugd
 wpa_actiond [aur]
 dhcpcd
+avahi
+python-dbus # for avahi-discover
 
 # System
 bolt # thunderbolt controller
@@ -44,12 +45,15 @@ lsof
 moreutils
 openssh
 rsync
+socat
 sudo
 strace
+tcpdump
 tree
 unzip
 usbutils
 which
+words
 zip
 
 # Tools
@@ -69,8 +73,10 @@ ripgrep
 # Development
 base-devel [group]
 cmake
+gdb
 valgrind
 perf
+inotify-tools # watch for rebuild
 
 # Terminal Apps
 atop
@@ -114,6 +120,7 @@ viewnior
 spotify [aur]
 thunar # file system
 discord
+wireshark-qt
 
 # X
 xf86-video-intel
@@ -122,6 +129,7 @@ xorg [group]
 xorg-xinit
 xclip
 xcape
+xcompmgr
 xsecurelock
 xmonad
 xmonad-contrib

@@ -214,7 +214,7 @@ Plug 'rodjek/vim-puppet'
 Plug 'othree/html5.vim'
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
+Plug 'rust-analyzer/rust-analyzer'
 Plug '887/cargo.vim'
 
 " Tools
@@ -245,6 +245,7 @@ Plug 'thaerkh/vim-workspace'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'pixelastic/vim-undodir-tree'
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-repeat'
 
 " Visual
 Plug 'airblade/vim-gitgutter'
@@ -257,11 +258,14 @@ Plug 'junegunn/rainbow_parentheses.vim'
 call plug#end()
 
 " ale
+let g:ale_floating_preview = 1
+let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰']
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_linters = {
       \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build'],
-      \ 'ocaml': ['merlin']
+      \ 'ocaml': ['merlin'],
+      \ 'rust': ['cargo', 'rls'],
       \}
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
@@ -271,6 +275,7 @@ let g:ale_fixers = {
       \ 'json': ['prettier'],
       \ 'typescript': ['prettier'],
       \ 'typescriptreact': ['prettier'],
+      \ 'rust': ['rustfmt'],
       \}
 nmap <silent> ,ft :ALEHover<cr>
 nmap <silent> ,fg :ALEGoToDefinition<cr>
@@ -483,6 +488,13 @@ highlight! SpellBad cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc
 highlight! link Operator Keyword
 highlight! link ocamlPpxIdentifier Keyword
 highlight! link sexplibUnquotedAtom NONE
+
+highlight! ALEError cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666
+highlight! link ALEStyleError   ALEError
+highlight! link ALEWarning      ALEError
+highlight! link ALEStyleWarning ALEError
+highlight! link ALEInfo         ALEError
+
 
 " vim-typescript looks upsettingly different from vim-javascript
 highlight! link typescriptEndColons jsNoise

@@ -5,7 +5,9 @@ import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Layout.Reflect (reflectVert)
 import XMonad.Layout.Tabbed (simpleTabbed)
 import XMonad.Layout.Fullscreen (fullscreenSupport)
+-- import qualified XMonad.Util.Brightness as Brightness
 import XMonad.Util.EZConfig (additionalKeys, additionalKeysP, removeKeysP)
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Config.Desktop
 import System.IO (hPutStrLn)
@@ -28,6 +30,8 @@ volumeKeys =
   , ("<XF86AudioLowerVolume>", spawn "pulseaudio-ctl down 5")
   , ("<XF86AudioMute>", spawn "pulseaudio-ctl mute")
   , ("<XF86AudioMicMute>", spawn "pulseaudio-ctl mute-input")
+  -- , ("<XF86MonBrightnessDown>", Brightness.decrease)
+  -- , ("<XF86MonBrightnessUp>", Brightness.increase)
   ]
 
 incMasterKeys =
@@ -37,6 +41,15 @@ incMasterKeys =
 
 quitKeys =
   [ ("M-C-S-q", io exitSuccess)
+  ]
+
+scratchpads =
+  [ NS "term" "urxvtc -name scratchpad -depth 32 -bg '[80]#1d1f21" (resource =? "scratchpad")
+       (customFloating $ W.RationalRect (1/5) (0/1) (3/5) (2/5))
+  ]
+
+scratchpadKeys =
+  [ ("M-r", namedScratchpadAction scratchpads "term")
   ]
 
 main = do
@@ -51,6 +64,7 @@ main = do
     , focusFollowsMouse = False
     , clickJustFocuses = False
     , terminal = terminalCommand
+    , manageHook = namedScratchpadManageHook scratchpads
     }
-    `additionalKeysP` (volumeKeys ++ launcherKeys ++ incMasterKeys ++ quitKeys)
+    `additionalKeysP` (volumeKeys ++ launcherKeys ++ incMasterKeys ++ quitKeys ++ scratchpadKeys)
     `removeKeysP` ["M-,", "M-.", "M-S-q"]
