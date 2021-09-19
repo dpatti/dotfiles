@@ -5,6 +5,7 @@ pacman-contrib # for `pacdiff`
 # Sound
 alsa-utils
 pulseaudio
+pulseaudio-bluetooth
 pulseaudio-ctl [aur]
 sof-firmware
 
@@ -28,7 +29,6 @@ avahi
 python-dbus # for avahi-discover
 
 # System
-bolt # thunderbolt controller
 chrony # time sync
 efibootmgr
 grub
@@ -68,7 +68,7 @@ maim # screenshots
 nix [aur]
 nmap
 ripgrep
-# ?unused? simple-mtpfs [aur] # Android filesystem mounting
+sysz # fzf+systemd
 
 # Development
 base-devel [group]
@@ -103,10 +103,16 @@ rustup
 shellcheck
 stack
 
+# Devices
+bluez # bluetooth
+bluez-utils # bluetoothctl
+bolt # thunderbolt controller
+cups # printing
+zsa-wally-cli-bin [aur]
+
 # Services
 postgresql
 redis
-cups # printing
 # ?unused? battify [aur] # udev battery hooks
 
 # Windowed Apps
