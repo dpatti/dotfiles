@@ -39,7 +39,6 @@ MODMAPS
 echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
 dunst &
-xcompmgr -c -o0 &
 urxvtd --quiet --opendisplay --fork
 xmonad --recompile
 exec xmonad

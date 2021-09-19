@@ -44,7 +44,8 @@ quitKeys =
   ]
 
 scratchpads =
-  [ NS "term" "urxvtc -name scratchpad -depth 32 -bg '[80]#1d1f21" (resource =? "scratchpad")
+  -- The 80% alpha doesn't work without an X compositor
+  [ NS "term" "urxvtc -name scratchpad -depth 32 -bg '[80]#1d1f21' -e tmux" (resource =? "scratchpad")
        (customFloating $ W.RationalRect (1/5) (0/1) (3/5) (2/5))
   ]
 

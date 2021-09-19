@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+commands=(
+  "lpq"
+  "lpoptions"
+  "lpinfo -v"
+  "lpstat -s"
+  "lpstat -p Canon_iP110_series"
+  "systemctl status cups"
+  "systemctl status cups-browsed"
+)
+
+for run in "${commands[@]}"; do
+  echo "========== $run =========="
+  eval "command $run"
+  echo "===========$(sed 's/./=/g' <<< "$run")==========="
+  echo
+done
