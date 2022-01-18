@@ -38,6 +38,7 @@ MODMAPS
 
 echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
+bluetoothctl power on
 dunst &
 urxvtd --quiet --opendisplay --fork
 xmonad --recompile

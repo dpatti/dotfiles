@@ -281,6 +281,7 @@ nmap <silent> ,ft :ALEHover<cr>
 nmap <silent> ,fg :ALEGoToDefinition<cr>
 nmap <silent> ,fd :ALEGoToTypeDefinition<cr>
 nmap <silent> ,fn :ALENextWrap<cr>
+nmap <silent> ,fe :ALEDetail<cr>
 
 " linediff
 nnoremap <silent> ,dm :LinediffMerge<CR>

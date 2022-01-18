@@ -33,6 +33,7 @@ chrony # time sync
 efibootmgr
 grub
 nss-mdns # hostname.local resolution
+batify-git [aur] # battery notifications
 
 # Core (things you're surprised aren't already there)
 bind # dig(1)
@@ -68,7 +69,7 @@ maim # screenshots
 nix [aur]
 nmap
 ripgrep
-sysz # fzf+systemd
+sysz [aur] # fzf+systemd
 
 # Development
 base-devel [group]
@@ -109,6 +110,7 @@ bluez-utils # bluetoothctl
 bolt # thunderbolt controller
 cups # printing
 zsa-wally-cli-bin [aur]
+zsa-wally-bin [aur] # because sometimes the cli version lags behind
 
 # Services
 postgresql
