@@ -53,6 +53,13 @@ scratchpadKeys =
   [ ("M-r", namedScratchpadAction scratchpads "term")
   ]
 
+dunstKeys =
+  [ ("C-<Space>", spawn "dunstctl close")
+  , ("C-S-<Space>", spawn "dunstctl close-all")
+  , ("C-`", spawn "dunstctl history-pop")
+  , ("C-S-.", spawn "dunstctl context")
+  ]
+
 main = do
   xmobar <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
   xmonad . fullscreenSupport . docks $ desktopConfig
@@ -67,5 +74,5 @@ main = do
     , terminal = terminalCommand
     , manageHook = namedScratchpadManageHook scratchpads
     }
-    `additionalKeysP` (volumeKeys ++ launcherKeys ++ incMasterKeys ++ quitKeys ++ scratchpadKeys)
+    `additionalKeysP` (volumeKeys ++ launcherKeys ++ incMasterKeys ++ quitKeys ++ scratchpadKeys ++ dunstKeys)
     `removeKeysP` ["M-,", "M-.", "M-S-q"]
