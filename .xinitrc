@@ -3,6 +3,12 @@
 # I feel like I should be using `-euo pipefail`, but I also need to figure out
 # how to get errors to bubble or be logged somewhere instead of just ending the
 # X session.
+#
+# 2023-10: Maybe the below will work?
+
+logs=$HOME/.local/state/profile
+mkdir -p "$logs"
+exec >& "$logs/log-$(date -Ins)"
 
 function isfile { [ -f "$1" ]; }
 function filter {

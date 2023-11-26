@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Note: I haven't tested this
+set -x
+
+cd "$(mktemp -d)"
+
+# prereqs
+sudo pacman -Sy gmp git
+
+# aura
+git clone https://aur.archlinux.org/aura-bin.git
+cd aura-bin
+makepkg
+sudo pacman -U aura-bin-*.pkg.tar.zst
+
+# pellets
+sudo pacman -Sy pellets
+
+# go
+sudo pellets

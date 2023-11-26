@@ -16,7 +16,6 @@ alias patch='patch -p1 --merge=diff3'
 # Default LESS parameters
 export LESS="\
   --quit-if-one-screen \
-  --no-init \
   --RAW-CONTROL-CHARS \
   --ignore-case \
   --LONG-PROMPT \

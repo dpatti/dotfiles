@@ -1,6 +1,6 @@
 -- vim:ft=haskell
 Config
-  { font = "xft:Hack:size=10"
+  { font = "Hack 10"
   , borderColor = "black"
   , border = TopB
   , bgColor = "black"
@@ -10,8 +10,7 @@ Config
       [ Run Network "wlp0s20f3" ["-L","0","-H","128000","--high","orange"] 10
       , Run Wireless "wlp0s20f3" ["-L", "50", "-H", "80", "--low", "red"] 10
       , Run Cpu ["-L","20","-H","50","--normal","green","--high","red"] 10
-      , Run Memory ["-t","Mem: <available>M", "-L", "500", "-H", "1000", "--low", "red", "--normal", "orange"] 10
-      , Run Swap ["-t","Swap: <usedratio>%", "-L", "50", "-H", "75", "--normal", "orange", "--high", "red"] 10
+      , Run Memory ["-t","Mem: <available>M", "-L", "1000", "-H", "2000", "--low", "red", "--normal", "orange"] 10
       , Run Date "%a %b %_d %H:%M" "date" 10
       , Run StdinReader
       , Run Battery
@@ -24,5 +23,5 @@ Config
       ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% | %cpu% | %memory% * %swap% | %wlp0s20f3% %wlp0s20f3wi% }{ %battery% | <fc=#ee9a00>%date%</fc>"
+  , template = "%StdinReader% | %cpu% | %memory% | %wlp0s20f3% %wlp0s20f3wi% }{ %battery% | <fc=#ee9a00>%date%</fc>"
   }

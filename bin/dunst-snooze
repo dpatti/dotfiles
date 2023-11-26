@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ $# -lt 1 ]; then
+  echo "usage: $0 <span>" >&2
+  exit 1
+fi
+
+function parse-time {
+  local arg=$1
+
+  if [[ "$arg" =~ ^([0-9]+)s$ ]]; then
+    echo $(( BASH_REMATCH[1] ))
+  elif [[ "$arg" =~ ^([0-9]+)m$ ]]; then
+    echo $(( BASH_REMATCH[1] * 60 ))
+  elif [[ "$arg" =~ ^([0-9]+)h$ ]]; then
+    echo $(( BASH_REMATCH[1] * 60 * 60 ))
+  else
+    echo "Couldn't parse time: $arg" >&2
+    exit 1
+  fi
+}
+
+seconds=$(parse-time "$1")
+
+dunstctl set-paused true
+trap 'dunstctl set-paused false; notify-send "Notifications resumed"' exit
+sleep "$seconds"

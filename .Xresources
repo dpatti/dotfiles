@@ -52,7 +52,10 @@
 *color20:      base04
 *color21:      base06
 
-URxvt.font: xft:Hack:style=Regular:size=10:antialias=true:hinting=true,xft:Unifont:size=10
+URxvt.font:           xft:Hack:style=Regular:size=10:antialias=true:hinting=true,xft:Unifont:size=10
+URxvt.boldFont:       xft:Hack:style=Bold:size=10:antialias=true:hinting=true,xft:Unifont:size=10
+URxvt.italicFont:     xft:Hack:style=Italic:size=10:antialias=true:hinting=true,xft:Unifont:size=10
+URxvt.boldItalicFont: xft:Hack:style=BoldItalic:size=10:antialias=true:hinting=true,xft:Unifont:size=10
 URxvt.letterSpace: -1
 URxvt.iso14755: false
 ! nicer scrollback

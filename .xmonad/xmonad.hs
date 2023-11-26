@@ -5,7 +5,6 @@ import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Layout.Reflect (reflectVert)
 import XMonad.Layout.Tabbed (simpleTabbed)
 import XMonad.Layout.Fullscreen (fullscreenSupport)
--- import qualified XMonad.Util.Brightness as Brightness
 import XMonad.Util.EZConfig (additionalKeys, additionalKeysP, removeKeysP)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (safeSpawn, spawnPipe)
@@ -30,8 +29,8 @@ volumeKeys =
   , ("<XF86AudioLowerVolume>", spawn "pulseaudio-ctl down 5")
   , ("<XF86AudioMute>", spawn "pulseaudio-ctl mute")
   , ("<XF86AudioMicMute>", spawn "pulseaudio-ctl mute-input")
-  -- , ("<XF86MonBrightnessDown>", Brightness.decrease)
-  -- , ("<XF86MonBrightnessUp>", Brightness.increase)
+  , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 5")
+  , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 5")
   ]
 
 incMasterKeys =

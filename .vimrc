@@ -214,7 +214,6 @@ Plug 'rodjek/vim-puppet'
 Plug 'othree/html5.vim'
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
-Plug 'rust-analyzer/rust-analyzer'
 Plug '887/cargo.vim'
 
 " Tools
@@ -265,7 +264,7 @@ let g:ale_lint_on_insert_leave = 1
 let g:ale_linters = {
       \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build'],
       \ 'ocaml': ['merlin'],
-      \ 'rust': ['cargo', 'rls'],
+      \ 'rust': ['cargo', 'analyzer'],
       \}
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
