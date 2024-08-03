@@ -13,4 +13,4 @@ pellets
 aura --sync --refresh --sysupgrade
 
 # aura -Aux --noconfirm
-aura --aursync --sysupgrade --unsuppress --noconfirm
+aura --aursync --sysupgrade --unsuppress --noconfirm --delmakedeps

@@ -2,13 +2,15 @@
 set -uo pipefail
 
 commands=(
-  "lpq"
-  "lpoptions"
-  "lpinfo -v"
-  "lpstat -s"
-  "lpstat -p Canon_iP110_series"
   "systemctl status cups"
   "systemctl status cups-browsed"
+  "tail /var/log/cups/page_log"
+  "tail /var/log/cups/error_log"
+  "avahi-browse -at | grep Printer"
+  "lpinfo -v"
+  "lpoptions"
+  "lpstat -t"
+  "lpq"
 )
 
 for run in "${commands[@]}"; do
@@ -17,3 +19,5 @@ for run in "${commands[@]}"; do
   echo "===========$(sed 's/./=/g' <<< "$run")==========="
   echo
 done
+
+echo "CUPS: http://localhost:631/printers/"

@@ -24,10 +24,12 @@ fontconfig
 # Networking
 netctl
 ifplugd
-wpa_actiond [aur]
+wpa_supplicant
 dhcpcd
 avahi
 python-dbus # for avahi-discover
+dialog # for wifi-menu (netctl)
+wireless_tools # some network debugging that I might not use anymore
 
 # System
 chrony # time sync
@@ -59,15 +61,20 @@ words
 zip
 
 # Tools
+bat
 cloc
 colordiff
 fd
+flameshot
 fzf
 git
+hexyl
 hub
 jq
+libfaketime
 maim # screenshots
 nmap
+pv
 ripgrep
 sysz [aur] # fzf+systemd
 whois
@@ -82,9 +89,11 @@ perf
 inotify-tools # watch for rebuild
 namcap # verifying AUR packages
 capnproto
+tree-sitter-grammars [group]
 
 # Terminal Apps
 atop
+fish
 htop
 mtr
 ncdu
@@ -113,9 +122,13 @@ stack
 bluez # bluetooth
 bluez-utils # bluetoothctl
 bolt # thunderbolt controller
-cups # printing
 zsa-wally-cli-bin [aur]
 zsa-wally-bin [aur] # because sometimes the cli version lags behind
+
+# Printing
+cups
+cups-browsed # discover network printers with avahi
+ghostscript # needed for cups-filter
 
 # Services
 postgresql

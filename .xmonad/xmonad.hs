@@ -22,6 +22,7 @@ launcherKeys =
   [ ("M-S-l", spawn "slock")
   , ("M-S-<Return>", safeSpawn terminalCommand ["-e", "tmux"])
   , ("M-C-S-<Return>", safeSpawn terminalCommand [])
+  , ("M-s", spawn "flameshot gui")
   ]
 
 volumeKeys =

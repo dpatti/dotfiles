@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 if command -v xclip > /dev/null; then
   copy=(xclip -selection clipboard -in)
@@ -11,8 +12,14 @@ else
   return 1
 fi
 
-if [ ! -t 0 ]; then
-  "${copy[@]}"
+# If stdin is terminal, closed, or exactly /dev/null, default to paste. Note
+# stdout may also be a terminal in this case. I am supporting /dev/null because
+# nvim will set stdin to /dev/null in the case of using `:r !cb`.
+#
+# If none of these are true, default to copy. This might be ambiguous in some
+# contexts still, but maybe good enough.
+if [[ -t 0 || ! -a /dev/stdin || /dev/stdin -ef /dev/null ]]; then
+  exec "${paste[@]}"
 else
-  "${paste[@]}"
+  exec "${copy[@]}"
 fi
