@@ -1,4 +1,44 @@
 #!/usr/bin/env bash
+
+# This is the .Xmodmap I previously used with this script:
+_='
+!! Flippable keyboard
+
+! See bin/1hkb and bin/2hkb to see how activation works
+
+! escape hatch: menu key
+keycode 135 = space NoSymbol space
+! caps lock -> return
+keycode 66 = Escape NoSymbol Return
+! letters
+keycode 24 = q Q p P
+keycode 25 = w W o O
+keycode 26 = e E i I
+keycode 27 = r R u U
+keycode 28 = t T y Y
+keycode 29 = y Y t T
+keycode 30 = u U r R
+keycode 31 = i I e E
+keycode 32 = o O w W
+keycode 33 = p P q Q
+keycode 38 = a A semicolon colon
+keycode 39 = s S l L
+keycode 40 = d D k K
+keycode 41 = f F j J
+keycode 42 = g G h H
+keycode 43 = h H g G
+keycode 44 = j J f F
+keycode 45 = k K d D
+keycode 46 = l L s S
+keycode 52 = z Z period greater
+keycode 53 = x X comma less
+keycode 54 = c C m M
+keycode 55 = v V n N
+keycode 56 = b B b B
+keycode 57 = n N v V
+keycode 58 = m M c C
+'
+
 # space to special modifier
 xmodmap -e 'keycode 65 = Mode_switch NoSymbol Mode_switch'
 # tilde is backspace by default now

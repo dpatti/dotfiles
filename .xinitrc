@@ -37,11 +37,6 @@ runfiles xrdb -merge <<RESOURCES
   $HOME/.Xresources
 RESOURCES
 
-runfiles xmodmap <<MODMAPS
-  /etc/X11/xinit/.Xmodmap
-  $HOME/.Xmodmap
-MODMAPS
-
 echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
 bluetoothctl power on

@@ -36,6 +36,9 @@ export EDITOR=nvim
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="rg --files --hidden --glob '!.git' --glob '!.hg'"
 
+# ripgrep
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
+
 function source-if-exists {
   [ -f "$1" ] && source "$1"
 }

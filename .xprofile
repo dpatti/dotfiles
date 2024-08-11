@@ -1,5 +1,8 @@
+# Repeat rate: 200ms delay, 40 repeats/s
 xset r rate 200 40
 
 # Set left-win as the compose key
-# Note this must happen *before* xmodmap
 setxkbmap -option compose:lwin
+
+# Map caps lock to escape
+setxkbmap -option caps:escape
