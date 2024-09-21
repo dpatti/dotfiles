@@ -16,7 +16,7 @@ defaultLayout = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 
 
 layout = defaultLayout ||| reflectVert (Mirror defaultLayout) ||| simpleTabbed
 
-terminalCommand = "urxvtc"
+terminalCommand = "alacritty-attach"
 
 launcherKeys =
   [ ("M-S-l", spawn "slock")
@@ -45,7 +45,7 @@ quitKeys =
 
 scratchpads =
   -- The 80% alpha doesn't work without an X compositor
-  [ NS "term" "urxvtc -name scratchpad -depth 32 -bg '[80]#1d1f21' -e tmux" (resource =? "scratchpad")
+  [ NS "term" "alacritty --class scratchpad -e tmux" (resource =? "scratchpad")
        (customFloating $ W.RationalRect (1/5) (0/1) (3/5) (2/5))
   ]
 

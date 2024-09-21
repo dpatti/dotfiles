@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sock="$XDG_RUNTIME_DIR/alacritty.sock"
+
+if [[ -S "$sock" ]]; then
+  exec alacritty msg --socket "$sock" create-window "$@"
+else
+  exec alacritty --socket "$sock" "$@"
+fi

@@ -75,6 +75,7 @@ libfaketime
 maim # screenshots
 nmap
 pv
+restic
 ripgrep
 sysz [aur] # fzf+systemd
 whois
@@ -92,6 +93,7 @@ capnproto
 tree-sitter-grammars [group]
 
 # Terminal Apps
+alacritty
 atop
 fish
 htop
