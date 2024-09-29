@@ -19,7 +19,7 @@ ttf-unifont [aur] # for rendering some exotic characters in the terminal
 freetype2
 cairo
 fontconfig
-# ?unused? fonts-meta-extended-lt [aura]
+# ?unused? fonts-meta-extended-lt [aur]
 
 # Networking
 netctl

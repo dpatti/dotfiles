@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+exec aura -A --unsuppress --noconfirm --force --delmakedeps "$@"
