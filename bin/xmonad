@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# The ghc situation is complicated with stack installed. I want to use the
-# system-installed ghc and relevant packages for xmonad, but if I recall,
-# without this it would not be searching the right set of packages. We setup a
-# tiny directory with symlinks to ghc binaries and the real xmonad.
-
-PATH=$HOME/.xmonad/shadow:$PATH xmonad "$@"

@@ -1,0 +1,10 @@
+[general]
+ipc_socket = true
+live_config_reload = true
+
+[scrolling]
+history = 100000
+
+[font]
+size = 6
+normal.family = "Hack Nerd Font"

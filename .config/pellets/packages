@@ -15,11 +15,10 @@ noto-fonts-emoji
 ttf-inconsolata
 ttf-ubuntu-font-family
 ttf-hack
-ttf-unifont [aur] # for rendering some exotic characters in the terminal
+ttf-hack-nerd
 freetype2
 cairo
 fontconfig
-# ?unused? fonts-meta-extended-lt [aur]
 
 # Networking
 netctl

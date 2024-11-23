@@ -12,7 +12,7 @@ set formatoptions=croql " Format options: wrap (c)omments at textwidth, insert c
 set textwidth=80        " 80 characters wide
 set hidden              " Allow unsaved buffers to be hidden
 set laststatus=2        " Always use status line
-set showmode            " Display current mode
+set noshowmode          " Don't display current mode since it's in the status line
 set ch=2                " Command line two lines high
 set wildmenu            " Command line completion helper
 set wildignorecase      " Ignore case when tab-completing files
