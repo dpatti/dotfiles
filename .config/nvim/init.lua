@@ -1,3 +1,7 @@
+vim.cmd [===[
+set runtimepath+=~/.vim,~/.vim/after
+set packpath+=~/.vim
+
 " --- Options ---------------------------------------------------------------{{{
 set nocompatible        " Disable vi compatability
 set ffs=unix            " File format prefer unix endings
@@ -608,7 +612,4 @@ command! FzfGitFiles :call Fzf_git_files()
 command! FzfMerlin :call Fzf_merlin()
 
 " --- }}}
-
-if filereadable("~/.vimrc.local")
-  source ~/.vimrc.local
-endif
+]===]
