@@ -1,186 +1,182 @@
-vim.cmd [===[
-set runtimepath+=~/.vim,~/.vim/after
-set packpath+=~/.vim
+-- --- Options ---------------------------------------------------------------{{{
+vim.opt.compatible = false       -- Disable vi compatability
+vim.opt.ffs = 'unix'             -- File format prefer unix endings
+vim.opt.eol = true               -- Add newline at end of file
 
-" --- Options ---------------------------------------------------------------{{{
-set nocompatible        " Disable vi compatability
-set ffs=unix            " File format prefer unix endings
-set eol                 " Add newline at end of file
-set shellslash          " Use forward slashes for file names
-set visualbell          " Visual bell instead of beep
-set nobackup            " Do not use backup files
-set noswapfile          " Do not use swap files
-set undodir=~/.vim/tmp/undo
-set undofile
-set formatoptions=croql " Format options: wrap (c)omments at textwidth, insert comment leade(r), and unknown
-set textwidth=80        " 80 characters wide
-set hidden              " Allow unsaved buffers to be hidden
-set laststatus=2        " Always use status line
-set noshowmode          " Don't display current mode since it's in the status line
-set ch=2                " Command line two lines high
-set wildmenu            " Command line completion helper
-set wildignorecase      " Ignore case when tab-completing files
-set timeoutlen=500      " Timeout for remaps
-set ttimeoutlen=10      " Timeout for escape sequences
-set history=100         " Keep some stuff in the history
-set mousehide           " Hide the mouse pointer while typing
-set scrolloff=8         " Always keep cursor 8 lines from vertical edge
-set sidescrolloff=3     " Always keep cursor 3 lines from horizontal edge
-set virtualedit=all     " Allow the cursor to go to invalid places
-set synmaxcol=1024      " Disable coloring on long lines (helps with large files)
-set cul                 " Highlight current line
-set nowrap              " Disable wrapping by default
-set linebreak           " Try to break at a nice character
-set backspace=2         " Allow backspace over indent, eol, and start of insert
-set cpoptions+=$        " Change commands will display a $ to mark end of changed text
-set hlsearch            " Search highlights
-set wrapscan            " Search will continue past end of document
-set incsearch           " Search as you type
-set ignorecase          " Search will ignore case
-set smartcase           " Search will respect case if any letter is uppercase
-set showcmd             " Show command in bottom-right as you type it
-set hls                 " Highlight search
-set nojoinspaces        " Joining or formatting lines will not add two spaces after a period
-set autoread            " Automatically load files that change if they haven't changed in vim
-set shortmess+=c        " No completion menu errors as you're typing
-set pumheight=10        " Show no more than 10 items in the popup window
-set completeopt+=menuone " Show completion popup even if there is one suggestion
-set completeopt+=noselect " Don't select, just pop up
-set completeopt-=preview  " Don't show preview window
-set lazyredraw
-set ttyfast
-set display+=lastline   " Shows partial lines instead of @@@@
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
-set autoindent
-set viminfo+=%          " save buffer list on exit
-set nostartofline       " movement keys don't also move your cursor to start of line (G, C-D, etc)
-set report=0            " report how many lines a : command changes
-syntax on               " Turn on syntax highlighting
+-- This is specific to windows; maybe `if vim.fn.exists('+shellslash')` ?
+-- vim.opt.shellslash = true     -- Use forward slashes for file names
 
-set comments-=n:>       " > is not a comment
-set comments+=b:>       " okay it kind of is, but only when there's a space after (i don't think 'n' works with 'b')
+vim.opt.visualbell = true        -- Visual bell instead of beep
+vim.opt.backup = false           -- Do not use backup files
+vim.opt.swapfile = false         -- Do not use swap files
+vim.opt.undofile = true
+vim.opt.formatoptions = { c = true, r = true, o = true, q = true, l = true } -- Format options: wrap (c)omments at textwidth, insert comment leade(r), and unknown
+vim.opt.textwidth = 80           -- 80 characters wide
+vim.opt.hidden = true            -- Allow unsaved buffers to be hidden
+vim.opt.laststatus = 2           -- Always use status line
+vim.opt.showmode = false         -- Don't display current mode since it's in the status line
+vim.opt.ch = 2                   -- Command line two lines high
+vim.opt.wildmenu = true          -- Command line completion helper
+vim.opt.wildignorecase = true    -- Ignore case when tab-completing files
+vim.opt.timeoutlen = 500         -- Timeout for remaps
+vim.opt.ttimeoutlen = 10         -- Timeout for escape sequences
+vim.opt.history = 100            -- Keep some stuff in the history
+vim.opt.mousehide = true         -- Hide the mouse pointer while typing
+vim.opt.scrolloff = 8            -- Always keep cursor 8 lines from vertical edge
+vim.opt.sidescrolloff = 3        -- Always keep cursor 3 lines from horizontal edge
+vim.opt.virtualedit = 'all'      -- Allow the cursor to go to invalid places
+vim.opt.synmaxcol = 1024         -- Disable coloring on long lines (helps with large files)
+vim.opt.cul = true               -- Highlight current line
+vim.opt.wrap = false             -- Disable wrapping by default
+vim.opt.linebreak = true         -- Try to break at a nice character
+vim.opt.backspace = { 'indent', 'eol', 'start' }         -- Allow backspace over indent, eol, and start of insert
+vim.opt.cpoptions:append('$')    -- Change commands will display a $ to mark end of changed text
+vim.opt.hlsearch = true          -- Search highlights
+vim.opt.wrapscan = true          -- Search will continue past end of document
+vim.opt.incsearch = true         -- Search as you type
+vim.opt.ignorecase = true        -- Search will ignore case
+vim.opt.smartcase = true         -- Search will respect case if any letter is uppercase
+vim.opt.showcmd = true           -- Show command in bottom-right as you type it
+vim.opt.hls = true               -- Highlight search
+vim.opt.joinspaces = false       -- Joining or formatting lines will not add two spaces after a period
+vim.opt.autoread = true          -- Automatically load files that change if they haven't changed in vim
+vim.opt.shortmess:append('c')    -- No completion menu errors as you're typing
+vim.opt.pumheight = 10           -- Show no more than 10 items in the popup window
+vim.opt.completeopt:append('menuone')  -- Show completion popup even if there is one suggestion
+vim.opt.completeopt:append('noselect') -- Don't select, just pop up
+vim.opt.completeopt:remove('preview')  -- Don't show preview window
+vim.opt.lazyredraw = true
+vim.opt.ttyfast = true
+vim.opt.display:append('lastline') -- Shows partial lines instead of @@@@
+vim.opt.listchars = { tab = '> ', trail = '-', extends = '>', precedes = '<', nbsp = '+' }
+vim.opt.autoindent = true
+vim.opt.viminfo:append('%')        -- save buffer list on exit
+vim.opt.startofline = false        -- movement keys don't also move your cursor to start of line (G, C-D, etc)
+vim.opt.report = 0                 -- report how many lines a : command changes
 
-" Suffixes to de-prioritize
-set suffixes+=.pyc      " Python compiled
+vim.opt.comments:remove({ n = '>' }) -- > is not a comment
+vim.opt.comments:append({ b = '>' }) -- okay it kind of is, but only when there's a space after (i don't think 'n' works with 'b')
 
-" Tabstops are 2 spaces
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
+-- Suffixes to de-prioritize
+vim.opt.suffixes:append('.pyc')      -- Python compiled
 
-" Set the status line
-set stl=%f\ %m\ %r\ Line:\ %l/%L[%p%%]\ Col:\ %c\ Buf:\ #%n\ [%b][0x%B]
+-- Tabstops are 2 spaces
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 
-" These commands open folds
-set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
-set foldmethod=marker   " Use {{{ }}} for folds
+-- Set the status line (probably not needed?)
+vim.opt.stl = [=[%f %m %r Line: %l/%L[%p%%] Col: %c Buf: #%n [%b][0x%B]]=]
 
-" Filetype specific stuff
-filetype plugin indent on
-" --- }}}
+-- These commands open folds
+vim.opt.foldopen = { 'block', 'insert', 'jump', 'mark', 'percent', 'quickfix', 'search', 'tag', 'undo' }
+vim.opt.foldmethod = 'marker'   -- Use {{{ }}} for folds
 
-" --- Mappings --------------------------------------------------------------{{{
-let mapleader=","       " Set the <Leader> key to comma
+-- Filetype specific stuff (not needed?)
+-- filetype plugin indent on
+-- --- }}}
 
-" Moving between wrapped lines
-nnoremap <silent> k gk
-nnoremap <silent> j gj
+-- --- Mappings --------------------------------------------------------------{{{
+vim.g.mapleader = ','       -- Set the <leader> key to comma
 
-" Indent modification keeps visual mode
-vnoremap <silent> > >gv
-vnoremap <silent> < <gv
+-- Moving between wrapped lines
+vim.keymap.set('n', 'k', 'gk', { silent = true })
+vim.keymap.set('n', 'j', 'gj', { silent = true })
 
-" Mappings for easy toggle between 2 and 4 depending on document
-nmap <silent> ,2 :set tabstop=2 softtabstop=2 shiftwidth=2<cr>
-nmap <silent> ,4 :set tabstop=4 softtabstop=4 shiftwidth=4<cr>
+-- Indent modification keeps visual mode
+vim.keymap.set('v', '>', '>gv', { silent = true })
+vim.keymap.set('v', '<', '<gv', { silent = true })
 
-" Use Ctrl+C and Ctrl+V to copy/paste in their respective modes
-if has("clipboard")
-  vnoremap <C-X> "+x
-  vnoremap <C-C> "+y
-  inoremap <C-V> <C-O>"+gP
-  cnoremap <C-V> <C-R>+
-endif
+-- Mappings for easy toggle between 2 and 4 depending on document (kill?)
+vim.keymap.set('n', ',2', '<cmd>set tabstop=2 softtabstop=2 shiftwidth=2<cr>')
+vim.keymap.set('n', ',4', '<cmd>set tabstop=4 softtabstop=4 shiftwidth=4<cr>')
 
-" Remap the old C-V in insert mode (escape sequence)
-" inoremap <C-S-V> <C-V>
+-- Use Ctrl+C and Ctrl+V to copy/paste in their respective modes
+if vim.fn.has('clipboard') then
+  vim.keymap.set('v', '<C-X>', '"+x')
+  vim.keymap.set('v', '<C-C>', '"+y')
+  vim.keymap.set('i', '<C-V>', '<C-O>"+gP')
+  vim.keymap.set('c', '<C-V>', '<C-R>+')
+end
 
-" Let's make it easy to edit/source this file ('e'dit 'v'imrc)
-nmap <silent> ,ev :e $HOME/.vimrc<cr>
-nmap <silent> ,sv :so $HOME/.vimrc<cr>
+-- Remap the old C-V in insert mode (escape sequence) (was commented out; kill?)
+-- inoremap <C-S-V> <C-V>
 
-" Set text wrapping toggles
-nmap <silent> ,w :set invwrap<cr>:set wrap?<cr>
+-- Let's make it easy to edit/source this file ('e'dit 'v'imrc)
+vim.keymap.set('n', ',ev', '<cmd>e $HOME/.config/nvim/init.lua<cr>', { silent = true })
+vim.keymap.set('n', ',sv', '<cmd>so $HOME/.config/nvim/init.lua<cr>', { silent = true })
 
-" Toggle paste mode
-nmap <silent> ,p :set invpaste<cr>:set paste?<cr>
+-- Set text wrapping toggles
+vim.keymap.set('n', ',w', '<cmd>set invwrap<cr><cmd>set wrap?<cr>', { silent = true })
 
-" Toggle text wrap
-nmap <silent> ,t :if stridx(&fo, 't') == -1 \| set fo+=t \| else \| set fo-=t \| endif<cr>:set fo?<cr>
+-- Toggle paste mode
+vim.keymap.set('n', ',p', '<cmd>set invpaste<cr><cmd>set paste?<cr>', { silent = true })
 
-" Turn off higlight search
-nmap <silent> ,n :set invhls<cr>:set hls?<cr>
-" Clear highlight search
-nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+-- Toggle text wrap
+vim.keymap.set('n', ',t', [[<cmd>if stridx(&fo, 't') == -1 \| set fo+=t \| else \| set fo-=t \| endif<cr><cmd>set fo?<cr>]], { silent = true })
 
-" cd to directory of file in buffer
-nmap <silent> ,cd :lcd %:h<cr>
+-- Turn off higlight search
+vim.keymap.set('n', ',n', '<cmd>set invhls<cr><cmd>set hls?<cr>', { silent = true })
+-- Clear highlight search
+vim.keymap.set('n', '<C-L>', '<cmd>nohlsearch<CR><C-L>', { silent = true })
 
-" Move the cursor to different windows
-noremap <silent> ,h :wincmd h<cr>
-noremap <silent> ,j :wincmd j<cr>
-noremap <silent> ,k :wincmd k<cr>
-noremap <silent> ,l :wincmd l<cr>
+-- cd to directory of file in buffer
+vim.keymap.set('n', ',cd', '<cmd>lcd %:h<cr>', { silent = true })
 
-" Ctrl+Backspace to delete prev word
-imap <C-BS> <C-W>
-cmap <C-BS> <C-W>
+-- Move the cursor to different windows
+vim.keymap.set('', ',h', '<cmd>wincmd h<cr>', { silent = true })
+vim.keymap.set('', ',j', '<cmd>wincmd j<cr>', { silent = true })
+vim.keymap.set('', ',k', '<cmd>wincmd k<cr>', { silent = true })
+vim.keymap.set('', ',l', '<cmd>wincmd l<cr>', { silent = true })
 
-" Change Y to be more consistent with C, D, etc.
-map Y y$
+-- Ctrl+Backspace to delete prev word
+vim.keymap.set('i', '<C-BS>', '<C-W>')
+vim.keymap.set('c', '<C-BS>', '<C-W>')
 
-" Session management
-map <F2> :mksession! .vim_session <cr>
-map <F3> :source .vim_session <cr>
+-- Change Y to be more consistent with C, D, etc.
+vim.keymap.set('n', 'Y', 'y$')
 
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
+-- Session management (kill?)
+vim.keymap.set('n', '<F2>', '<cmd>mksession! .vim_session <cr>')
+vim.keymap.set('n', '<F3>', '<cmd>source .vim_session <cr>')
 
-" Diff (t)his, Diff (o)ff!
-nmap <silent> ,dt :difft<cr>
-nmap <silent> ,do :diffo!<cr>:windo set nowrap foldmethod=marker<cr>
+-- CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+-- so that you can undo CTRL-U after inserting a line break.
+vim.keymap.set('i', '<C-U>', '<C-G>u<C-U>')
 
-" Fold methods
-nmap <silent> ,fm :set foldmethod=marker<cr>
-nmap <silent> ,fi :set foldmethod=indent<cr>
+-- Diff (t)his, Diff (o)ff!
+vim.keymap.set('n', ',dt', '<cmd>difft<cr>', { silent = true })
+vim.keymap.set('n', ',do', '<cmd>diffo!<cr><cmd>windo set nowrap foldmethod=marker<cr>', { silent = true })
 
-" lookup keyword is almost never used, invert J instead
-nnoremap K i<CR><Esc>k$
+-- Fold methods
+vim.keymap.set('n', ',fm', '<cmd>set foldmethod=marker<cr>', { silent = true })
+vim.keymap.set('n', ',fi', '<cmd>set foldmethod=indent<cr>', { silent = true })
 
-" Alt-Space is System menu
-if has("gui")
-  noremap <M-Space> :simalt ~<CR>
-  inoremap <M-Space> <C-O>:simalt ~<CR>
-  cnoremap <M-Space> <C-C>:simalt ~<CR>
-endif
+-- lookup keyword is almost never used, invert J instead
+vim.keymap.set('n', 'K', 'i<CR><Esc>k$')
 
-" Slide cursor to the next/previous line of the same indent level
-nnoremap <silent> <C-K> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>
-nnoremap <silent> <C-J> :call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>
+-- Alt-Space is System menu
+if vim.fn.has('gui') then
+  vim.keymap.set('', '<M-Space>', '<cmd>simalt ~<CR>')
+end
 
-" Tabs
-nnoremap <silent> <A-[> :tabprevious<CR>
-nnoremap <silent> <A-]> :tabnext<CR>
+-- Slide cursor to the next/previous line of the same indent level
+vim.keymap.set('n', '<C-K>', [[<cmd>call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>]], { silent = true })
+vim.keymap.set('n', '<C-J>', [[<cmd>call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>]], { silent = true })
 
-" Command abbreviations
-cnoreabbrev CWD %:h
-" --- }}}
+-- Tabs
+vim.keymap.set('n', '<A-[>', '<cmd>tabprevious<CR>', { silent = true })
+vim.keymap.set('n', '<A-]>', '<cmd>tabnext<CR>', { silent = true })
 
-" --- Plugin config ---------------------------------------------------------{{{
+-- Command abbreviations (todo? kill?)
+vim.cmd.cnoreabbrev('CWD', '%:h')
+-- --- }}}
+
+-- --- Plugin config ---------------------------------------------------------{{{
+vim.cmd [=[
 " plug
-call plug#begin('~/.vim/bundle')
+call plug#begin(stdpath('data') . '/plug')
 
 " Languages
 " JavaScript
@@ -373,11 +369,11 @@ let g:deoplete#max_menu_width = 0
 " tab to complete
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ check_back_space() ? "\<TAB>" :
       \ deoplete#manual_complete()
 inoremap <silent><expr> <S-TAB>
       \ pumvisible() ? "\<C-p>" :
-      \ <SID>check_back_space() ? "\<S-TAB>" :
+      \ check_back_space() ? "\<S-TAB>" :
       \ deoplete#manual_complete()
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
@@ -465,62 +461,78 @@ let g:limelight_eop = '\ze\n^#'
 
 " vim-ocaml
 let g:ocaml_highlight_operators = 1
+]=]
+-- --- }}}
 
-" --- }}}
+-- --- Style and font --------------------------------------------------------{{{
+vim.opt.background = "dark"
+vim.g.base16colorspace = 256
 
-" --- Style and font --------------------------------------------------------{{{
-set background=dark
-let base16colorspace=256
-
-if has('gui_running')
-  colorscheme base16-tomorrow-night
-elseif &t_Co == 256
-  colorscheme base16-tomorrow-night
+if vim.fn.has('gui_running') then
+  vim.cmd.colorscheme('base16-tomorrow-night')
+elseif vim.o.t_Co == 256 then
+  vim.cmd.colorscheme('base16-tomorrow-night')
 else
-  colorscheme default
-endif
+  vim.cmd.colorscheme('default')
+end
 
-if has("gui_gtk")
-  set guifont=Hack\ 10
+if vim.fn.has('gui_gtk') then
+  vim.opt.guifont = "Hack 10"
 else
-  set guifont=Hack:h13
-endif
+  vim.opt.guifont = "Hack:h13"
+end
 
-" Some ocaml overrides, some attemts to make ALE more bearable
-highlight! EnclosingExpr ctermbg=17 guibg=#2d362a
-highlight! SpellBad cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666
-highlight! link Operator Keyword
-highlight! link ocamlPpxIdentifier Keyword
-highlight! link sexplibUnquotedAtom NONE
+-- Some ocaml overrides, some attemts to make ALE more bearable
+vim.cmd.highlight { [[EnclosingExpr ctermbg=17 guibg=#2d362a]], bang = true }
+vim.cmd.highlight { [[SpellBad cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666]], bang = true }
+vim.cmd.highlight { [[link Operator Keyword]], bang = true }
+vim.cmd.highlight { [[link ocamlPpxIdentifier Keyword]], bang = true }
+vim.cmd.highlight { [[link sexplibUnquotedAtom NONE]], bang = true }
 
-highlight! ALEError cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666
-highlight! link ALEStyleError   ALEError
-highlight! link ALEWarning      ALEError
-highlight! link ALEStyleWarning ALEError
-highlight! link ALEInfo         ALEError
+vim.cmd.highlight { [[ALEError cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666]], bang = true }
+vim.cmd.highlight { [[link ALEStyleError   ALEError]], bang = true }
+vim.cmd.highlight { [[link ALEWarning      ALEError]], bang = true }
+vim.cmd.highlight { [[link ALEStyleWarning ALEError]], bang = true }
+vim.cmd.highlight { [[link ALEInfo         ALEError]], bang = true }
 
+-- vim-typescript looks upsettingly different from vim-javascript
+vim.cmd.highlight { [[link typescriptEndColons jsNoise]], bang = true }
+vim.cmd.highlight { [[link typescriptOpSymbols jsOperator]], bang = true }
 
-" vim-typescript looks upsettingly different from vim-javascript
-highlight! link typescriptEndColons jsNoise
-highlight! link typescriptOpSymbols jsOperator
+vim.opt.colorcolumn = { 81, 121 }
 
-set colorcolumn=81,121
+do
+  local group = vim.api.nvim_create_augroup('whitespace', { clear = true })
+  vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+    group = group,
+    pattern = '*',
+    command = [[if exists('w:m_trailing') | try | call matchdelete(w:m_trailing) | finally | unlet w:m_trailing | endtry | endif]],
+  })
+  vim.api.nvim_create_autocmd({ 'InsertLeave' }, {
+    group = group,
+    pattern = '*',
+    command = [[if !exists('w:m_trailing') | let w:m_trailing=matchadd('Error', '\s\+$', -1) | endif]],
+  })
+end
 
-augroup whitespace
-  au!
-  au InsertEnter * if exists('w:m_trailing') | try | call matchdelete(w:m_trailing) | finally | unlet w:m_trailing | endtry | endif
-  au InsertLeave * if !exists('w:m_trailing') | let w:m_trailing=matchadd('Error', '\s\+$', -1) | endif
-augroup end
+do
+  local group = vim.api.nvim_create_augroup('CursorLine', { clear = true })
+  vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
+    group = group,
+    pattern = '*',
+    command = [[setlocal cursorline]],
+  })
+  vim.api.nvim_create_autocmd({ 'WinLeave' }, {
+    group = group,
+    pattern = '*',
+    command = [[setlocal nocursorline]],
+  })
+end
 
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup end
+-- --- }}}
 
-" --- }}}
-
-" --- Custom commands -------------------------------------------------------{{{
+-- --- Custom commands -------------------------------------------------------{{{
+vim.cmd [=[
 " fill rest of line with characters
 function! FillLine( str )
   " set tw to the desired total length
@@ -610,6 +622,5 @@ endfunction
 
 command! FzfGitFiles :call Fzf_git_files()
 command! FzfMerlin :call Fzf_merlin()
-
-" --- }}}
-]===]
+]=]
+-- --- }}}
