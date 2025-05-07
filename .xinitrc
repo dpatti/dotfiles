@@ -6,7 +6,7 @@
 #
 # 2023-10: Maybe the below will work?
 
-logs=$HOME/.local/state/profile
+logs=$HOME/.local/share/profile
 mkdir -p "$logs"
 exec >& "$logs/log-$(date -Ins)"
 
@@ -39,8 +39,7 @@ RESOURCES
 
 echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
-bluetoothctl power on
+bluetoothctl power on &
 dunst &
-urxvtd --quiet --opendisplay --fork
 xmonad --recompile
 exec xmonad

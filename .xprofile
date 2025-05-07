@@ -6,3 +6,6 @@ setxkbmap -option compose:lwin
 
 # Map caps lock to escape
 setxkbmap -option caps:escape
+
+# Palms
+synclient AreaLeftEdge=156 AreaRightEdge=1247 AreaTopEdge=134 AreaBottomEdge=503

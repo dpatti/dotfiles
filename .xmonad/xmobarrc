@@ -7,8 +7,8 @@ Config
   , fgColor = "grey"
   , position = TopW L 100
   , commands =
-      [ Run Network "wlp0s20f3" ["-L","0","-H","128000","--high","orange"] 10
-      , Run Wireless "wlp0s20f3" ["-L", "50", "-H", "80", "--low", "red"] 10
+      [ Run Network "wlan0" ["-L","0","-H","128000","--high","orange"] 10
+      , Run Wireless "wlan0" ["-L", "50", "-H", "80", "--low", "red"] 10
       , Run Cpu ["-L","20","-H","50","--normal","green","--high","red"] 10
       , Run Memory ["-t","Mem: <available>M", "-L", "1000", "-H", "2000", "--low", "red", "--normal", "orange"] 10
       , Run Date "%a %b %_d %H:%M" "date" 10
@@ -23,5 +23,5 @@ Config
       ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "%StdinReader% | %cpu% | %memory% | %wlp0s20f3% %wlp0s20f3wi% }{ %battery% | <fc=#ee9a00>%date%</fc>"
+  , template = "%StdinReader% | %cpu% | %memory% | %wlan0% %wlan0wi% }{ %battery% | <fc=#ee9a00>%date%</fc>"
   }

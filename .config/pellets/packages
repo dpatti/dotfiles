@@ -25,16 +25,10 @@ netctl
 ifplugd
 wpa_supplicant
 dhcpcd
-avahi
-python-dbus # for avahi-discover
 dialog # for wifi-menu (netctl)
 wireless_tools # some network debugging that I might not use anymore
 
 # System
-chrony # time sync
-efibootmgr
-grub
-nss-mdns # hostname.local resolution
 batify-git [aur] # battery notifications
 
 # Core (things you're surprised aren't already there)
@@ -45,6 +39,8 @@ gnu-netcat
 gnuplot
 iw
 lsof
+man-db
+man-pages
 moreutils
 openssh
 rsync
@@ -67,6 +63,7 @@ fd
 flameshot
 fzf
 git
+git-delta
 hexyl
 hub
 jq
@@ -100,7 +97,6 @@ mtr
 ncdu
 neovim
 python-neovim # for neovim plugin support
-rxvt-unicode
 tmux
 xterm
 zsh
@@ -123,12 +119,9 @@ stack
 bluez # bluetooth
 bluez-utils # bluetoothctl
 bolt # thunderbolt controller
-zsa-wally-cli-bin [aur]
-zsa-wally-bin [aur] # because sometimes the cli version lags behind
 
 # Printing
 cups
-cups-browsed # discover network printers with avahi
 ghostscript # needed for cups-filter
 
 # Services
@@ -149,8 +142,8 @@ thunar # file system
 discord
 wireshark-qt
 
-# X
-xf86-video-intel
+# Graphical
+mesa
 xf86-input-synaptics
 xorg [group]
 xorg-xinit
@@ -165,7 +158,15 @@ dmenu # launcher
 dunst # notifications
 arandr
 
+# Wayland
+niri
+xdg-desktop-portal-gtk
+wev
+
 # 2023-05: MIDI experiments
 fluidsynth
 soundfont-fluid
 timidity++
+btrfs-progs
+iwd
+sbctl

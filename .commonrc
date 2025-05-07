@@ -70,11 +70,11 @@ function is-interactive {
   [[ $- == *i* ]]
 }
 
-# Colorscheme
-export BASE16_SHELL="$HOME/.config/base16-shell"
-export BASE16_SHELL_SET_BACKGROUND=true
-source-if-exists "$BASE16_SHELL"
-is-interactive && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL/profile_helper.sh")"
+# Colorscheme: removed in favor of alacritty config
+# export BASE16_SHELL="$HOME/.config/base16-shell"
+# export BASE16_SHELL_SET_BACKGROUND=true
+# source-if-exists "$BASE16_SHELL"
+# is-interactive && [ -s "$BASE16_SHELL/profile_helper.sh" ] && source "$BASE16_SHELL/profile_helper.sh"
 
 # Note to self: if the function you're writing does not have to be run at the
 # shell, consider putting it in bin/ instead.

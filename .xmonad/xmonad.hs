@@ -16,7 +16,8 @@ defaultLayout = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 
 
 layout = defaultLayout ||| reflectVert (Mirror defaultLayout) ||| simpleTabbed
 
-terminalCommand = "alacritty-attach"
+-- terminalCommand = "alacritty-attach"
+terminalCommand = "alacritty"
 
 launcherKeys =
   [ ("M-S-l", spawn "slock")

@@ -1,6 +1,7 @@
 [general]
 ipc_socket = true
 live_config_reload = true
+import = [ "./colors.toml" ]
 
 [scrolling]
 history = 100000
@@ -8,3 +9,12 @@ history = 100000
 [font]
 size = 6
 normal.family = "Hack Nerd Font"
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[window]
+dynamic_title = true
+
+[mouse]
+bindings=[]

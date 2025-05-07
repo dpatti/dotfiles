@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
 
-exec aura -A --unsuppress --noconfirm --force --delmakedeps "$@"
+command=(aura -A --unsuppress --noconfirm --delmakedeps "$@")
+
+# Drop back to user for building packages, which helps with signature
+# verifcation
+if [[ -n "$SUDO_USER" ]]; then
+  exec su "$SUDO_USER" "${command[@]}"
+else
+  exec "${command[@]}"
+fi
