@@ -5,9 +5,8 @@ pacman-contrib # for `pacdiff`
 
 # Sound
 alsa-utils
-pulseaudio
-pulseaudio-bluetooth
-pulseaudio-ctl [aur]
+pipewire-pulse
+wireplumber # controls for pipewire
 sof-firmware
 
 # Fonts
@@ -27,15 +26,19 @@ wpa_supplicant
 dhcpcd
 dialog # for wifi-menu (netctl)
 wireless_tools # some network debugging that I might not use anymore
+iwd
 
 # System
 batify-git [aur] # battery notifications
+btrfs-progs
+sbctl
+fwupd
+udisks2 # optional for fwupd to detect esp
 
 # Core (things you're surprised aren't already there)
 bind # dig(1)
 bzip2
 gawk
-gnu-netcat
 gnuplot
 iw
 lsof
@@ -102,16 +105,15 @@ xterm
 zsh
 
 # Lang
-nodenv [aur]
-nodenv-node-build [aur]
+bun-bin [aur]
 ocaml
 opam
 python
 rbenv [aur]
 ruby
 ruby-build [aur]
-rustup
 rust-analyzer
+rustup
 shellcheck
 stack
 
@@ -123,11 +125,6 @@ bolt # thunderbolt controller
 # Printing
 cups
 ghostscript # needed for cups-filter
-
-# Services
-postgresql
-redis
-# ?unused? battify [aur] # udev battery hooks
 
 # Windowed Apps
 google-chrome [aur]
@@ -157,6 +154,8 @@ xmobar
 dmenu # launcher
 dunst # notifications
 arandr
+acpilight [aur] # backlight
+xss-lock
 
 # Wayland
 niri
@@ -167,6 +166,6 @@ wev
 fluidsynth
 soundfont-fluid
 timidity++
-btrfs-progs
-iwd
-sbctl
+
+# 2025-05: liburing
+liburing

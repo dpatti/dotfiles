@@ -39,6 +39,7 @@ RESOURCES
 
 echo /etc/X11/xinit/xinitrc.d/?*.sh | runfiles source
 
+xss-lock xsecurelock &
 bluetoothctl power on &
 dunst &
 xmonad --recompile

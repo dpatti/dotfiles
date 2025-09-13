@@ -1,6 +1,10 @@
 # Repeat rate: 200ms delay, 40 repeats/s
 xset r rate 200 40
 
+# 1 hour lock
+xset s 3600
+xset dpms 3600 3600 3600
+
 # Set left-win as the compose key
 setxkbmap -option compose:lwin
 

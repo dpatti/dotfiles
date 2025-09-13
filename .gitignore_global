@@ -9,3 +9,4 @@
 .ackrc
 *.hi
 npm-debug.log
+.claude

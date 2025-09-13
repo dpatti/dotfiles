@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-set -xeuo pipefail
+set -euo pipefail
 
-# If these become necessary again, I should figure out a better solution that
-# isn't slow and doesn't delay the confirmations. Some sort of auto-sync with
-# systemd might be nice.
-# pacman-key --populate archlinux
-# pacman-key --refresh-keys
+if [[ $USER == "root" ]]; then
+  echo "aura-upgrade-all: don't invoke with \`sudo\`" >&2
+  exit 1
+fi
 
-pellets
+set -x
+
+sudo pellets
 
 # aura -Syu
 aura --sync --refresh --sysupgrade

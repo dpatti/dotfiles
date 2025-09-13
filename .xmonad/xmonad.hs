@@ -27,10 +27,10 @@ launcherKeys =
   ]
 
 volumeKeys =
-  [ ("<XF86AudioRaiseVolume>", spawn "pulseaudio-ctl up 5")
-  , ("<XF86AudioLowerVolume>", spawn "pulseaudio-ctl down 5")
-  , ("<XF86AudioMute>", spawn "pulseaudio-ctl mute")
-  , ("<XF86AudioMicMute>", spawn "pulseaudio-ctl mute-input")
+  [ ("<XF86AudioRaiseVolume>", spawn "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+")
+  , ("<XF86AudioLowerVolume>", spawn "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
+  , ("<XF86AudioMute>",        spawn "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")
+  , ("<XF86AudioMicMute>",     spawn "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")
   , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 5")
   , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 5")
   ]

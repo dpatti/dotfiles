@@ -11,6 +11,7 @@ else
 zplug 'mafredri/zsh-async'
 zplug 'dpatti/pure', use:pure.zsh, as:theme
 zplug 'zsh-users/zsh-syntax-highlighting'
+zplug 'zsh-users/zsh-history-substring-search', as:plugin
 
 zplug load
 
@@ -84,8 +85,8 @@ HISTFILE="$HOME/.zhistory"
 HISTSIZE=10000                   # The maximum number of events to save in the internal history.
 SAVEHIST=10000                   # The maximum number of events to save in the history file.
 
-bindkey '^[[A' history-search-backward
-bindkey '^[[B' history-search-forward
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 fi
 

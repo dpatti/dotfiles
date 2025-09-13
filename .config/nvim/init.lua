@@ -170,6 +170,7 @@ Plug 'othree/html5.vim'
 Plug 'cespare/vim-toml'
 Plug 'rust-lang/rust.vim'
 Plug '887/cargo.vim'
+Plug 'imsnif/kdl.vim'
 
 " Tools
 Plug 'mhinz/vim-startify'
@@ -318,18 +319,18 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#max_abbr_width = 0
 let g:deoplete#max_menu_width = 0
 " tab to complete
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ check_back_space() ? "\<TAB>" :
-      \ deoplete#manual_complete()
-inoremap <silent><expr> <S-TAB>
-      \ pumvisible() ? "\<C-p>" :
-      \ check_back_space() ? "\<S-TAB>" :
-      \ deoplete#manual_complete()
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ check_back_space() ? "\<TAB>" :
+"       \ deoplete#manual_complete()
+" inoremap <silent><expr> <S-TAB>
+"       \ pumvisible() ? "\<C-p>" :
+"       \ check_back_space() ? "\<S-TAB>" :
+"       \ deoplete#manual_complete()
+" function! s:check_back_space() abort "{{{
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~ '\s'
+" endfunction"}}}
 
 call deoplete#custom#option('sources.ocaml', ['ocaml', 'buffer', 'around', 'member', 'tag'])
 call deoplete#custom#source('_', 'max_abbr_width', 0)
