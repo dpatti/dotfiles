@@ -11,6 +11,7 @@ else
 zplug 'mafredri/zsh-async'
 zplug 'dpatti/pure', use:pure.zsh, as:theme
 zplug 'zsh-users/zsh-syntax-highlighting'
+zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-history-substring-search', as:plugin
 
 zplug load
@@ -30,8 +31,14 @@ setopt NO_CLOBBER            # Don't clobber files with redirections
 setopt RC_QUOTES             # Two single quotes escape in a single-quoted string
 setopt LONG_LIST_JOBS        # Print more info when jobs complete
 
-bindkey '\e[1;5D' emacs-backward-word
-bindkey '\e[1;5C' emacs-forward-word
+WORDCHARS='_-'
+
+# Ctrl+Left / Ctrl+Right
+bindkey '^[[1;5C' emacs-forward-word
+bindkey '^[[1;5D' emacs-backward-word
+
+# Ctrl+F is forward-word for accepting partial suggestions
+bindkey '^F' forward-word
 
 # Completion
 
@@ -85,8 +92,11 @@ HISTFILE="$HOME/.zhistory"
 HISTSIZE=10000                   # The maximum number of events to save in the internal history.
 SAVEHIST=10000                   # The maximum number of events to save in the history file.
 
+# Up / Down
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 fi
 
@@ -120,11 +130,7 @@ fzf-executable-widget() {
 zle -N fzf-executable-widget
 bindkey '^X' fzf-executable-widget
 
-source-if-exists ~/.fzf.zsh
-
-function reset {
-  command reset && source ~/.zshrc
-}
+is-on-path fzf && source <(fzf --zsh)
 
 # Allow Ctrl-z to toggle between suspend and resume
 function bg-resume {

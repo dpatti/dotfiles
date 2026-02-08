@@ -2,6 +2,7 @@
 pellets [aur]
 aura-bin [aur]
 pacman-contrib # for `pacdiff`
+etckeeper
 
 # Sound
 alsa-utils
@@ -34,8 +35,9 @@ btrfs-progs
 sbctl
 fwupd
 udisks2 # optional for fwupd to detect esp
+kernel-modules-hook # retain kernel modules after upgrading
 
-# Core (things you're surprised aren't already there)
+# Core
 bind # dig(1)
 bzip2
 gawk
@@ -79,6 +81,8 @@ ripgrep
 sysz [aur] # fzf+systemd
 whois
 xdotool # programmatic keyboard/mouse control
+jujutsu
+evtest # reading from /dev/input/eventN files
 
 # Development
 base-devel
@@ -86,6 +90,7 @@ cmake
 gdb
 valgrind
 perf
+podman
 inotify-tools # watch for rebuild
 namcap # verifying AUR packages
 capnproto
@@ -138,6 +143,7 @@ spotify [aur]
 thunar # file system
 discord
 wireshark-qt
+signal-desktop
 
 # Graphical
 mesa

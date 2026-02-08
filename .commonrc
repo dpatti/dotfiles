@@ -35,6 +35,8 @@ export EDITOR=nvim
 # FZF
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND="rg --files --hidden --glob '!.git' --glob '!.hg'"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :500 {}'"
+export FZF_DEFAULT_OPTS='--height 40% --tmux bottom,40% --layout reverse --border top'
 
 # ripgrep
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"

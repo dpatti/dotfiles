@@ -20,7 +20,8 @@ layout = defaultLayout ||| reflectVert (Mirror defaultLayout) ||| simpleTabbed
 terminalCommand = "alacritty"
 
 launcherKeys =
-  [ ("M-S-l", spawn "slock")
+  [ ("M-S-z", spawn "slock")
+  , ("M-x", spawn "bash ~/.xprofile")
   , ("M-S-<Return>", safeSpawn terminalCommand ["-e", "tmux"])
   , ("M-C-S-<Return>", safeSpawn terminalCommand [])
   , ("M-s", spawn "flameshot gui")
