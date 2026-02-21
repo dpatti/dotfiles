@@ -35,7 +35,7 @@ vim.opt.completeopt:append('noselect') -- Don't select, just pop up
 vim.opt.completeopt:remove('preview')  -- Don't show preview window
 
 -- (use list?)
-vim.opt.listchars = { tab = '> ', trail = '-', extends = '>', precedes = '<', nbsp = '+' }
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- (ditch?)
 -- vim.opt.shada:append('%')        -- save buffer list on exit
@@ -144,18 +144,7 @@ vim.fn['plug#begin'](vim.fn.stdpath('data') .. '/plug')
 -- Languages
 -- JavaScript
 vim_plug('pangloss/vim-javascript')
-vim_plug('kchmck/vim-coffee-script')
-vim_plug('burnettk/vim-angular')
-vim_plug('flowtype/vim-flow')
 vim_plug('MaxMEllon/vim-jsx-pretty')
-vim_plug('raichoo/purescript-vim')
-vim_plug('FrigoEU/psc-ide-vim')
--- Ruby
-vim_plug('tpope/vim-rails')
-vim_plug('vim-ruby/vim-ruby')
-vim_plug('tpope/vim-bundler')
--- Haskell
-vim_plug('neovimhaskell/haskell-vim')
 -- Ocaml
 vim_plug('ocaml/vim-ocaml')
 vim_plug('ocaml/merlin', { rtp = 'vim/merlin' })
@@ -164,9 +153,6 @@ vim_plug('copy/deoplete-ocaml')
 vim_plug('tpope/vim-git')
 vim_plug('groenewege/vim-less')
 vim_plug('tpope/vim-markdown')
-vim_plug('juvenn/mustache.vim')
-vim_plug('rodjek/vim-puppet')
-vim_plug('othree/html5.vim')
 vim_plug('cespare/vim-toml')
 vim_plug('rust-lang/rust.vim')
 vim_plug('887/cargo.vim')
@@ -276,9 +262,6 @@ if vim.fn.executable('rg') == 1 then
   vim.g.ackprg = 'rg --vimgrep'
 end
 
--- coffee-script
-vim.api.nvim_create_user_command('CC', '<line1>,<line2>CoffeeCompile', { range = '%' })
-
 -- git gutter
 vim.g.gitgutter_realtime = 0
 vim.g.gitgutter_map_keys = 0
@@ -294,13 +277,10 @@ vim.g.airline_left_sep = ''
 vim.g.airline_left_alt_sep = ''
 vim.g.airline_right_sep = ''
 vim.g.airline_right_alt_sep = ''
-if not vim.g.airline_symbols then
-  vim.g.airline_symbols = {}
-end
-vim.g.airline_symbols = vim.tbl_extend('force', vim.g.airline_symbols, {
+vim.g.airline_symbols = {
   branch = '',
   readonly = '',
-})
+}
 
 -- Indent Guide
 vim.g.indent_guides_enable_on_vim_startup = 1
@@ -352,22 +332,6 @@ vim.keymap.set('n', '<C-J>', '<cmd>Vertical f<CR>', { silent = true })
 
 -- vim-surround
 vim.keymap.set('v', 's', 'S')
-
--- vim-flow
-vim.g['flow#flowpath'] = 'node_modules/.bin/flow'
-
--- psc-ide-vim
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'purescript',
-  callback = function()
-    vim.keymap.set('n', ',ft', '<cmd>PSCIDEtype<cr>', { buffer = true, silent = true })
-    vim.keymap.set('n', ',fg', '<cmd>PSCIDEgoToDefinition<cr>', { buffer = true, silent = true })
-    vim.keymap.set('n', ',fi', '<cmd>PSCIDEimportIdentifier<cr>', { buffer = true, silent = true })
-    vim.keymap.set('n', ',fa', '<cmd>PSCIDEaddTypeAnnotation<cr>', { buffer = true, silent = true })
-    vim.keymap.set('n', ',fs', '<cmd>PSCIDEapplySuggestion<cr>', { buffer = true, silent = true })
-    vim.keymap.set('n', ',fr', '<cmd>PSCIDEload<cr>', { buffer = true, silent = true })
-  end,
-})
 
 -- vim-workspace
 vim.g.workspace_session_name = '.session.vim'
