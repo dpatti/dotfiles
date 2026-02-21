@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-cat package.json | jq -r '.devDependencies * .dependencies | keys | .[]' | xargs -t yarn upgrade
