@@ -13,8 +13,8 @@ zplug 'zsh-users/zsh-history-substring-search', as:plugin
 
 zplug load
 
-# fzf is outside of zplug
-is-on-path fzf && source <(fzf --zsh)
+# fzf comes packaged in the binary
+(( ${+commands[fzf]} )) && source <(fzf --zsh)
 
 # Config -----------------------------------------------------------------------
 

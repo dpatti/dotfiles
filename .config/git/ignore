@@ -1,0 +1,5 @@
+*.o
+*.exe
+*.stackdump
+*.hi
+**/.claude/settings.local.json

@@ -23,4 +23,4 @@ prompt
 # Case insensitive matching
 shopt -s nocaseglob
 
-source-if-exists ~/.fzf.bash
+is-on-path fzf && eval "$(fzf --bash)"

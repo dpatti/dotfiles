@@ -1,7 +1,6 @@
 syntax: glob
-*.sw?
 *.o
 *.exe
 *.stackdump
-.vim_session
-.~*#
+*.hi
+.claude

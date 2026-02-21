@@ -16,7 +16,6 @@ defaultLayout = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 
 
 layout = defaultLayout ||| reflectVert (Mirror defaultLayout) ||| simpleTabbed
 
--- terminalCommand = "alacritty-attach"
 terminalCommand = "alacritty"
 
 launcherKeys =
@@ -63,7 +62,7 @@ dunstKeys =
   ]
 
 main = do
-  xmobar <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
+  xmobar <- spawnPipe "xmobar ~/.config/xmonad/xmobarrc"
   xmonad . fullscreenSupport . docks $ desktopConfig
     { layoutHook = avoidStruts layout
     , logHook = dynamicLogWithPP xmobarPP

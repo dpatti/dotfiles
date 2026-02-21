@@ -1,0 +1,13 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "Doug Patti"
+email = "douglas.patti@gmail.com"
+
+[ui]
+default-command = "log"
+pager = "delta"
+diff-formatter = ":git"
+
+[colors]
+"diff token" = { bold = true, underline = false }

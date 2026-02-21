@@ -135,7 +135,6 @@
   whitespace = fix
 
 [core]
-  excludesfile = ~/.gitignore_global
   autocrlf = input
   filemode = false
   pager = delta

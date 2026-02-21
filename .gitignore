@@ -9,4 +9,14 @@
 
 !/.config
 /.config/*
+!/.config/alacritty
+!/.config/dunst
+!/.config/fontconfig
+!/.config/git
+!/.config/htop
+!/.config/jj
+/.config/jj/repos
 !/.config/nvim
+!/.config/ripgrep
+!/.config/tmux
+!/.config/xmonad

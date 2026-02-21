@@ -63,7 +63,6 @@ zip
 # Tools
 bat
 cloc
-colordiff
 fd
 flameshot
 fzf
@@ -100,6 +99,7 @@ tree-sitter-grammars [group]
 alacritty
 atop
 fish
+ghostty
 htop
 mtr
 ncdu

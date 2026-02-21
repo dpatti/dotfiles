@@ -17,4 +17,3 @@ else
   echo "Failed to source profile_helper.sh" >&2
   exit 1
 fi
-
