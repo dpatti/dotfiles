@@ -11,9 +11,6 @@ vim.opt.formatoptions = {
 vim.opt.textwidth = 80           -- 80 characters wide
 vim.opt.showmode = false         -- Don't display current mode since it's in the status line
 
--- (ditch?)
--- vim.opt.cmdheight = 2            -- Command line two lines high
-
 vim.opt.wildignorecase = true    -- Ignore case when tab-completing files
 vim.opt.timeoutlen = 500         -- Timeout for remaps
 vim.opt.ttimeoutlen = 10         -- Timeout for escape sequences
@@ -34,11 +31,8 @@ vim.opt.completeopt:append('menuone')  -- Show completion popup even if there is
 vim.opt.completeopt:append('noselect') -- Don't select, just pop up
 vim.opt.completeopt:remove('preview')  -- Don't show preview window
 
--- (use list?)
+vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-
--- (ditch?)
--- vim.opt.shada:append('%')        -- save buffer list on exit
 
 vim.opt.report = 0               -- report how many lines a : command changes
 
@@ -51,8 +45,6 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
--- (ditch?)
--- vim.opt.foldopen:append({ 'insert', 'jump' })
 vim.opt.foldmethod = 'marker'   -- Use {{{ }}} for folds
 
 -- --- }}}
@@ -67,10 +59,6 @@ vim.keymap.set('n', 'j', 'gj', { silent = true })
 -- Indent modification keeps visual mode
 vim.keymap.set('v', '>', '>gv', { silent = true })
 vim.keymap.set('v', '<', '<gv', { silent = true })
-
--- Mappings for easy toggle between 2 and 4 depending on document (kill?)
-vim.keymap.set('n', '<leader>2', '<cmd>set tabstop=2 softtabstop=2 shiftwidth=2<cr>')
-vim.keymap.set('n', '<leader>4', '<cmd>set tabstop=4 softtabstop=4 shiftwidth=4<cr>')
 
 -- Use Ctrl+C and Ctrl+V to copy/paste in their respective modes
 if vim.fn.has('clipboard') == 1 then
@@ -90,9 +78,6 @@ vim.keymap.set('n', '<leader>sv', '<cmd>source $HOME/.config/nvim/init.lua<cr>',
 -- Set text wrapping toggles
 vim.keymap.set('n', '<leader>w', '<cmd>set invwrap<cr><cmd>set wrap?<cr>', { silent = true })
 
--- Toggle paste mode (ditch?)
--- vim.keymap.set('n', '<leader>p', '<cmd>set invpaste<cr><cmd>set paste?<cr>', { silent = true })
-
 -- Toggle text wrap
 vim.keymap.set('n', '<leader>t', [[<cmd>if stridx(&fo, 't') == -1 | set fo+=t | else | set fo-=t | endif<cr><cmd>set fo?<cr>]], { silent = true })
 
@@ -108,31 +93,12 @@ vim.keymap.set('', '<leader>j', '<C-w><C-j>', { silent = true })
 vim.keymap.set('', '<leader>k', '<C-w><C-k>', { silent = true })
 vim.keymap.set('', '<leader>l', '<C-w><C-l>', { silent = true })
 
--- Ctrl+Backspace to delete prev word (ditch?)
--- vim.keymap.set('i', '<C-BS>', '<C-W>')
--- vim.keymap.set('c', '<C-BS>', '<C-W>')
-
 -- Diff (t)his, Diff (o)ff!
 vim.keymap.set('n', '<leader>dt', '<cmd>difft<cr>', { silent = true })
 vim.keymap.set('n', '<leader>do', '<cmd>diffo!<cr>', { silent = true })
 
--- Fold methods (ditch?)
--- vim.keymap.set('n', '<leader>fm', '<cmd>set foldmethod=marker<cr>', { silent = true })
--- vim.keymap.set('n', '<leader>fi', '<cmd>set foldmethod=indent<cr>', { silent = true })
-
 -- lookup keyword is almost never used, invert J instead
 vim.keymap.set('n', 'K', 'i<CR><Esc>k$')
-
--- Slide cursor to the next/previous line of the same indent level (ditch?) (vim-vertical?)
--- vim.keymap.set('n', '<C-K>', [[<cmd>call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%<' . line('.') . 'l\S', 'be')<CR>]], { silent = true })
--- vim.keymap.set('n', '<C-J>', [[<cmd>call search('^'. matchstr(getline('.'), '\(^\s*\)') .'\%>' . line('.') . 'l\S', 'e')<CR>]], { silent = true })
-
--- Tabs (ditch?)
--- vim.keymap.set('n', '<A-[>', '<cmd>tabprevious<CR>', { silent = true })
--- vim.keymap.set('n', '<A-]>', '<cmd>tabnext<CR>', { silent = true })
-
--- Command abbreviations (ditch?)
--- vim.cmd.cnoreabbrev('CWD', '%:h')
 
 -- --- }}}
 
@@ -249,12 +215,6 @@ vim.keymap.set('n', '~', '<cmd>Startify<CR>', { silent = true })
 vim.keymap.set('n', '<leader>a', '<Plug>(altr-forward)')
 vim.fn['altr#define']('%/%.ml', '%/%.mli', '%/%_intf.ml', '%/%0.ml', '%/%0.mli', '%/%1.ml', '%/%1.mli', '%/%.mly')
 
--- vim-javascript
-vim.g.javascript_plugin_flow = 1
-
--- vim-ruby
-vim.g.ruby_no_expensive = 1
-
 -- ack
 vim.cmd.cnoreabbrev('A', 'Ack!')
 vim.keymap.set('n', '<C-A>', '<cmd>Ack!<CR>', { silent = true })
@@ -268,7 +228,7 @@ vim.g.gitgutter_map_keys = 0
 vim.keymap.set('n', ',m', '<cmd>GitGutterNextHunk<CR>', { silent = true })
 vim.keymap.set('n', ',M', '<cmd>GitGutterPrevHunk<CR>', { silent = true })
 
--- Powerline
+-- airline
 vim.g.airline_section_y = '0x%02B'
 vim.g.airline_theme = 'base16_tomorrow'
 vim.g.airline_powerline_fonts = 0
@@ -281,13 +241,6 @@ vim.g.airline_symbols = {
   branch = '',
   readonly = '',
 }
-
--- Indent Guide
-vim.g.indent_guides_enable_on_vim_startup = 1
-vim.g.indent_guides_auto_colors = 0
-vim.g.indent_guides_guide_size = 2
-vim.api.nvim_set_hl(0, 'IndentGuidesOdd', { bg = '#1a1a1a' })
-vim.api.nvim_set_hl(0, 'IndentGuidesEven', { bg = '#151515' })
 
 -- fzf.vim
 vim.g.fzf_command_prefix = 'Fzf'
@@ -311,11 +264,6 @@ vim.g['deoplete#max_menu_width'] = 0
 vim.fn['deoplete#custom#option']('sources.ocaml', { 'ocaml', 'buffer', 'around', 'member', 'tag' })
 vim.fn['deoplete#custom#source']('_', 'max_abbr_width', 0)
 vim.fn['deoplete#custom#source']('_', 'max_menu_width', 0)
-
--- supertab
-vim.g.SuperTabDefaultCompletionType = 'context'
-vim.g.SuperTabContextDefaultCompletionType = '<c-n>'
-vim.g.SuperTabLongestHighlight = 0
 
 -- bufkill
 vim.keymap.set('n', '<Leader>bd', '<cmd>BD<CR>', { silent = true })
@@ -383,7 +331,6 @@ vim.g.ocaml_highlight_operators = 1
 
 -- --- Style and font --------------------------------------------------------{{{
 vim.opt.background = "dark"
-vim.g.base16colorspace = 256
 vim.cmd.colorscheme('base16-tomorrow-night')
 
 -- Some ocaml overrides, some attemts to make ALE more bearable
@@ -405,7 +352,6 @@ vim.api.nvim_set_hl(0, 'typescriptOpSymbols', { link = 'jsOperator' })
 
 vim.opt.colorcolumn = { 81, 121 }
 
-vim.opt.list = true
 do
   local group = vim.api.nvim_create_augroup('whitespace', { clear = true })
   vim.api.nvim_create_autocmd('InsertEnter', {
@@ -420,7 +366,7 @@ end
 
 do
   local group = vim.api.nvim_create_augroup('CursorLine', { clear = true })
-  vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
+  vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
     group = group,
     pattern = '*',
     callback = function()
@@ -441,7 +387,8 @@ end
 -- --- Custom commands -------------------------------------------------------{{{
 
 -- fill rest of line with characters
-local function fill_line(str)
+vim.keymap.set('n', ',cl', function()
+  local str = '-'
   local tw = vim.bo.textwidth
   if tw == 0 then tw = 80 end
   -- strip trailing spaces first
@@ -454,31 +401,7 @@ local function fill_line(str)
     line = line .. ' ' .. str:rep(reps)
   end
   vim.api.nvim_set_current_line(line)
-end
-vim.keymap.set('n', ',cl', function() fill_line('-') end, { silent = true })
-
--- Open terminal at current location
-vim.keymap.set('n', ',ct', function()
-  if vim.fn.has('unix') == 1 then
-    vim.fn.system("gnome-terminal --working-directory='" .. vim.fn.getcwd() .. "' &")
-  end
 end, { silent = true })
-
--- Convenient command to see the difference between the current buffer and the
--- file it was loaded from, thus the changes you made.
-if vim.fn.exists(':DiffOrig') ~= 2 then
-  vim.api.nvim_create_user_command('DiffOrig', function()
-    vim.cmd('vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis')
-  end, {})
-end
-
--- Show syntax highlight groups under cursor
-local function syn_stack()
-  local stack = vim.fn.synstack(vim.fn.line('.'), vim.fn.col('.'))
-  local names = vim.tbl_map(function(id) return vim.fn.synIDattr(id, 'name') end, stack)
-  print(vim.inspect(names))
-end
-vim.api.nvim_create_user_command('SynStack', syn_stack, {})
 
 -- Profiling helpers
 vim.api.nvim_create_user_command('ProfileStart', function()
@@ -492,8 +415,25 @@ vim.api.nvim_create_user_command('ProfileStop', function()
   print('You must quit vim for profiling to be written to disk')
 end, {})
 
+-- fzf git files (with fallback)
+vim.api.nvim_create_user_command('FzfGitFiles', function()
+  if vim.env.FZF_DEFAULT_COMMAND == nil or vim.env.FZF_DEFAULT_COMMAND == '' then
+    vim.env.FZF_DEFAULT_COMMAND = 'rg --files'
+  end
+
+  local is_git = vim.fn.trim(vim.fn.system('git rev-parse --is-inside-work-tree'))
+  if is_git == 'true' then
+    vim.fn['fzf#run'](vim.fn['fzf#vim#with_preview'](vim.fn['fzf#wrap']('git', {
+      source = 'git files',
+      options = '-m --prompt "git> "',
+    })))
+  else
+    vim.cmd('FzfFiles')
+  end
+end, {})
+
 -- fzf merlin completion
-local function fzf_merlin()
+vim.api.nvim_create_user_command('FzfMerlin', function()
   local start = vim.fn['merlin#Complete'](1, '')
   local base = vim.fn.strpart(vim.fn.getline('.'), start, vim.fn.col('.') - 1 - start)
   local completions = vim.fn['merlin#Complete'](0, base)
@@ -509,25 +449,6 @@ local function fzf_merlin()
     end,
     options = '+x -n 1,1..',
   }))
-end
+end, {})
 
--- fzf git files (with fallback)
-local function fzf_git_files()
-  if vim.env.FZF_DEFAULT_COMMAND == nil or vim.env.FZF_DEFAULT_COMMAND == '' then
-    vim.env.FZF_DEFAULT_COMMAND = 'rg --files'
-  end
-
-  local is_git = vim.fn.trim(vim.fn.system('git rev-parse --is-inside-work-tree'))
-  if is_git == 'true' then
-    vim.fn['fzf#run'](vim.fn['fzf#vim#with_preview'](vim.fn['fzf#wrap']('git', {
-      source = 'git files',
-      options = '-m --prompt "git> "',
-    })))
-  else
-    vim.cmd('FzfFiles')
-  end
-end
-
-vim.api.nvim_create_user_command('FzfGitFiles', fzf_git_files, {})
-vim.api.nvim_create_user_command('FzfMerlin', fzf_merlin, {})
 -- --- }}}
