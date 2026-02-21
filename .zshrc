@@ -1,11 +1,8 @@
-zmodload zsh/zprof
+# Uncomment to profile
+# zmodload zsh/zprof
 
-if false; then
-[ -f ~/.zprezto/init.zsh ] && source ~/.zprezto/init.zsh
+# Plugins ----------------------------------------------------------------------
 
-else
-
-# Begin new
 [ -f ~/.zplug/init.zsh ] && source ~/.zplug/init.zsh
 
 zplug 'mafredri/zsh-async'
@@ -16,14 +13,20 @@ zplug 'zsh-users/zsh-history-substring-search', as:plugin
 
 zplug load
 
+# fzf is outside of zplug
+is-on-path fzf && source <(fzf --zsh)
+
+# Config -----------------------------------------------------------------------
+
+# zsh-autosuggestions
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 # pure
 zstyle ':prompt:pure:prompt:success' color green
 
-# ------------------------------------------------------------------------------
+# General ----------------------------------------------------------------------
 
 source ~/.commonrc
-
-# General
 
 setopt AUTO_CD               # cd without `cd`
 setopt INTERACTIVE_COMMENTS  # Allow comments in interactive
@@ -33,6 +36,8 @@ setopt LONG_LIST_JOBS        # Print more info when jobs complete
 
 WORDCHARS='_-'
 
+bindkey -A emacs main
+
 # Ctrl+Left / Ctrl+Right
 bindkey '^[[1;5C' emacs-forward-word
 bindkey '^[[1;5D' emacs-backward-word
@@ -40,7 +45,10 @@ bindkey '^[[1;5D' emacs-backward-word
 # Ctrl+F is forward-word for accepting partial suggestions
 bindkey '^F' forward-word
 
-# Completion
+# Ctrl+U to kill line before cursor instead of whole line
+bindkey '^U' backward-kill-line
+
+# Completion -------------------------------------------------------------------
 
 autoload -U compinit
 compinit
@@ -70,11 +78,11 @@ zstyle ':completion:*' verbose yes
 
 # Use caching
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
+zstyle ':completion::complete:*' cache-path "$HOME/.zcompcache"
 
 bindkey '^[[Z' reverse-menu-complete # Shift+Tab to cycle backwards
 
-# History
+# History ----------------------------------------------------------------------
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
@@ -96,43 +104,15 @@ SAVEHIST=10000                   # The maximum number of events to save in the h
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-
-fi
-
-source ~/.commonrc
-
-# Aliases
+# Aliases ----------------------------------------------------------------------
 
 alias -g L='|& less'
 alias -g .log='$(git log --reverse --pretty=oneline --abbrev-commit -20 | fzf +s --prompt="fixup> " | awk ''{ print $1 }'')'
 alias s='source ~/.zshrc'
 
-# I think I turned this on so that I could do things like HEAD^ without quoting?
-unsetopt NO_MATCH
+# Special keybindings ----------------------------------------------------------
 
-bindkey '^U' backward-kill-line
-
-fzf-git-branch-widget() {
-  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
-  LBUFFER="${LBUFFER}$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf)"
-  zle redisplay
-}
-zle -N fzf-git-branch-widget
-bindkey '^B' fzf-git-branch-widget
-
-fzf-executable-widget() {
-  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
-  (($#)) || set ''
-  LBUFFER="${LBUFFER}$(print -lr -- $^path/*$^@*(N:t) | sort -u | fzf)"
-  zle redisplay
-}
-zle -N fzf-executable-widget
-bindkey '^X' fzf-executable-widget
-
-is-on-path fzf && source <(fzf --zsh)
-
-# Allow Ctrl-z to toggle between suspend and resume
+# Ctrl+Z: toggle between suspend and resume
 function bg-resume {
     fg
     zle push-input
@@ -142,4 +122,26 @@ function bg-resume {
 zle -N bg-resume
 bindkey '^Z' bg-resume
 
-# zprof
+# Ctrl+B: fzf git branch selector
+fzf-git-branch-widget() {
+  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
+  LBUFFER="${LBUFFER}$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf)"
+  zle redisplay
+}
+zle -N fzf-git-branch-widget
+bindkey '^B' fzf-git-branch-widget
+
+# Ctrl+X: fzf path executable selector
+fzf-executable-widget() {
+  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
+  (($#)) || set ''
+  LBUFFER="${LBUFFER}$(print -lr -- $^path/*$^@*(N:t) | sort -u | fzf)"
+  zle redisplay
+}
+zle -N fzf-executable-widget
+bindkey '^X' fzf-executable-widget
+
+# ------------------------------------------------------------------------------
+
+# Profile if loaded at the start of the file
+(( ${+modules[zsh/zprof]} )) && zprof
