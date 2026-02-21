@@ -137,283 +137,284 @@ vim.keymap.set('n', 'K', 'i<CR><Esc>k$')
 -- --- }}}
 
 -- --- Plugin config ---------------------------------------------------------{{{
-vim.cmd [=[
-" plug
-call plug#begin(stdpath('data') . '/plug')
+-- plug
+local vim_plug = vim.fn['plug#']
+vim.fn['plug#begin'](vim.fn.stdpath('data') .. '/plug')
 
-" Languages
-" JavaScript
-Plug 'pangloss/vim-javascript'
-Plug 'kchmck/vim-coffee-script'
-Plug 'burnettk/vim-angular'
-Plug 'flowtype/vim-flow'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'raichoo/purescript-vim'
-Plug 'FrigoEU/psc-ide-vim'
-" Ruby
-Plug 'tpope/vim-rails'
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-bundler'
-" Haskell
-Plug 'neovimhaskell/haskell-vim'
-" Ocaml
-Plug 'ocaml/vim-ocaml'
-Plug 'ocaml/merlin', { 'rtp': 'vim/merlin' }
-Plug 'copy/deoplete-ocaml'
-" Misc
-Plug 'tpope/vim-git'
-Plug 'groenewege/vim-less'
-Plug 'tpope/vim-markdown'
-Plug 'juvenn/mustache.vim'
-Plug 'rodjek/vim-puppet'
-Plug 'othree/html5.vim'
-Plug 'cespare/vim-toml'
-Plug 'rust-lang/rust.vim'
-Plug '887/cargo.vim'
-Plug 'imsnif/kdl.vim'
+-- Languages
+-- JavaScript
+vim_plug('pangloss/vim-javascript')
+vim_plug('kchmck/vim-coffee-script')
+vim_plug('burnettk/vim-angular')
+vim_plug('flowtype/vim-flow')
+vim_plug('MaxMEllon/vim-jsx-pretty')
+vim_plug('raichoo/purescript-vim')
+vim_plug('FrigoEU/psc-ide-vim')
+-- Ruby
+vim_plug('tpope/vim-rails')
+vim_plug('vim-ruby/vim-ruby')
+vim_plug('tpope/vim-bundler')
+-- Haskell
+vim_plug('neovimhaskell/haskell-vim')
+-- Ocaml
+vim_plug('ocaml/vim-ocaml')
+vim_plug('ocaml/merlin', { rtp = 'vim/merlin' })
+vim_plug('copy/deoplete-ocaml')
+-- Misc
+vim_plug('tpope/vim-git')
+vim_plug('groenewege/vim-less')
+vim_plug('tpope/vim-markdown')
+vim_plug('juvenn/mustache.vim')
+vim_plug('rodjek/vim-puppet')
+vim_plug('othree/html5.vim')
+vim_plug('cespare/vim-toml')
+vim_plug('rust-lang/rust.vim')
+vim_plug('887/cargo.vim')
+vim_plug('imsnif/kdl.vim')
 
-" Tools
-Plug 'mhinz/vim-startify'
-Plug 'mileszs/ack.vim'
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-surround'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'qpkorr/vim-bufkill'
-Plug 'tpope/vim-eunuch'
-Plug 'scrooloose/nerdcommenter'
-Plug 'tpope/vim-endwise'
-Plug 'rbong/vim-vertical'
-Plug 'shougo/vimproc.vim', { 'do': 'make' }
-Plug 'sjl/gundo.vim'
-Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'w0rp/ale'
-Plug 'kana/vim-altr'
-Plug 'godlygeek/tabular'
-Plug 'thaerkh/vim-workspace'
-Plug 'AndrewRadev/linediff.vim'
-Plug 'pixelastic/vim-undodir-tree'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-repeat'
+-- Tools
+vim_plug('mhinz/vim-startify')
+vim_plug('mileszs/ack.vim')
+vim_plug('junegunn/fzf', { ['do'] = './install --bin' })
+vim_plug('junegunn/fzf.vim')
+vim_plug('tpope/vim-fugitive')
+vim_plug('terryma/vim-multiple-cursors')
+vim_plug('tpope/vim-surround')
+vim_plug('Shougo/deoplete.nvim', { ['do'] = ':UpdateRemotePlugins' })
+vim_plug('qpkorr/vim-bufkill')
+vim_plug('tpope/vim-eunuch')
+vim_plug('scrooloose/nerdcommenter')
+vim_plug('tpope/vim-endwise')
+vim_plug('rbong/vim-vertical')
+vim_plug('shougo/vimproc.vim', { ['do'] = 'make' })
+vim_plug('sjl/gundo.vim')
+vim_plug('ConradIrwin/vim-bracketed-paste')
+vim_plug('w0rp/ale')
+vim_plug('kana/vim-altr')
+vim_plug('godlygeek/tabular')
+vim_plug('thaerkh/vim-workspace')
+vim_plug('AndrewRadev/linediff.vim')
+vim_plug('pixelastic/vim-undodir-tree')
+vim_plug('tpope/vim-vinegar')
+vim_plug('tpope/vim-repeat')
 
-" Visual
-Plug 'airblade/vim-gitgutter'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'chriskempson/base16-vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/rainbow_parentheses.vim'
-call plug#end()
+-- Visual
+vim_plug('airblade/vim-gitgutter')
+vim_plug('vim-airline/vim-airline')
+vim_plug('vim-airline/vim-airline-themes')
+vim_plug('chriskempson/base16-vim')
+vim_plug('junegunn/goyo.vim')
+vim_plug('junegunn/limelight.vim')
+vim_plug('junegunn/rainbow_parentheses.vim')
+vim.fn['plug#end']()
 
-" ale
-let g:ale_floating_preview = 1
-let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰']
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_linters = {
-      \ 'haskell': ['hie', 'hlint', 'hdevtools', 'stack-build'],
-      \ 'ocaml': ['merlin'],
-      \ 'rust': ['cargo', 'analyzer'],
-      \}
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-      \ 'ocaml': ['ocamlformat'],
-      \ 'javascript': ['prettier'],
-      \ 'javascriptreact': ['prettier'],
-      \ 'json': ['prettier'],
-      \ 'typescript': ['prettier'],
-      \ 'typescriptreact': ['prettier'],
-      \ 'rust': ['rustfmt'],
-      \}
-nmap <silent> ,ft :ALEHover<cr>
-nmap <silent> ,fg :ALEGoToDefinition<cr>
-nmap <silent> ,fd :ALEGoToTypeDefinition<cr>
-nmap <silent> ,fn :ALENextWrap<cr>
-nmap <silent> ,fe :ALEDetail<cr>
+-- ale
+vim.g.ale_floating_preview = 1
+vim.g.ale_floating_window_border = { '│', '─', '╭', '╮', '╯', '╰' }
+vim.g.ale_lint_on_text_changed = 'normal'
+vim.g.ale_lint_on_insert_leave = 1
+vim.g.ale_linters = {
+  haskell = { 'hie', 'hlint', 'hdevtools', 'stack-build' },
+  ocaml = { 'merlin' },
+  rust = { 'cargo', 'analyzer' },
+}
+vim.g.ale_fix_on_save = 1
+vim.g.ale_fixers = {
+  ocaml = { 'ocamlformat' },
+  javascript = { 'prettier' },
+  javascriptreact = { 'prettier' },
+  json = { 'prettier' },
+  typescript = { 'prettier' },
+  typescriptreact = { 'prettier' },
+  rust = { 'rustfmt' },
+}
+vim.keymap.set('n', ',ft', '<cmd>ALEHover<cr>', { silent = true })
+vim.keymap.set('n', ',fg', '<cmd>ALEGoToDefinition<cr>', { silent = true })
+vim.keymap.set('n', ',fd', '<cmd>ALEGoToTypeDefinition<cr>', { silent = true })
+vim.keymap.set('n', ',fn', '<cmd>ALENextWrap<cr>', { silent = true })
+vim.keymap.set('n', ',fe', '<cmd>ALEDetail<cr>', { silent = true })
 
-" linediff
-nnoremap <silent> ,dm :LinediffMerge<CR>
-nnoremap <silent> ,dk :LinediffPick<CR>
-nnoremap <silent> ,dr :LinediffReset<CR>
-vnoremap <silent> ,da :LinediffAdd<CR>
-vnoremap <silent> ,db :LinediffLast<CR>
+-- linediff
+vim.keymap.set('n', ',dm', '<cmd>LinediffMerge<CR>', { silent = true })
+vim.keymap.set('n', ',dk', '<cmd>LinediffPick<CR>', { silent = true })
+vim.keymap.set('n', ',dr', '<cmd>LinediffReset<CR>', { silent = true })
+vim.keymap.set('v', ',da', '<cmd>LinediffAdd<CR>', { silent = true })
+vim.keymap.set('v', ',db', '<cmd>LinediffLast<CR>', { silent = true })
 
-" startify
-let g:startify_list_order = [
-      \ ['Most recently used'],
-      \ 'dir',
-      \ ['Bookmarks'],
-      \ 'bookmarks',
-      \ ['Sessions'],
-      \ 'sessions',
-      \ ['Commands'],
-      \ 'commands',
-      \ ]
-let g:startify_commands = [
-      \ {'l': ['project tree', 'e .']}
-      \ ]
-let g:startify_custom_header = [getcwd()]
-let g:startify_change_to_dir = 0
-nnoremap <silent> ~ :Startify<CR>
+-- startify
+vim.g.startify_list_order = {
+  { 'Most recently used' },
+  'dir',
+  { 'Bookmarks' },
+  'bookmarks',
+  { 'Sessions' },
+  'sessions',
+  { 'Commands' },
+  'commands',
+}
+vim.g.startify_commands = {
+  { l = { 'project tree', 'e .' } }
+}
+vim.g.startify_custom_header = { vim.fn.getcwd() }
+vim.g.startify_change_to_dir = 0
+vim.keymap.set('n', '~', '<cmd>Startify<CR>', { silent = true })
 
-" vim-altr
-nmap <leader>a <Plug>(altr-forward)
-call altr#define('%/%.ml', '%/%.mli', '%/%_intf.ml', '%/%0.ml', '%/%0.mli', '%/%1.ml', '%/%1.mli', '%/%.mly')
+-- vim-altr
+vim.keymap.set('n', '<leader>a', '<Plug>(altr-forward)')
+vim.fn['altr#define']('%/%.ml', '%/%.mli', '%/%_intf.ml', '%/%0.ml', '%/%0.mli', '%/%1.ml', '%/%1.mli', '%/%.mly')
 
-" vim-javascript
-let g:javascript_plugin_flow = 1
+-- vim-javascript
+vim.g.javascript_plugin_flow = 1
 
-" vim-ruby
-let ruby_no_expensive=1
+-- vim-ruby
+vim.g.ruby_no_expensive = 1
 
-" ack
-cnoreabbrev A Ack!
-nmap <silent> <C-A> :Ack!<CR>
-if executable('rg')
-  let g:ackprg = 'rg --vimgrep'
-endif
+-- ack
+vim.cmd.cnoreabbrev('A', 'Ack!')
+vim.keymap.set('n', '<C-A>', '<cmd>Ack!<CR>', { silent = true })
+if vim.fn.executable('rg') == 1 then
+  vim.g.ackprg = 'rg --vimgrep'
+end
 
-" coffee-script
-command! -range=% CC <line1>,<line2>CoffeeCompile
+-- coffee-script
+vim.api.nvim_create_user_command('CC', '<line1>,<line2>CoffeeCompile', { range = '%' })
 
-" git gutter
-let g:gitgutter_realtime = 0
-let g:gitgutter_map_keys = 0
-nmap <silent> ,m :GitGutterNextHunk<CR>
-nmap <silent> ,M :GitGutterPrevHunk<CR>
+-- git gutter
+vim.g.gitgutter_realtime = 0
+vim.g.gitgutter_map_keys = 0
+vim.keymap.set('n', ',m', '<cmd>GitGutterNextHunk<CR>', { silent = true })
+vim.keymap.set('n', ',M', '<cmd>GitGutterPrevHunk<CR>', { silent = true })
 
-" Powerline
-let g:airline_section_y = '0x%02B'
-let g:airline_theme = 'base16_tomorrow'
-let g:airline_powerline_fonts = 0
-let g:airline_skip_empty_sections = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
+-- Powerline
+vim.g.airline_section_y = '0x%02B'
+vim.g.airline_theme = 'base16_tomorrow'
+vim.g.airline_powerline_fonts = 0
+vim.g.airline_skip_empty_sections = 1
+vim.g.airline_left_sep = ''
+vim.g.airline_left_alt_sep = ''
+vim.g.airline_right_sep = ''
+vim.g.airline_right_alt_sep = ''
+if not vim.g.airline_symbols then
+  vim.g.airline_symbols = {}
+end
+vim.g.airline_symbols = vim.tbl_extend('force', vim.g.airline_symbols, {
+  branch = '',
+  readonly = '',
+})
 
-" Indent Guide
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_guide_size = 2
-hi IndentGuidesOdd guibg=#1a1a1a ctermbg=NONE
-hi IndentGuidesEven guibg=#151515 ctermbg=NONE
+-- Indent Guide
+vim.g.indent_guides_enable_on_vim_startup = 1
+vim.g.indent_guides_auto_colors = 0
+vim.g.indent_guides_guide_size = 2
+vim.api.nvim_set_hl(0, 'IndentGuidesOdd', { bg = '#1a1a1a' })
+vim.api.nvim_set_hl(0, 'IndentGuidesEven', { bg = '#151515' })
 
-" fzf.vim
-let g:fzf_command_prefix = 'Fzf'
-nnoremap <silent> <C-P> :FzfGitFiles<CR>
-nnoremap <silent> <C-B> :FzfBuffers<CR>
-nnoremap <silent> <C-T> :FzfMerlin<CR>
+-- fzf.vim
+vim.g.fzf_command_prefix = 'Fzf'
+vim.keymap.set('n', '<C-P>', '<cmd>FzfGitFiles<CR>', { silent = true })
+vim.keymap.set('n', '<C-B>', '<cmd>FzfBuffers<CR>', { silent = true })
+vim.keymap.set('n', '<C-T>', '<cmd>FzfMerlin<CR>', { silent = true })
 
-" deoplete
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#max_abbr_width = 0
-let g:deoplete#max_menu_width = 0
-" tab to complete
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ check_back_space() ? "\<TAB>" :
-"       \ deoplete#manual_complete()
-" inoremap <silent><expr> <S-TAB>
-"       \ pumvisible() ? "\<C-p>" :
-"       \ check_back_space() ? "\<S-TAB>" :
-"       \ deoplete#manual_complete()
-" function! s:check_back_space() abort "{{{
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction"}}}
+-- deoplete
+vim.api.nvim_create_autocmd({ 'InsertLeave', 'CompleteDone' }, {
+  pattern = '*',
+  callback = function()
+    if vim.fn.pumvisible() == 0 then
+      vim.cmd.pclose()
+    end
+  end,
+})
+vim.g['deoplete#enable_at_startup'] = 1
+vim.g['deoplete#max_abbr_width'] = 0
+vim.g['deoplete#max_menu_width'] = 0
 
-call deoplete#custom#option('sources.ocaml', ['ocaml', 'buffer', 'around', 'member', 'tag'])
-call deoplete#custom#source('_', 'max_abbr_width', 0)
-call deoplete#custom#source('_', 'max_menu_width', 0)
+vim.fn['deoplete#custom#option']('sources.ocaml', { 'ocaml', 'buffer', 'around', 'member', 'tag' })
+vim.fn['deoplete#custom#source']('_', 'max_abbr_width', 0)
+vim.fn['deoplete#custom#source']('_', 'max_menu_width', 0)
 
-" supertab
-let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabContextDefaultCompletionType = '<c-n>'
-let g:SuperTabLongestHighlight = 0
+-- supertab
+vim.g.SuperTabDefaultCompletionType = 'context'
+vim.g.SuperTabContextDefaultCompletionType = '<c-n>'
+vim.g.SuperTabLongestHighlight = 0
 
-" bufkill
-nnoremap <silent> <Leader>bd :BD<CR>
-nnoremap <silent> <Leader>bD :BD!<CR>
-nnoremap <silent> <Leader>BD :BD!<CR>
+-- bufkill
+vim.keymap.set('n', '<Leader>bd', '<cmd>BD<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>bD', '<cmd>BD!<CR>', { silent = true })
+vim.keymap.set('n', '<Leader>BD', '<cmd>BD!<CR>', { silent = true })
 
-" multiple-cursors
-let g:multi_cursor_exit_from_visual_mode = 0
-let g:multi_cursor_exit_from_insert_mode = 1
+-- multiple-cursors
+vim.g.multi_cursor_exit_from_visual_mode = 0
+vim.g.multi_cursor_exit_from_insert_mode = 1
 
-" vim-vertical (overwrites C-K and C-J above)
-nnoremap <silent> <C-K> :Vertical b<CR>
-nnoremap <silent> <C-J> :Vertical f<CR>
+-- vim-vertical (overwrites C-K and C-J above)
+vim.keymap.set('n', '<C-K>', '<cmd>Vertical b<CR>', { silent = true })
+vim.keymap.set('n', '<C-J>', '<cmd>Vertical f<CR>', { silent = true })
 
-" vim-surround
-vmap s S
+-- vim-surround
+vim.keymap.set('v', 's', 'S')
 
-" vim-flow
-let g:flow#flowpath = 'node_modules/.bin/flow'
-" I should switch to using ALE
-" autocmd FileType javascript nmap <buffer> <silent> ,ft :FlowType<cr>
+-- vim-flow
+vim.g['flow#flowpath'] = 'node_modules/.bin/flow'
 
-" psc-ide-vim
-autocmd FileType purescript nmap <buffer> <silent> ,ft :PSCIDEtype<cr>
-autocmd FileType purescript nmap <buffer> <silent> ,fg :PSCIDEgoToDefinition<cr>
-autocmd FileType purescript nmap <buffer> <silent> ,fi :PSCIDEimportIdentifier<cr>
-autocmd FileType purescript nmap <buffer> <silent> ,fa :PSCIDEaddTypeAnnotation<cr>
-autocmd FileType purescript nmap <buffer> <silent> ,fs :PSCIDEapplySuggestion<cr>
-autocmd FileType purescript nmap <buffer> <silent> ,fr :PSCIDEload<cr>
+-- psc-ide-vim
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'purescript',
+  callback = function()
+    vim.keymap.set('n', ',ft', '<cmd>PSCIDEtype<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fg', '<cmd>PSCIDEgoToDefinition<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fi', '<cmd>PSCIDEimportIdentifier<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fa', '<cmd>PSCIDEaddTypeAnnotation<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fs', '<cmd>PSCIDEapplySuggestion<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fr', '<cmd>PSCIDEload<cr>', { buffer = true, silent = true })
+  end,
+})
 
-" vim-workspace
-let g:workspace_session_name = '.session.vim'
-let g:workspace_autosave = 0
-let g:workspace_autosave_untrailspaces = 0
+-- vim-workspace
+vim.g.workspace_session_name = '.session.vim'
+vim.g.workspace_autosave = 0
+vim.g.workspace_autosave_untrailspaces = 0
 
-" gundo
-if has('python3')
-  let g:gundo_prefer_python3 = 1
-endif
-nnoremap <silent> ,gt :GundoToggle<CR>
+-- gundo
+if vim.fn.has('python3') == 1 then
+  vim.g.gundo_prefer_python3 = 1
+end
+vim.keymap.set('n', ',gt', '<cmd>GundoToggle<CR>', { silent = true })
 
-" nerdcommenter
-let g:NERDSpaceDelims = 1
-nmap <silent> gc ,c<space>
-vmap <silent> gc ,c<space>
-nmap <silent> gm ,cm
-vmap <silent> gm ,cm
+-- nerdcommenter
+vim.g.NERDSpaceDelims = 1
+vim.keymap.set('n', 'gc', ',c<space>', { silent = true, remap = true })
+vim.keymap.set('v', 'gc', ',c<space>', { silent = true, remap = true })
+vim.keymap.set('n', 'gm', ',cm', { silent = true, remap = true })
+vim.keymap.set('v', 'gm', ',cm', { silent = true, remap = true })
 
-" merlin
-function! MerlinLocateMli()
-   let g:merlin_locate_preference = 'mli'
-   :MerlinLocate
-   let g:merlin_locate_preference = 'ml'
-endfunction
-autocmd FileType ocaml nmap <silent> ,fg :MerlinLocate<cr>
-autocmd FileType ocaml nmap <silent> ,fd :call MerlinLocateMli()<cr>
-autocmd FileType ocaml nmap <silent> ,ft :MerlinTypeOf<cr>
-autocmd FileType ocaml vmap <silent> ,ft :MerlinTypeOfSel<cr>
-autocmd FileType ocaml nmap <silent> ,fy :MerlinYankLatestType<cr>
+-- merlin
+local function merlin_locate_mli()
+  vim.g.merlin_locate_preference = 'mli'
+  vim.cmd.MerlinLocate()
+  vim.g.merlin_locate_preference = 'ml'
+end
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'ocaml',
+  callback = function()
+    vim.keymap.set('n', ',fg', '<cmd>MerlinLocate<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fd', merlin_locate_mli, { buffer = true, silent = true })
+    vim.keymap.set('n', ',ft', '<cmd>MerlinTypeOf<cr>', { buffer = true, silent = true })
+    vim.keymap.set('v', ',ft', '<cmd>MerlinTypeOfSel<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fy', '<cmd>MerlinYankLatestType<cr>', { buffer = true, silent = true })
+  end,
+})
 
-" tabularize
-" map <leader>= and <leader>- to perform the most common alignments
-vnoremap <leader>- :Tabularize /-><cr>
-vnoremap <leader>; :Tabularize /^[^:]*\zs:<cr>
-vnoremap <leader>= :Tabularize /^[^=]*\zs=<cr>
+-- tabularize
+vim.keymap.set('v', '<leader>-', ':Tabularize /-><cr>')
+vim.keymap.set('v', '<leader>;', ':Tabularize /^[^:]*\\zs:<cr>')
+vim.keymap.set('v', '<leader>=', ':Tabularize /^[^=]*\\zs=<cr>')
 
-" limelight
-" (assuming markdown only right now)
-let g:limelight_bop = '^#'
-let g:limelight_eop = '\ze\n^#'
+-- limelight
+vim.g.limelight_bop = '^#'
+vim.g.limelight_eop = '\\ze\\n^#'
 
-" vim-ocaml
-let g:ocaml_highlight_operators = 1
-]=]
+-- vim-ocaml
+vim.g.ocaml_highlight_operators = 1
 -- --- }}}
 
 -- --- Style and font --------------------------------------------------------{{{
@@ -422,36 +423,34 @@ vim.g.base16colorspace = 256
 vim.cmd.colorscheme('base16-tomorrow-night')
 
 -- Some ocaml overrides, some attemts to make ALE more bearable
-vim.cmd.highlight { [[EnclosingExpr ctermbg=17 guibg=#2d362a]], bang = true }
-vim.cmd.highlight { [[SpellBad cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666]], bang = true }
-vim.cmd.highlight { [[link Operator Keyword]], bang = true }
-vim.cmd.highlight { [[link ocamlPpxIdentifier Keyword]], bang = true }
-vim.cmd.highlight { [[link sexplibUnquotedAtom NONE]], bang = true }
+vim.api.nvim_set_hl(0, 'EnclosingExpr', { ctermbg = 17, bg = '#2d362a' })
+vim.api.nvim_set_hl(0, 'SpellBad', { italic = true, undercurl = true, bg = 'NONE', sp = '#cc6666' })
+vim.api.nvim_set_hl(0, 'Operator', { link = 'Keyword' })
+vim.api.nvim_set_hl(0, 'ocamlPpxIdentifier', { link = 'Keyword' })
+vim.api.nvim_set_hl(0, 'sexplibUnquotedAtom', {})
 
-vim.cmd.highlight { [[ALEError cterm=italic ctermbg=NONE gui=undercurl guibg=NONE guisp=#cc6666]], bang = true }
-vim.cmd.highlight { [[link ALEStyleError   ALEError]], bang = true }
-vim.cmd.highlight { [[link ALEWarning      ALEError]], bang = true }
-vim.cmd.highlight { [[link ALEStyleWarning ALEError]], bang = true }
-vim.cmd.highlight { [[link ALEInfo         ALEError]], bang = true }
+vim.api.nvim_set_hl(0, 'ALEError', { italic = true, undercurl = true, bg = 'NONE', sp = '#cc6666' })
+vim.api.nvim_set_hl(0, 'ALEStyleError', { link = 'ALEError' })
+vim.api.nvim_set_hl(0, 'ALEWarning', { link = 'ALEError' })
+vim.api.nvim_set_hl(0, 'ALEStyleWarning', { link = 'ALEError' })
+vim.api.nvim_set_hl(0, 'ALEInfo', { link = 'ALEError' })
 
 -- vim-typescript looks upsettingly different from vim-javascript
-vim.cmd.highlight { [[link typescriptEndColons jsNoise]], bang = true }
-vim.cmd.highlight { [[link typescriptOpSymbols jsOperator]], bang = true }
+vim.api.nvim_set_hl(0, 'typescriptEndColons', { link = 'jsNoise' })
+vim.api.nvim_set_hl(0, 'typescriptOpSymbols', { link = 'jsOperator' })
 
 vim.opt.colorcolumn = { 81, 121 }
 
--- (probably replace with :list?)
+vim.opt.list = true
 do
   local group = vim.api.nvim_create_augroup('whitespace', { clear = true })
-  vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+  vim.api.nvim_create_autocmd('InsertEnter', {
     group = group,
-    pattern = '*',
-    command = [[if exists('w:m_trailing') | try | call matchdelete(w:m_trailing) | finally | unlet w:m_trailing | endtry | endif]],
+    callback = function() vim.opt_local.list = false end,
   })
-  vim.api.nvim_create_autocmd({ 'InsertLeave' }, {
+  vim.api.nvim_create_autocmd('InsertLeave', {
     group = group,
-    pattern = '*',
-    command = [[if !exists('w:m_trailing') | let w:m_trailing=matchadd('Error', '\s\+$', -1) | endif]],
+    callback = function() vim.opt_local.list = true end,
   })
 end
 
@@ -460,107 +459,111 @@ do
   vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
     group = group,
     pattern = '*',
-    command = [[setlocal cursorline]],
+    callback = function()
+      vim.opt_local.cursorline = true
+    end,
   })
   vim.api.nvim_create_autocmd({ 'WinLeave' }, {
     group = group,
     pattern = '*',
-    command = [[setlocal nocursorline]],
+    callback = function()
+      vim.opt_local.cursorline = false
+    end,
   })
 end
 
 -- --- }}}
 
 -- --- Custom commands -------------------------------------------------------{{{
-vim.cmd [=[
-" fill rest of line with characters
-function! FillLine( str )
-  " set tw to the desired total length
-  let tw = &textwidth
-  if tw==0 | let tw = 80 | endif
-  " strip trailing spaces first
-  .s/[[:space:]]*$//
-  " calculate total number of 'str's to insert
-  let reps = (tw - col("$")) / len(a:str)
-  " insert them, if there's room, removing trailing spaces (though forcing
-  " there to be one)
-  if reps > 0
-    .s/$/\=(' '.repeat(a:str, reps))/
-  endif
-endfunction
-nmap <silent> ,cl :call FillLine('-')<cr>
 
-" Open terminal at current location
-function! Terminal()
-  if has("unix")
-    execute "!gnome-terminal --working-directory='" . getcwd() ."' &"
-  endif
-endfunction
-nmap <silent> ,ct :call Terminal()<cr>
+-- fill rest of line with characters
+local function fill_line(str)
+  local tw = vim.bo.textwidth
+  if tw == 0 then tw = 80 end
+  -- strip trailing spaces first
+  local line = vim.api.nvim_get_current_line()
+  line = line:gsub('%s+$', '')
+  -- calculate total number of 'str's to insert
+  local reps = math.floor((tw - #line) / #str)
+  -- insert them, if there's room (with a leading space)
+  if reps > 0 then
+    line = line .. ' ' .. str:rep(reps)
+  end
+  vim.api.nvim_set_current_line(line)
+end
+vim.keymap.set('n', ',cl', function() fill_line('-') end, { silent = true })
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-      \ | wincmd p | diffthis
-endif
+-- Open terminal at current location
+vim.keymap.set('n', ',ct', function()
+  if vim.fn.has('unix') == 1 then
+    vim.fn.system("gnome-terminal --working-directory='" .. vim.fn.getcwd() .. "' &")
+  end
+end, { silent = true })
 
-function! SynStack()
-    if !exists("*synstack")
-        return
-    endif
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+-- Convenient command to see the difference between the current buffer and the
+-- file it was loaded from, thus the changes you made.
+if vim.fn.exists(':DiffOrig') ~= 2 then
+  vim.api.nvim_create_user_command('DiffOrig', function()
+    vim.cmd('vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | wincmd p | diffthis')
+  end, {})
+end
 
-function! ProfileStart()
-  profile start vim-profile.log
-  profile func *
-  profile file *
-endfunc
-command! -nargs=0 ProfileStart :call ProfileStart()
+-- Show syntax highlight groups under cursor
+local function syn_stack()
+  local stack = vim.fn.synstack(vim.fn.line('.'), vim.fn.col('.'))
+  local names = vim.tbl_map(function(id) return vim.fn.synIDattr(id, 'name') end, stack)
+  print(vim.inspect(names))
+end
+vim.api.nvim_create_user_command('SynStack', syn_stack, {})
 
-function! ProfileStop()
-  profile pause
-  echo 'You must quit vim for profiling to be written to disk'
-endfunc
-command! -nargs=0 ProfileStop :call ProfileStop()
+-- Profiling helpers
+vim.api.nvim_create_user_command('ProfileStart', function()
+  vim.cmd('profile start vim-profile.log')
+  vim.cmd('profile func *')
+  vim.cmd('profile file *')
+end, {})
 
-function! s:merlin_insert(lines)
-  let s = matchstr(a:lines[0], '^\S*')
-  call feedkeys("i" . s)
-endfunction
+vim.api.nvim_create_user_command('ProfileStop', function()
+  vim.cmd('profile pause')
+  print('You must quit vim for profiling to be written to disk')
+end, {})
 
-function! Fzf_merlin()
-  let start = merlin#Complete(1, "")
-  let base = strpart(getline('.'), start, col('.') - 1 - start)
-  let source = map(merlin#Complete(0, base), 'printf("%-25s %s", v:val.word, v:val.menu)')
+-- fzf merlin completion
+local function fzf_merlin()
+  local start = vim.fn['merlin#Complete'](1, '')
+  local base = vim.fn.strpart(vim.fn.getline('.'), start, vim.fn.col('.') - 1 - start)
+  local completions = vim.fn['merlin#Complete'](0, base)
+  local source = vim.tbl_map(function(v)
+    return string.format('%-25s %s', v.word, v.menu)
+  end, completions)
 
-  call fzf#run(fzf#wrap('merlin', {
-        \ 'source': source,
-        \ 'sink*': function('s:merlin_insert'),
-        \ 'options': '+x -n 1,1..',
-        \ }))
-endfunction
+  vim.fn['fzf#run'](vim.fn['fzf#wrap']('merlin', {
+    source = source,
+    ['sink*'] = function(lines)
+      local s = lines[1]:match('^%S*')
+      vim.fn.feedkeys('i' .. s)
+    end,
+    options = '+x -n 1,1..',
+  }))
+end
 
-function! Fzf_git_files()
-  if empty($FZF_DEFAULT_COMMAND)
-    let $FZF_DEFAULT_COMMAND='rg --files'
-  endif
+-- fzf git files (with fallback)
+local function fzf_git_files()
+  if vim.env.FZF_DEFAULT_COMMAND == nil or vim.env.FZF_DEFAULT_COMMAND == '' then
+    vim.env.FZF_DEFAULT_COMMAND = 'rg --files'
+  end
 
-  if trim(system("git rev-parse --is-inside-work-tree")) == "true"
-    " git-files defined in ~/bin/git-files
-    "call s:merge_opts(args, get(g:, 'fzf_files_options', []))
-    call fzf#run(fzf#vim#with_preview(fzf#wrap('git', {
-          \ 'source': 'git files',
-          \ 'options': '-m --prompt "git> "',
-          \ })))
+  local is_git = vim.fn.trim(vim.fn.system('git rev-parse --is-inside-work-tree'))
+  if is_git == 'true' then
+    vim.fn['fzf#run'](vim.fn['fzf#vim#with_preview'](vim.fn['fzf#wrap']('git', {
+      source = 'git files',
+      options = '-m --prompt "git> "',
+    })))
   else
-    execute("FzfFiles")
-  endif
-endfunction
+    vim.cmd('FzfFiles')
+  end
+end
 
-command! FzfGitFiles :call Fzf_git_files()
-command! FzfMerlin :call Fzf_merlin()
-]=]
+vim.api.nvim_create_user_command('FzfGitFiles', fzf_git_files, {})
+vim.api.nvim_create_user_command('FzfMerlin', fzf_merlin, {})
 -- --- }}}
