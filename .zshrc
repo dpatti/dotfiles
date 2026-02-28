@@ -3,15 +3,16 @@
 
 # Plugins ----------------------------------------------------------------------
 
-[ -f ~/.zplug/init.zsh ] && source ~/.zplug/init.zsh
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ -d $ZINIT_HOME ] && source "${ZINIT_HOME}/zinit.zsh"
 
-zplug 'mafredri/zsh-async'
-zplug 'dpatti/pure', use:pure.zsh, as:theme
-zplug 'zsh-users/zsh-syntax-highlighting'
-zplug 'zsh-users/zsh-autosuggestions'
-zplug 'zsh-users/zsh-history-substring-search', as:plugin
+zinit load 'zsh-users/zsh-syntax-highlighting'
+zinit load 'zsh-users/zsh-autosuggestions'
+zinit load 'zsh-users/zsh-history-substring-search'
+zinit load 'mafredri/zsh-async'
 
-zplug load
+zinit ice src'pure.zsh'
+zinit load 'dpatti/pure'
 
 # fzf comes packaged in the binary
 (( ${+commands[fzf]} )) && source <(fzf --zsh)
@@ -95,10 +96,11 @@ setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history
 setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
 unsetopt SHARE_HISTORY           # Multiple terminals shouldn't mix history.
 setopt INC_APPEND_HISTORY        # But we want to flush history every command.
+setopt AUTO_CD
 
 HISTFILE="$HOME/.zhistory"
-HISTSIZE=10000                   # The maximum number of events to save in the internal history.
-SAVEHIST=10000                   # The maximum number of events to save in the history file.
+HISTSIZE=50000                   # The maximum number of events to save in the internal history.
+SAVEHIST=$HISTSIZE               # The maximum number of events to save in the history file.
 
 # Up / Down
 bindkey '^[[A' history-substring-search-up
