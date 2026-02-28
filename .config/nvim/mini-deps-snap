@@ -1,0 +1,5 @@
+return {
+  ["mini.nvim"] = "a995fe9cd4193fb492b5df69175a351a74b3d36b",
+  ["nvim-lspconfig"] = "ead0f5f342d8d323441e7d4b88f0fc436a81ad5f",
+  ["nvim-treesitter"] = "6bc51d020a5e06b7e20ea82dbc47196d3d3027c7"
+}

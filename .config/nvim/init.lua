@@ -103,6 +103,103 @@ vim.keymap.set('n', 'K', 'i<CR><Esc>k$')
 -- --- }}}
 
 -- --- Plugin config ---------------------------------------------------------{{{
+
+-- See ~/.bootstrap/nvim
+require('mini.deps').setup({ path = { package = vim.fn.stdpath('data') .. '/site/' }})
+
+-- (use now/later?)
+local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+add({ name = 'mini.nvim', checkout = 'stable' })
+
+require('mini.notify').setup()
+vim.notify = require('mini.notify').make_notify()
+
+add('neovim/nvim-lspconfig')
+vim.lsp.enable('ts_ls')
+
+-- (still has lots of undefined-global diagnostic warnings?)
+vim.lsp.config('lua_ls', {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most
+        -- likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Tell the language server how to find Lua modules same way as Neovim
+        -- (see `:h lua-module-load`)
+        path = {
+          '?.lua',
+          '?/init.lua',
+          'lua/?.lua',
+          'lua/?/init.lua',
+        },
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = { vim.env.VIMRUNTIME },
+      },
+    },
+  },
+})
+vim.lsp.enable('lua_ls')
+
+later(function()
+  add({
+    source = 'nvim-treesitter/nvim-treesitter',
+    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+  })
+  -- :lua= require('nvim-treesitter').get_available()
+  local filetypes = {
+    'asm',
+    'awk',
+    'bash',
+    'bpftrace',
+    'c',
+    'cmake',
+    'commonlisp',
+    'cpp',
+    'css',
+    'csv',
+    'diff',
+    'dockerfile',
+    'dot',
+    'fish',
+    'go',
+    'haskell',
+    'html',
+    'javascript',
+    'jsonnet',
+    'jsx',
+    'kdl',
+    'lua',
+    'make',
+    'markdown',
+    'nginx',
+    'nix',
+    'ocaml',
+    'python',
+    'ruby',
+    'rust',
+    'sql',
+    'strace',
+    'tmux',
+    'toml',
+    'tsx',
+    'typescript',
+    'xml',
+    'xresources',
+    'yaml',
+    'zig',
+    'zsh',
+  }
+  require('nvim-treesitter').install(filetypes)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = filetypes,
+    callback = function() vim.treesitter.start() end,
+  })
+end)
+
 -- plug
 local vim_plug = vim.fn['plug#']
 vim.fn['plug#begin'](vim.fn.stdpath('data') .. '/plug')
@@ -279,7 +376,7 @@ vim.keymap.set('n', '<C-K>', '<cmd>Vertical b<CR>', { silent = true })
 vim.keymap.set('n', '<C-J>', '<cmd>Vertical f<CR>', { silent = true })
 
 -- vim-surround
-vim.keymap.set('v', 's', 'S')
+vim.keymap.set('v', 's', '<plug>VSurround')
 
 -- vim-workspace
 vim.g.workspace_session_name = '.session.vim'
