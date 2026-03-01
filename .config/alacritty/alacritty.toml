@@ -18,3 +18,8 @@ dynamic_title = true
 
 [mouse]
 bindings=[]
+
+[[keyboard.bindings]]
+mods = "Shift"
+key = "Return"
+chars = "\u001b\r"
