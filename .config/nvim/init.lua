@@ -394,8 +394,8 @@ vim.fn['altr#define']('%/%.ml', '%/%.mli', '%/%_intf.ml', '%/%0.ml', '%/%0.mli',
 -- ack
 add('mileszs/ack.vim')
 vim.g.ackprg = 'rg --vimgrep'
-vim.api.nvim_create_user_command('A', function(args)
-  vim.cmd('Ack!', args)
+vim.api.nvim_create_user_command('A', function(opts)
+  vim.cmd('Ack! ' .. opts.args)
 end, { nargs = '*', complete = 'file' })
 vim.keymap.set('n', '<C-A>', '<cmd>call histadd("cmd", "A " . expand("<cword>"))<CR>:A<CR>', { silent = true })
 
