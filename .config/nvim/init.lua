@@ -114,6 +114,10 @@ add({ name = 'mini.nvim', checkout = 'stable' })
 require('mini.notify').setup()
 vim.notify = require('mini.notify').make_notify()
 
+require('mini.cmdline').setup()
+require('mini.statusline').setup()
+require('mini.completion').setup()
+
 add('neovim/nvim-lspconfig')
 vim.lsp.enable('ts_ls')
 
@@ -200,62 +204,47 @@ later(function()
   })
 end)
 
--- plug
-local vim_plug = vim.fn['plug#']
-vim.fn['plug#begin'](vim.fn.stdpath('data') .. '/plug')
-
 -- Languages
--- JavaScript
-vim_plug('pangloss/vim-javascript')
-vim_plug('MaxMEllon/vim-jsx-pretty')
--- Ocaml
-vim_plug('ocaml/vim-ocaml')
-vim_plug('ocaml/merlin', { rtp = 'vim/merlin' })
-vim_plug('copy/deoplete-ocaml')
--- Misc
-vim_plug('tpope/vim-git')
-vim_plug('groenewege/vim-less')
-vim_plug('tpope/vim-markdown')
-vim_plug('cespare/vim-toml')
-vim_plug('rust-lang/rust.vim')
-vim_plug('887/cargo.vim')
-vim_plug('imsnif/kdl.vim')
+add('pangloss/vim-javascript')
+add('MaxMEllon/vim-jsx-pretty')
+add('ocaml/vim-ocaml')
+add('tpope/vim-git')
+add('groenewege/vim-less')
+add('tpope/vim-markdown')
+add('cespare/vim-toml')
+add('rust-lang/rust.vim')
+add('887/cargo.vim')
+add('imsnif/kdl.vim')
 
 -- Tools
-vim_plug('mhinz/vim-startify')
-vim_plug('mileszs/ack.vim')
-vim_plug('junegunn/fzf', { ['do'] = './install --bin' })
-vim_plug('junegunn/fzf.vim')
-vim_plug('tpope/vim-fugitive')
-vim_plug('terryma/vim-multiple-cursors')
-vim_plug('tpope/vim-surround')
-vim_plug('Shougo/deoplete.nvim', { ['do'] = ':UpdateRemotePlugins' })
-vim_plug('qpkorr/vim-bufkill')
-vim_plug('tpope/vim-eunuch')
-vim_plug('scrooloose/nerdcommenter')
-vim_plug('tpope/vim-endwise')
-vim_plug('rbong/vim-vertical')
-vim_plug('shougo/vimproc.vim', { ['do'] = 'make' })
-vim_plug('sjl/gundo.vim')
-vim_plug('ConradIrwin/vim-bracketed-paste')
-vim_plug('w0rp/ale')
-vim_plug('kana/vim-altr')
-vim_plug('godlygeek/tabular')
-vim_plug('thaerkh/vim-workspace')
-vim_plug('AndrewRadev/linediff.vim')
-vim_plug('pixelastic/vim-undodir-tree')
-vim_plug('tpope/vim-vinegar')
-vim_plug('tpope/vim-repeat')
+add('mhinz/vim-startify')
+add('mileszs/ack.vim')
+add('junegunn/fzf.vim')
+add('tpope/vim-fugitive')
+add('terryma/vim-multiple-cursors')
+add('tpope/vim-surround')
+add('qpkorr/vim-bufkill')
+add('tpope/vim-eunuch')
+add('scrooloose/nerdcommenter')
+add('tpope/vim-endwise')
+add('rbong/vim-vertical')
+add('sjl/gundo.vim')
+add('ConradIrwin/vim-bracketed-paste')
+add('w0rp/ale')
+add('kana/vim-altr')
+add('godlygeek/tabular')
+add('thaerkh/vim-workspace')
+add('AndrewRadev/linediff.vim')
+add('pixelastic/vim-undodir-tree')
+add('tpope/vim-vinegar')
+add('tpope/vim-repeat')
 
 -- Visual
-vim_plug('airblade/vim-gitgutter')
-vim_plug('vim-airline/vim-airline')
-vim_plug('vim-airline/vim-airline-themes')
-vim_plug('chriskempson/base16-vim')
-vim_plug('junegunn/goyo.vim')
-vim_plug('junegunn/limelight.vim')
-vim_plug('junegunn/rainbow_parentheses.vim')
-vim.fn['plug#end']()
+add('airblade/vim-gitgutter')
+add('chriskempson/base16-vim')
+add('junegunn/goyo.vim')
+add('junegunn/limelight.vim')
+add('junegunn/rainbow_parentheses.vim')
 
 -- ale
 vim.g.ale_floating_preview = 1
@@ -325,42 +314,11 @@ vim.g.gitgutter_map_keys = 0
 vim.keymap.set('n', ',m', '<cmd>GitGutterNextHunk<CR>', { silent = true })
 vim.keymap.set('n', ',M', '<cmd>GitGutterPrevHunk<CR>', { silent = true })
 
--- airline
-vim.g.airline_section_y = '0x%02B'
-vim.g.airline_theme = 'base16_tomorrow'
-vim.g.airline_powerline_fonts = 0
-vim.g.airline_skip_empty_sections = 1
-vim.g.airline_left_sep = ''
-vim.g.airline_left_alt_sep = ''
-vim.g.airline_right_sep = ''
-vim.g.airline_right_alt_sep = ''
-vim.g.airline_symbols = {
-  branch = '',
-  readonly = '',
-}
-
 -- fzf.vim
 vim.g.fzf_command_prefix = 'Fzf'
 vim.keymap.set('n', '<C-P>', '<cmd>FzfGitFiles<CR>', { silent = true })
 vim.keymap.set('n', '<C-B>', '<cmd>FzfBuffers<CR>', { silent = true })
 vim.keymap.set('n', '<C-T>', '<cmd>FzfMerlin<CR>', { silent = true })
-
--- deoplete
-vim.api.nvim_create_autocmd({ 'InsertLeave', 'CompleteDone' }, {
-  pattern = '*',
-  callback = function()
-    if vim.fn.pumvisible() == 0 then
-      vim.cmd.pclose()
-    end
-  end,
-})
-vim.g['deoplete#enable_at_startup'] = 1
-vim.g['deoplete#max_abbr_width'] = 0
-vim.g['deoplete#max_menu_width'] = 0
-
-vim.fn['deoplete#custom#option']('sources.ocaml', { 'ocaml', 'buffer', 'around', 'member', 'tag' })
-vim.fn['deoplete#custom#source']('_', 'max_abbr_width', 0)
-vim.fn['deoplete#custom#source']('_', 'max_menu_width', 0)
 
 -- bufkill
 vim.keymap.set('n', '<Leader>bd', '<cmd>BD<CR>', { silent = true })
