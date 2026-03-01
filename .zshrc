@@ -39,9 +39,42 @@ WORDCHARS='_-'
 
 bindkey -A emacs main
 
-# Ctrl+Left / Ctrl+Right
-bindkey '^[[1;5C' emacs-forward-word
-bindkey '^[[1;5D' emacs-backward-word
+# create a zkbd compatible hash (see man 5 terminfo)
+typeset -g -A key
+
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Backspace]="${terminfo[kbs]}"
+key[Delete]="${terminfo[kdch1]}"
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
+key[Control-Left]="${terminfo[kLFT5]}"
+key[Control-Right]="${terminfo[kRIT5]}"
+
+bindkey -- "${key[Home]}"          beginning-of-line
+bindkey -- "${key[End]}"           end-of-line
+bindkey -- "${key[Insert]}"        overwrite-mode
+bindkey -- "${key[Backspace]}"     backward-delete-char
+bindkey -- "${key[Delete]}"        delete-char
+bindkey -- "${key[Up]}"            history-substring-search-up
+bindkey -- "${key[Down]}"          history-substring-search-down
+bindkey -- "${key[Left]}"          backward-char
+bindkey -- "${key[Right]}"         forward-char
+bindkey -- "${key[Control-Left]}"  backward-word
+bindkey -- "${key[Control-Right]}" forward-word
+bindkey -- "${key[PageUp]}"        beginning-of-buffer-or-history
+bindkey -- "${key[PageDown]}"      end-of-buffer-or-history
+bindkey -- "${key[Shift-Tab]}"     reverse-menu-complete
+
+# Ctrl+Left / Ctrl+Right (not sure if I like these better?)
+# bindkey '^[[1;5C' emacs-forward-word
+# bindkey '^[[1;5D' emacs-backward-word
 
 # Ctrl+F is forward-word for accepting partial suggestions
 bindkey '^F' forward-word
@@ -81,8 +114,6 @@ zstyle ':completion:*' verbose yes
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$HOME/.zcompcache"
 
-bindkey '^[[Z' reverse-menu-complete # Shift+Tab to cycle backwards
-
 # History ----------------------------------------------------------------------
 
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
@@ -101,10 +132,6 @@ setopt AUTO_CD
 HISTFILE="$HOME/.zhistory"
 HISTSIZE=50000                   # The maximum number of events to save in the internal history.
 SAVEHIST=$HISTSIZE               # The maximum number of events to save in the history file.
-
-# Up / Down
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
 
 # Aliases ----------------------------------------------------------------------
 
