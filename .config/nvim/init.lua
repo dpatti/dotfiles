@@ -52,6 +52,8 @@ vim.opt.foldmethod = 'marker'   -- Use {{{ }}} for folds
 -- --- Mappings --------------------------------------------------------------{{{
 vim.g.mapleader = ','       -- Set the <leader> key to comma
 
+vim.keymap.set('t', '<C-\\><C-\\>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
 -- Moving between wrapped lines
 vim.keymap.set('n', 'k', 'gk', { silent = true })
 vim.keymap.set('n', 'j', 'gj', { silent = true })
@@ -81,9 +83,6 @@ vim.keymap.set('n', '<leader>w', '<cmd>set invwrap<cr><cmd>set wrap?<cr>', { sil
 -- Toggle text wrap
 vim.keymap.set('n', '<leader>t', [[<cmd>if stridx(&fo, 't') == -1 | set fo+=t | else | set fo-=t | endif<cr><cmd>set fo?<cr>]], { silent = true })
 
--- Turn off higlight search
-vim.keymap.set('n', '<leader>n', '<cmd>set invhlsearch<cr><cmd>set hlsearch?<cr>', { silent = true })
-
 -- cd to directory of file in buffer
 vim.keymap.set('n', '<leader>cd', '<cmd>lcd %:h<cr>', { silent = true })
 
@@ -109,45 +108,80 @@ require('mini.deps').setup({ path = { package = vim.fn.stdpath('data') .. '/site
 
 -- (use now/later?)
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+local never = function(_) end
 add({ name = 'mini.nvim', checkout = 'stable' })
+
+require('mini.base16').setup({
+  palette = {
+    base00 = '#1d1f21',
+    base01 = '#282a2e',
+    base02 = '#373b41',
+    base03 = '#969896',
+    base04 = '#b4b7b4',
+    base05 = '#c5c8c6',
+    base06 = '#e0e0e0',
+    base07 = '#ffffff',
+    base08 = '#cc6666',
+    base09 = '#de935f',
+    base0A = '#f0c674',
+    base0B = '#b5bd68',
+    base0C = '#8abeb7',
+    base0D = '#81a2be',
+    base0E = '#b294bb',
+    base0F = '#a3685a',
+  },
+  use_cterm = false,
+  plugins = { default = true }
+})
 
 require('mini.notify').setup()
 vim.notify = require('mini.notify').make_notify()
 
 require('mini.cmdline').setup()
 require('mini.statusline').setup()
-require('mini.completion').setup()
+-- require('mini.completion').setup()
 
-add('neovim/nvim-lspconfig')
-vim.lsp.enable('ts_ls')
+-- (disable virtual_text until I figure out the lua warning thing? (it doesn't
+-- work?))
+vim.diagnostic.config({ virtual_text = false })
 
--- (still has lots of undefined-global diagnostic warnings?)
-vim.lsp.config('lua_ls', {
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most
-        -- likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Tell the language server how to find Lua modules same way as Neovim
-        -- (see `:h lua-module-load`)
-        path = {
-          '?.lua',
-          '?/init.lua',
-          'lua/?.lua',
-          'lua/?/init.lua',
+vim.keymap.set('n', ',fn', function() vim.diagnostic.jump({ count = 1, wrap = true, float = true }) end, { desc = '[N]ext error' })
+vim.keymap.set('n', ',ff', function() vim.lsp.buf.format() end, { desc = '[F]ormat' })
+
+-- lsp
+do
+  add('neovim/nvim-lspconfig')
+  vim.lsp.enable('ts_ls')
+
+  -- (still has lots of undefined-global diagnostic warnings?)
+  vim.lsp.config('lua_ls', {
+    settings = {
+      Lua = {
+        runtime = {
+          -- Tell the language server which version of Lua you're using (most
+          -- likely LuaJIT in the case of Neovim)
+          version = 'LuaJIT',
+          -- Tell the language server how to find Lua modules same way as Neovim
+          -- (see `:h lua-module-load`)
+          path = {
+            '?.lua',
+            '?/init.lua',
+            'lua/?.lua',
+            'lua/?/init.lua',
+          },
+        },
+        -- Make the server aware of Neovim runtime files
+        workspace = {
+          checkThirdParty = false,
+          library = { vim.env.VIMRUNTIME },
         },
       },
-      -- Make the server aware of Neovim runtime files
-      workspace = {
-        checkThirdParty = false,
-        library = { vim.env.VIMRUNTIME },
-      },
     },
-  },
-})
-vim.lsp.enable('lua_ls')
+  })
+  vim.lsp.enable('lua_ls')
+end
 
+-- treesitter
 later(function()
   add({
     source = 'nvim-treesitter/nvim-treesitter',
@@ -204,10 +238,75 @@ later(function()
   })
 end)
 
+-- picker
+later(function()
+  add('folke/snacks.nvim')
+  require('snacks').setup({
+    picker = {
+      matcher = {
+        frecency = true,
+      },
+      ui_select = true,
+      win = {
+        input = {
+          keys = {
+            ["<Esc>"] = { "close", mode = { "n", "i" }, desc = "Close" },
+            ["<C-u>"] = { "<C-u>", mode = { "i" }, expr = true, desc = "Kill line" },
+          },
+        },
+      },
+    },
+  })
+
+  vim.keymap.set('n', '<leader>sp', Snacks.picker.pickers, { desc = '[S]earch [P]ickers' })
+  vim.keymap.set('n', '<leader>sh', Snacks.picker.help, { desc = '[S]earch [H]elp' })
+  vim.keymap.set('n', '<leader>sk', Snacks.picker.keymaps, { desc = '[S]earch [K]eymaps' })
+  vim.keymap.set('n', '<leader>sf', Snacks.picker.files, { desc = '[S]earch [F]iles' })
+  vim.keymap.set('n', '<leader>sw', Snacks.picker.grep_word, { desc = '[S]earch current [W]ord' })
+  vim.keymap.set('n', '<leader>sg', Snacks.picker.grep, { desc = '[S]earch by [G]rep' })
+  vim.keymap.set('n', '<leader>sd', Snacks.picker.diagnostics, { desc = '[S]earch [D]iagnostics' })
+  vim.keymap.set('n', '<leader>sr', Snacks.picker.resume, { desc = '[S]earch [R]esume' })
+  vim.keymap.set('n', '<leader>s.', Snacks.picker.recent, { desc = '[S]earch Recent Files ("." for repeat)' })
+  vim.keymap.set('n', '<leader>sc', Snacks.picker.commands, { desc = '[S]earch [C]ommands' })
+  vim.keymap.set('n', '<leader>sb', Snacks.picker.buffers, { desc = '[S]earch [B]uffers' })
+
+  vim.keymap.set('n', '<C-A>', Snacks.picker.grep_word, { desc = 'Search current word' })
+
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
+    callback = function(event)
+      local buf = event.buf
+
+      vim.keymap.set('n', 'grr', Snacks.picker.lsp_references, { buffer = buf, desc = '[G]oto [R]eferences' })
+      vim.keymap.set('n', 'gri', Snacks.picker.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
+      vim.keymap.set('n', 'grd', Snacks.picker.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
+      vim.keymap.set('n', 'gO', Snacks.picker.lsp_symbols, { buffer = buf, desc = 'Open Document Symbols' })
+      vim.keymap.set('n', 'gW', Snacks.picker.lsp_workspace_symbols, { buffer = buf, desc = 'Open Workspace Symbols' })
+      vim.keymap.set('n', 'grt', Snacks.picker.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
+
+      -- The ones I'm used to
+      vim.keymap.set('n', ',fo', Snacks.picker.lsp_references, { buffer = buf, desc = 'Goto References' })
+      vim.keymap.set('n', ',fi', Snacks.picker.lsp_implementations, { buffer = buf, desc = 'Goto Implementation' })
+      vim.keymap.set('n', ',fg', Snacks.picker.lsp_definitions, { buffer = buf, desc = 'Goto Definition' })
+      vim.keymap.set('n', ',fd', Snacks.picker.lsp_declarations, { buffer = buf, desc = 'Goto Declaration' })
+      vim.keymap.set('n', ',fr', Snacks.picker.lsp_type_definitions, { buffer = buf, desc = 'Goto Type Definition' })
+    end,
+  })
+end)
+
+-- completion
+later(function()
+  add('saghen/blink.cmp')
+  require('blink.cmp').setup({
+    keymap = { preset = 'super-tab' },
+    -- (switch to rust impl?)
+    fuzzy = { implementation = "lua" },
+  })
+end)
+
 -- Languages
 add('pangloss/vim-javascript')
 add('MaxMEllon/vim-jsx-pretty')
-add('ocaml/vim-ocaml')
 add('tpope/vim-git')
 add('groenewege/vim-less')
 add('tpope/vim-markdown')
@@ -217,36 +316,24 @@ add('887/cargo.vim')
 add('imsnif/kdl.vim')
 
 -- Tools
-add('mhinz/vim-startify')
-add('mileszs/ack.vim')
-add('junegunn/fzf.vim')
 add('tpope/vim-fugitive')
-add('terryma/vim-multiple-cursors')
-add('tpope/vim-surround')
-add('qpkorr/vim-bufkill')
 add('tpope/vim-eunuch')
-add('scrooloose/nerdcommenter')
 add('tpope/vim-endwise')
-add('rbong/vim-vertical')
-add('sjl/gundo.vim')
 add('ConradIrwin/vim-bracketed-paste')
-add('w0rp/ale')
-add('kana/vim-altr')
-add('godlygeek/tabular')
-add('thaerkh/vim-workspace')
-add('AndrewRadev/linediff.vim')
 add('pixelastic/vim-undodir-tree')
 add('tpope/vim-vinegar')
 add('tpope/vim-repeat')
 
 -- Visual
-add('airblade/vim-gitgutter')
-add('chriskempson/base16-vim')
 add('junegunn/goyo.vim')
-add('junegunn/limelight.vim')
 add('junegunn/rainbow_parentheses.vim')
 
+-- vim-ocaml
+add('ocaml/vim-ocaml')
+vim.g.ocaml_highlight_operators = 1
+
 -- ale
+add('w0rp/ale')
 vim.g.ale_floating_preview = 1
 vim.g.ale_floating_window_border = { '│', '─', '╭', '╮', '╯', '╰' }
 vim.g.ale_lint_on_text_changed = 'normal'
@@ -266,13 +353,14 @@ vim.g.ale_fixers = {
   typescriptreact = { 'prettier' },
   rust = { 'rustfmt' },
 }
-vim.keymap.set('n', ',ft', '<cmd>ALEHover<cr>', { silent = true })
-vim.keymap.set('n', ',fg', '<cmd>ALEGoToDefinition<cr>', { silent = true })
-vim.keymap.set('n', ',fd', '<cmd>ALEGoToTypeDefinition<cr>', { silent = true })
-vim.keymap.set('n', ',fn', '<cmd>ALENextWrap<cr>', { silent = true })
-vim.keymap.set('n', ',fe', '<cmd>ALEDetail<cr>', { silent = true })
+-- vim.keymap.set('n', ',ft', '<cmd>ALEHover<cr>', { silent = true })
+-- vim.keymap.set('n', ',fg', '<cmd>ALEGoToDefinition<cr>', { silent = true })
+-- vim.keymap.set('n', ',fd', '<cmd>ALEGoToTypeDefinition<cr>', { silent = true })
+-- vim.keymap.set('n', ',fn', '<cmd>ALENextWrap<cr>', { silent = true })
+-- vim.keymap.set('n', ',fe', '<cmd>ALEDetail<cr>', { silent = true })
 
 -- linediff
+add('AndrewRadev/linediff.vim')
 vim.keymap.set('n', ',dm', '<cmd>LinediffMerge<CR>', { silent = true })
 vim.keymap.set('n', ',dk', '<cmd>LinediffPick<CR>', { silent = true })
 vim.keymap.set('n', ',dr', '<cmd>LinediffReset<CR>', { silent = true })
@@ -280,6 +368,7 @@ vim.keymap.set('v', ',da', '<cmd>LinediffAdd<CR>', { silent = true })
 vim.keymap.set('v', ',db', '<cmd>LinediffLast<CR>', { silent = true })
 
 -- startify
+add('mhinz/vim-startify')
 vim.g.startify_list_order = {
   { 'Most recently used' },
   'dir',
@@ -298,95 +387,104 @@ vim.g.startify_change_to_dir = 0
 vim.keymap.set('n', '~', '<cmd>Startify<CR>', { silent = true })
 
 -- vim-altr
+add('kana/vim-altr')
 vim.keymap.set('n', '<leader>a', '<Plug>(altr-forward)')
 vim.fn['altr#define']('%/%.ml', '%/%.mli', '%/%_intf.ml', '%/%0.ml', '%/%0.mli', '%/%1.ml', '%/%1.mli', '%/%.mly')
 
 -- ack
-vim.cmd.cnoreabbrev('A', 'Ack!')
-vim.keymap.set('n', '<C-A>', '<cmd>Ack!<CR>', { silent = true })
-if vim.fn.executable('rg') == 1 then
-  vim.g.ackprg = 'rg --vimgrep'
-end
+add('mileszs/ack.vim')
+vim.g.ackprg = 'rg --vimgrep'
+vim.api.nvim_create_user_command('A', function(args)
+  vim.cmd('Ack!', args)
+end, { nargs = '*', complete = 'file' })
+vim.keymap.set('n', '<C-A>', '<cmd>call histadd("cmd", "A " . expand("<cword>"))<CR>:A<CR>', { silent = true })
 
 -- git gutter
+add('airblade/vim-gitgutter')
 vim.g.gitgutter_realtime = 0
 vim.g.gitgutter_map_keys = 0
 vim.keymap.set('n', ',m', '<cmd>GitGutterNextHunk<CR>', { silent = true })
 vim.keymap.set('n', ',M', '<cmd>GitGutterPrevHunk<CR>', { silent = true })
 
 -- fzf.vim
-vim.g.fzf_command_prefix = 'Fzf'
+vim.g.fzf_vim = { command_prefix = 'Fzf' }
+add({
+  source = 'junegunn/fzf.vim',
+  depends = { 'junegunn/fzf' },
+})
+vim.keymap.set('n', '<C-_>', '<cmd>FzfRg<CR>', { silent = true }) -- Ctrl+/
 vim.keymap.set('n', '<C-P>', '<cmd>FzfGitFiles<CR>', { silent = true })
 vim.keymap.set('n', '<C-B>', '<cmd>FzfBuffers<CR>', { silent = true })
 vim.keymap.set('n', '<C-T>', '<cmd>FzfMerlin<CR>', { silent = true })
 
 -- bufkill
+add('qpkorr/vim-bufkill')
 vim.keymap.set('n', '<Leader>bd', '<cmd>BD<CR>', { silent = true })
 vim.keymap.set('n', '<Leader>bD', '<cmd>BD!<CR>', { silent = true })
 vim.keymap.set('n', '<Leader>BD', '<cmd>BD!<CR>', { silent = true })
 
 -- multiple-cursors
+add('terryma/vim-multiple-cursors')
 vim.g.multi_cursor_exit_from_visual_mode = 0
 vim.g.multi_cursor_exit_from_insert_mode = 1
 
 -- vim-vertical (overwrites C-K and C-J above)
+add('rbong/vim-vertical')
 vim.keymap.set('n', '<C-K>', '<cmd>Vertical b<CR>', { silent = true })
 vim.keymap.set('n', '<C-J>', '<cmd>Vertical f<CR>', { silent = true })
 
 -- vim-surround
+add('tpope/vim-surround')
 vim.keymap.set('v', 's', '<plug>VSurround')
 
 -- vim-workspace
+add('thaerkh/vim-workspace')
 vim.g.workspace_session_name = '.session.vim'
 vim.g.workspace_autosave = 0
 vim.g.workspace_autosave_untrailspaces = 0
 
 -- gundo
-if vim.fn.has('python3') == 1 then
-  vim.g.gundo_prefer_python3 = 1
-end
+add('sjl/gundo.vim')
+vim.g.gundo_prefer_python3 = 1
 vim.keymap.set('n', ',gt', '<cmd>GundoToggle<CR>', { silent = true })
 
 -- nerdcommenter
+add('scrooloose/nerdcommenter')
 vim.g.NERDSpaceDelims = 1
 vim.keymap.set('n', 'gc', ',c<space>', { silent = true, remap = true })
 vim.keymap.set('v', 'gc', ',c<space>', { silent = true, remap = true })
 vim.keymap.set('n', 'gm', ',cm', { silent = true, remap = true })
 vim.keymap.set('v', 'gm', ',cm', { silent = true, remap = true })
 
+-- (reintroduce or kill?)
 -- merlin
-local function merlin_locate_mli()
-  vim.g.merlin_locate_preference = 'mli'
-  vim.cmd.MerlinLocate()
-  vim.g.merlin_locate_preference = 'ml'
-end
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'ocaml',
   callback = function()
-    vim.keymap.set('n', ',fg', '<cmd>MerlinLocate<cr>', { buffer = true, silent = true })
-    vim.keymap.set('n', ',fd', merlin_locate_mli, { buffer = true, silent = true })
+    vim.keymap.set('n', ',fg', '<cmd>MerlinLocateImpl<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fd', '<cmd>MerlinLocateIntf<cr>', { buffer = true, silent = true })
     vim.keymap.set('n', ',ft', '<cmd>MerlinTypeOf<cr>', { buffer = true, silent = true })
     vim.keymap.set('v', ',ft', '<cmd>MerlinTypeOfSel<cr>', { buffer = true, silent = true })
     vim.keymap.set('n', ',fy', '<cmd>MerlinYankLatestType<cr>', { buffer = true, silent = true })
+    vim.keymap.set('n', ',fo', '<cmd>MerlinOccurrences<cr>', { buffer = true, silent = true })
   end,
 })
 
--- tabularize
+-- tabular
+add('godlygeek/tabular')
 vim.keymap.set('v', '<leader>-', ':Tabularize /-><cr>')
 vim.keymap.set('v', '<leader>;', ':Tabularize /^[^:]*\\zs:<cr>')
 vim.keymap.set('v', '<leader>=', ':Tabularize /^[^=]*\\zs=<cr>')
 
 -- limelight
+add('junegunn/limelight.vim')
 vim.g.limelight_bop = '^#'
 vim.g.limelight_eop = '\\ze\\n^#'
 
--- vim-ocaml
-vim.g.ocaml_highlight_operators = 1
 -- --- }}}
 
 -- --- Style and font --------------------------------------------------------{{{
 vim.opt.background = "dark"
-vim.cmd.colorscheme('base16-tomorrow-night')
 
 -- Some ocaml overrides, some attemts to make ALE more bearable
 vim.api.nvim_set_hl(0, 'EnclosingExpr', { ctermbg = 17, bg = '#2d362a' })

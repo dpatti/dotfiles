@@ -1,8 +1,9 @@
 return {
   ["ack.vim"] = "36e40f9ec91bdbf6f1adf408522a73a6925c3042",
   ale = "69c945d5daecadf8e4c4c499d0a7babda748d603",
-  ["base16-vim"] = "3be3cd82cd31acfcab9a41bad853d9c68d30478d",
+  ["blink.cmp"] = "b650e976a927be6b46487a0a610b75af111376c5",
   ["cargo.vim"] = "38838b16843f4dded13ff4318385852d9a6dd571",
+  fzf = "90c4269d4e5d88ec3a04697a8714ee86a43b2474",
   ["fzf.vim"] = "34a564c81f36047f50e593c1656f4580ff75ccca",
   ["goyo.vim"] = "9c72fdf2d202914318581f9f0dd09fd102f8504d",
   ["gundo.vim"] = "c5efef192b975b8e7d5fa3c6db932648d3b76323",
@@ -15,6 +16,7 @@ return {
   ["nvim-treesitter"] = "6bc51d020a5e06b7e20ea82dbc47196d3d3027c7",
   ["rainbow_parentheses.vim"] = "27e7cd73fec9d1162169180399ff8ea9fa28b003",
   ["rust.vim"] = "889b9a7515db477f4cb6808bef1769e53493c578",
+  ["snacks.nvim"] = "fe7cfe9800a182274d0f868a74b7263b8c0c020b",
   tabular = "12437cd1b53488e24936ec4b091c9324cafee311",
   ["vim-altr"] = "fba055cf3b83a1ada5b05d694fbefd024aa93289",
   ["vim-bracketed-paste"] = "ffa3bc10ab511a646f1b30bc9345f240c15394e9",
