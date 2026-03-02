@@ -7,3 +7,8 @@
     zcompile "$zcompdump"
   fi
 } &!
+
+# ------------------------------------------------------------------------------
+
+# Profile if loaded at the start of the file
+(( ${+modules[zsh/zprof]} )) && zprof

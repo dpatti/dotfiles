@@ -85,6 +85,7 @@ evtest # reading from /dev/input/eventN files
 
 # Development
 base-devel
+clang
 cmake
 gdb
 valgrind
@@ -93,13 +94,11 @@ podman
 inotify-tools # watch for rebuild
 namcap # verifying AUR packages
 capnproto
-tree-sitter-grammars [group]
 
 # Terminal Apps
 alacritty
 atop
 fish
-ghostty
 htop
 mtr
 ncdu
@@ -111,6 +110,7 @@ zsh
 
 # Lang
 bun-bin [aur]
+lua-language-server
 ocaml
 opam
 python
@@ -121,6 +121,7 @@ rust-analyzer
 rustup
 shellcheck
 stack
+tree-sitter-grammars [group]
 
 # Devices
 bluez # bluetooth

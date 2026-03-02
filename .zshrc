@@ -1,6 +1,3 @@
-# Uncomment to profile
-# zmodload zsh/zprof
-
 # Plugins ----------------------------------------------------------------------
 
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -9,6 +6,7 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 zinit load 'zsh-users/zsh-syntax-highlighting'
 zinit load 'zsh-users/zsh-autosuggestions'
 zinit load 'zsh-users/zsh-history-substring-search'
+zinit load 'Aloxaf/fzf-tab'
 zinit load 'mafredri/zsh-async'
 
 zinit ice src'pure.zsh'
@@ -39,6 +37,7 @@ WORDCHARS='_-'
 
 bindkey -A emacs main
 
+# Adapted from https://wiki.archlinux.org/title/Zsh#Key_bindings
 # create a zkbd compatible hash (see man 5 terminfo)
 typeset -g -A key
 
@@ -72,6 +71,16 @@ bindkey -- "${key[PageUp]}"        beginning-of-buffer-or-history
 bindkey -- "${key[PageDown]}"      end-of-buffer-or-history
 bindkey -- "${key[Shift-Tab]}"     reverse-menu-complete
 
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+  autoload -Uz add-zle-hook-widget
+  function zle_application_mode_start { echoti smkx }
+  function zle_application_mode_stop { echoti rmkx }
+  add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+  add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
+
 # Ctrl+Left / Ctrl+Right (not sure if I like these better?)
 # bindkey '^[[1;5C' emacs-forward-word
 # bindkey '^[[1;5D' emacs-backward-word
@@ -97,18 +106,27 @@ setopt EXTENDED_GLOB       # Needed for file modification glob modifiers with co
 setopt MENU_COMPLETE       # Autoselect the first completion entry.
 unsetopt FLOW_CONTROL      # Disable start/stop characters in shell editor.
 
-zstyle ':completion:*' menu select
+if (( $zsh_loaded_plugins[(Ie)Aloxaf/fzf-tab] )); then
+  zstyle ':completion:*' menu no
+  # Uncomment for group support
+  # zstyle ':completion:*:descriptions' format '[%d]'
+  # zstyle ':fzf-tab:*' switch-group '<' '>'
+else
+  zstyle ':completion:*' menu select
+  zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+  zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
+fi
+
 zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:options' auto-description '%d'
 zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
 zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 zstyle ':completion:*:default' list-prompt '%S%M matches%s'
-zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Use caching
 zstyle ':completion::complete:*' use-cache on
@@ -169,8 +187,3 @@ fzf-executable-widget() {
 }
 zle -N fzf-executable-widget
 bindkey '^X' fzf-executable-widget
-
-# ------------------------------------------------------------------------------
-
-# Profile if loaded at the start of the file
-(( ${+modules[zsh/zprof]} )) && zprof
