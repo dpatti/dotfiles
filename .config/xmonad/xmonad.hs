@@ -1,10 +1,12 @@
 import XMonad
 import qualified XMonad.StackSet as W
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops (ewmhFullscreen)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
+import XMonad.Layout.NoBorders (noBorders)
 import XMonad.Layout.Reflect (reflectVert)
 import XMonad.Layout.Tabbed (simpleTabbed)
-import XMonad.Layout.Fullscreen (fullscreenSupport)
+import XMonad.Layout.Fullscreen (fullscreenSupportBorder)
 import XMonad.Util.EZConfig (additionalKeys, additionalKeysP, removeKeysP)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (safeSpawn, spawnPipe)
@@ -12,9 +14,8 @@ import XMonad.Config.Desktop
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 
-defaultLayout = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 1/2 }
-
-layout = defaultLayout ||| reflectVert (Mirror defaultLayout) ||| simpleTabbed
+layout = avoidStruts tall ||| noBorders Full
+  where tall = Tall { tallNMaster = 1, tallRatioIncrement = 3/100, tallRatio = 1/2 }
 
 terminalCommand = "alacritty"
 
@@ -63,8 +64,8 @@ dunstKeys =
 
 main = do
   xmobar <- spawnPipe "xmobar ~/.config/xmonad/xmobarrc"
-  xmonad . fullscreenSupport . docks $ desktopConfig
-    { layoutHook = avoidStruts layout
+  xmonad . ewmhFullscreen . fullscreenSupportBorder $ desktopConfig
+    { layoutHook = layout
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmobar
       , ppTitle = xmobarColor "green" "" . shorten 50

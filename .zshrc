@@ -9,11 +9,14 @@ zinit load 'zsh-users/zsh-history-substring-search'
 zinit load 'Aloxaf/fzf-tab'
 zinit load 'mafredri/zsh-async'
 
-zinit ice src'pure.zsh'
-zinit load 'dpatti/pure'
+zinit ice pick'async.zsh' src'pure.zsh'
+zinit load 'sindresorhus/pure'
 
 # fzf comes packaged in the binary
 (( ${+commands[fzf]} )) && source <(fzf --zsh)
+
+# zinit autoloads the `colors` function
+unfunction colors
 
 # Config -----------------------------------------------------------------------
 
@@ -22,6 +25,15 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # pure
 zstyle ':prompt:pure:prompt:success' color green
+zstyle ':prompt:pure:suspended_jobs' color magenta
+
+# Add OSC 133 support
+PS1=$'%{\e]133;A\e\\%}'$PS1$'%{\e]133;B\e\\%}'
+function __osc133_preexec {
+  printf '\e]133;C\e\\'
+}
+typeset -a preexec_functions
+preexec_functions+=(__osc133_preexec)
 
 # General ----------------------------------------------------------------------
 
@@ -65,8 +77,8 @@ bindkey -- "${key[Up]}"            history-substring-search-up
 bindkey -- "${key[Down]}"          history-substring-search-down
 bindkey -- "${key[Left]}"          backward-char
 bindkey -- "${key[Right]}"         forward-char
-bindkey -- "${key[Control-Left]}"  backward-word
-bindkey -- "${key[Control-Right]}" forward-word
+bindkey -- "${key[Control-Left]}"  emacs-backward-word
+bindkey -- "${key[Control-Right]}" emacs-forward-word
 bindkey -- "${key[PageUp]}"        beginning-of-buffer-or-history
 bindkey -- "${key[PageDown]}"      end-of-buffer-or-history
 bindkey -- "${key[Shift-Tab]}"     reverse-menu-complete
@@ -81,10 +93,6 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
   add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
-# Ctrl+Left / Ctrl+Right (not sure if I like these better?)
-# bindkey '^[[1;5C' emacs-forward-word
-# bindkey '^[[1;5D' emacs-backward-word
-
 # Ctrl+F is forward-word for accepting partial suggestions
 bindkey '^F' forward-word
 
@@ -93,7 +101,7 @@ bindkey '^U' backward-kill-line
 
 # Completion -------------------------------------------------------------------
 
-autoload -U compinit
+autoload -Uz compinit
 compinit
 
 setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
@@ -153,37 +161,36 @@ SAVEHIST=$HISTSIZE               # The maximum number of events to save in the h
 
 # Aliases ----------------------------------------------------------------------
 
-alias -g L='|& less'
-alias -g .log='$(git log --reverse --pretty=oneline --abbrev-commit -20 | fzf +s --prompt="fixup> " | awk ''{ print $1 }'')'
 alias s='source ~/.zshrc'
 
 # Special keybindings ----------------------------------------------------------
 
 # Ctrl+Z: toggle between suspend and resume
 function bg-resume {
-    fg
-    zle push-input
-    BUFFER=""
-    zle accept-line
+  fg
+  zle push-input
+  BUFFER=""
+  zle accept-line
 }
 zle -N bg-resume
 bindkey '^Z' bg-resume
 
 # Ctrl+B: fzf git branch selector
 fzf-git-branch-widget() {
-  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
-  LBUFFER="${LBUFFER}$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | fzf)"
-  zle redisplay
+  LBUFFER="${LBUFFER}$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads | $(__fzfcmd))"
+  local ret=$?
+  zle reset-prompt
+  return $ret
 }
 zle -N fzf-git-branch-widget
 bindkey '^B' fzf-git-branch-widget
 
 # Ctrl+X: fzf path executable selector
 fzf-executable-widget() {
-  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore"
   (($#)) || set ''
-  LBUFFER="${LBUFFER}$(print -lr -- $^path/*$^@*(N:t) | sort -u | fzf)"
-  zle redisplay
+  LBUFFER="${LBUFFER}$(print -lr -- $^path/*$^@*(N:t) | sort -u | $(__fzfcmd))"
+  zle reset-prompt
+  return $ret
 }
 zle -N fzf-executable-widget
 bindkey '^X' fzf-executable-widget
