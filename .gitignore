@@ -16,6 +16,7 @@
 !/.config/htop
 !/.config/jj
 /.config/jj/repos
+!/.config/nix
 !/.config/nvim
 !/.config/ripgrep
 !/.config/tmux

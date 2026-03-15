@@ -108,7 +108,7 @@ require('mini.deps').setup({ path = { package = vim.fn.stdpath('data') .. '/site
 
 -- (use now/later?)
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
-local never = function(_) end
+local never = function() end
 add({ name = 'mini.nvim', checkout = 'stable' })
 
 require('mini.base16').setup({
@@ -179,6 +179,9 @@ do
     },
   })
   vim.lsp.enable('lua_ls')
+
+  -- nix
+  vim.lsp.enable('nil_ls')
 end
 
 -- treesitter
@@ -301,6 +304,36 @@ later(function()
     keymap = { preset = 'super-tab' },
     -- (switch to rust impl?)
     fuzzy = { implementation = "lua" },
+  })
+end)
+
+-- auto-formatting
+later(function()
+  add('stevearc/conform.nvim')
+  local conform = require('conform')
+  conform.setup({
+    formatters_by_ft = {
+    },
+    default_format_opts = {
+      lsp_format = "fallback",
+    },
+  })
+
+  -- (this overrides the outer one? make it nicer?)
+  vim.keymap.set('n', ',ff', function()
+    conform.format({ async = true })
+  end, { desc = '[F]ormat' })
+end)
+
+later(function()
+  add('kwkarlwang/bufresize.nvim')
+  require('bufresize').setup({
+    register = {},
+    resize = {
+      keys = {},
+      trigger_events = { "VimResized" },
+      increment = false,
+    },
   })
 end)
 

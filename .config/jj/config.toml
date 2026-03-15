@@ -14,3 +14,12 @@ diff-expected-exit-codes = [0, 1]
 
 [colors]
 "diff token" = { bold = true, underline = false }
+
+[templates]
+draft_commit_description = '''
+concat(
+  builtin_draft_commit_description,
+  "\nJJ: ignore-rest\n",
+  diff.git(),
+)
+'''

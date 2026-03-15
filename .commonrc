@@ -69,6 +69,8 @@ is-on-path rbenv && eval "$(rbenv init -)"
 is-on-path nodenv && eval "$(nodenv init -)"
 is-on-path opam && eval "$(opam config env)"
 
+is-on-path dircolors && eval "$(dircolors -b)"
+
 function is-interactive {
   [[ $- == *i* ]]
 }

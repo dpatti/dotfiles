@@ -11,4 +11,4 @@
 # ------------------------------------------------------------------------------
 
 # Profile if loaded at the start of the file
-(( ${+modules[zsh/zprof]} )) && zprof
+if (( ${+modules[zsh/zprof]} )); then zprof; fi
