@@ -68,6 +68,7 @@ key[Shift-Tab]="${terminfo[kcbt]}"
 key[Control-Left]="${terminfo[kLFT5]}"
 key[Control-Right]="${terminfo[kRIT5]}"
 
+# (these print errors if the terminfo doesn't exist, e.g., for TERM=linux)
 bindkey -- "${key[Home]}"          beginning-of-line
 bindkey -- "${key[End]}"           end-of-line
 bindkey -- "${key[Insert]}"        overwrite-mode

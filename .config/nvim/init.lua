@@ -137,7 +137,10 @@ require('mini.base16').setup({
 require('mini.notify').setup()
 vim.notify = require('mini.notify').make_notify()
 
-require('mini.cmdline').setup()
+require('mini.cmdline').setup({
+  autocorrect = { enable = false },
+  autopeek = { enable = false },
+})
 require('mini.statusline').setup()
 -- require('mini.completion').setup()
 
