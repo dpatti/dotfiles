@@ -3,6 +3,7 @@ pellets [aur]
 aura-bin [aur]
 pacman-contrib # for `pacdiff`
 etckeeper
+nix
 
 # Sound
 alsa-utils
@@ -68,8 +69,9 @@ flameshot
 fzf
 git
 git-delta
+github-cli
 hexyl
-hub
+imagemagick
 jq
 libfaketime
 maim # screenshots
@@ -103,16 +105,18 @@ htop
 mtr
 ncdu
 neovim
-python-neovim # for neovim plugin support
+starship
 tmux
 xterm
 zsh
 
 # Lang
-bun-bin [aur]
 lua-language-server
+nodejs
 ocaml
 opam
+nil-git-debug [aur] # Nix language server
+pnpm
 python
 rbenv [aur]
 ruby

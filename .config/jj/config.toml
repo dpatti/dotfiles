@@ -4,8 +4,16 @@
 name = "Doug Patti"
 email = "douglas.patti@gmail.com"
 
+[aliases]
+default = ['log', '--no-pager']
+# status
+st = ['status', '--no-pager']
+# (l)og (a)ll
+la = ['log', '-r', '::']
+init = ['git', 'init', '--colocate']
+
 [ui]
-default-command = "log"
+default-command = "default"
 pager = "delta"
 diff-formatter = "delta"
 

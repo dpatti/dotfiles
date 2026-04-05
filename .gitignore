@@ -20,4 +20,5 @@
 !/.config/nvim
 !/.config/ripgrep
 !/.config/tmux
+!/.config/wireplumber
 !/.config/xmonad

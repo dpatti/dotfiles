@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+commands=(
+  "systemctl --user status wireplumber.service pipewire-pulse.socket pipewire.socket"
+  "pactl get-default-sink"
+  "pactl get-default-source"
+  "pactl list sinks | rg 'Name:|Description:|priority.session'"
+  "pactl list cards | sed -r -n '/Name:/p; /Profiles:/,/Active Profile:/p; /^$/p; /\[(In|Out)\]/p; /Part of profile/p'"
+)
+
+for run in "${commands[@]}"; do
+  echo "========== $run =========="
+  eval "command $run"
+  echo "===========$(sed 's/./=/g' <<< "$run")==========="
+  echo
+done
+
+echo "Hint: pactl set-card-profile <card> <profile>"

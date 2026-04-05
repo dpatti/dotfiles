@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+lsns -t mnt \
+  | fzf \
+    --header-lines 1 \
+    --height '100%' \
+    --preview 'findmnt -N {4} -o+PROPAGATION' \
+    --preview-window 'bottom,80%' \
+    --bind 'ctrl-d:preview(git diff --color=always --ignore-all-space <(findmnt -l -n -o+PROPAGATION | LC_ALL=C sort -k1) <(findmnt -N {4} -l -n -o+PROPAGATION | LC_ALL=C sort -k1))'

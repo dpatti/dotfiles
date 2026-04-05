@@ -22,8 +22,10 @@ export LESS="\
   --chop-long-lines \
   --tabs=2 \
   --jump-target=4 \
-  --hilite-search \
+  --incsearch \
+  --match-shift=4 \
 "
+export SYSTEMD_LESS="$LESS"
 
 # Shell history
 export HISTSIZE=10000
