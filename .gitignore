@@ -18,7 +18,9 @@
 /.config/jj/repos
 !/.config/nix
 !/.config/nvim
+!/.config/pnpm
 !/.config/ripgrep
 !/.config/tmux
+!/.config/uv
 !/.config/wireplumber
 !/.config/xmonad

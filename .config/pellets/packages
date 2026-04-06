@@ -22,19 +22,14 @@ cairo
 fontconfig
 
 # Networking
-netctl
-ifplugd
-wpa_supplicant
-dhcpcd
-dialog # for wifi-menu (netctl)
-wireless_tools # some network debugging that I might not use anymore
 iwd
+impala # tui for iwd
 
 # System
 batify-git [aur] # battery notifications
 btrfs-progs
-sbctl
-fwupd
+sbctl # secure boot
+fwupd # firmware update
 udisks2 # optional for fwupd to detect esp
 kernel-modules-hook # retain kernel modules after upgrading
 
@@ -74,7 +69,6 @@ hexyl
 imagemagick
 jq
 libfaketime
-maim # screenshots
 nmap
 pv
 restic
@@ -118,9 +112,8 @@ opam
 nil-git-debug [aur] # Nix language server
 pnpm
 python
-rbenv [aur]
+python-uv
 ruby
-ruby-build [aur]
 rust-analyzer
 rustup
 shellcheck
