@@ -25,6 +25,7 @@ vim.opt.ignorecase = true        -- Search will ignore case
 vim.opt.smartcase = true         -- Search will respect case if any letter is uppercase
 vim.opt.shortmess:append('c')    -- No completion menu errors as you're typing
 vim.opt.pumheight = 10           -- Show no more than 10 items in the popup window
+vim.opt.winborder = 'rounded'    -- Floating window border style
 
 -- (revisit these?)
 vim.opt.completeopt:append('menuone')  -- Show completion popup even if there is one suggestion
@@ -96,8 +97,9 @@ vim.keymap.set('', '<leader>l', '<C-w><C-l>', { silent = true })
 vim.keymap.set('n', '<leader>dt', '<cmd>difft<cr>', { silent = true })
 vim.keymap.set('n', '<leader>do', '<cmd>diffo!<cr>', { silent = true })
 
+-- (if we don't rebind K, lsp will bind it to hover(), so delete?)
 -- lookup keyword is almost never used, invert J instead
-vim.keymap.set('n', 'K', 'i<CR><Esc>k$')
+-- vim.keymap.set('n', 'K', 'i<CR><Esc>k$')
 
 -- --- }}}
 
@@ -134,8 +136,11 @@ require('mini.base16').setup({
   plugins = { default = true }
 })
 
-require('mini.notify').setup()
-vim.notify = require('mini.notify').make_notify()
+require('mini.notify').setup({
+  lsp_progress = {
+    enable = false
+  }
+})
 
 require('mini.cmdline').setup({
   autocorrect = { enable = false },
@@ -183,8 +188,9 @@ do
   })
   vim.lsp.enable('lua_ls')
 
-  -- nix
-  vim.lsp.enable('nil_ls')
+  vim.lsp.enable('nil_ls') -- nix
+  vim.lsp.enable('ocamllsp')
+  vim.lsp.enable('rust_analyzer')
 end
 
 -- treesitter
@@ -213,12 +219,14 @@ now(function()
     'haskell',
     'html',
     'javascript',
+    'jjdescription',
     'jsonnet',
     'jsx',
     'kdl',
     'lua',
     'make',
     'markdown',
+    -- 'mermaid', -- not working
     'nginx',
     'nix',
     'ocaml',
@@ -227,10 +235,11 @@ now(function()
     'rust',
     'sql',
     'strace',
-    'tmux',
+    -- 'tmux',
     'toml',
     'tsx',
     'typescript',
+    'vue',
     'xml',
     'xresources',
     'yaml',
@@ -275,6 +284,7 @@ later(function()
   vim.keymap.set('n', '<leader>sr', Snacks.picker.recent, { desc = '[S]earch [R]ecent Files' })
   vim.keymap.set('n', '<leader>sc', Snacks.picker.commands, { desc = '[S]earch [C]ommands' })
   vim.keymap.set('n', '<leader>sb', Snacks.picker.buffers, { desc = '[S]earch [B]uffers' })
+  vim.keymap.set('n', '<leader>su', Snacks.picker.undo, { desc = '[S]earch [U]ndo' })
 
   vim.keymap.set('n', '<C-A>', Snacks.picker.grep_word, { desc = 'Search current word' })
 
@@ -296,6 +306,7 @@ later(function()
       vim.keymap.set('n', ',fg', Snacks.picker.lsp_definitions, { buffer = buf, desc = 'Goto Definition' })
       vim.keymap.set('n', ',fd', Snacks.picker.lsp_declarations, { buffer = buf, desc = 'Goto Declaration' })
       vim.keymap.set('n', ',fr', Snacks.picker.lsp_type_definitions, { buffer = buf, desc = 'Goto Type Definition' })
+      vim.keymap.set('n', ',ft', vim.lsp.buf.hover, { buffer = buf, desc = 'Show Type' })
     end,
   })
 end)
@@ -365,9 +376,10 @@ add('junegunn/goyo.vim')
 add('junegunn/rainbow_parentheses.vim')
 
 -- vim-ocaml
-add('ocaml/vim-ocaml')
-vim.g.ocaml_highlight_operators = 1
+-- add('ocaml/vim-ocaml')
+-- vim.g.ocaml_highlight_operators = 1
 
+--[[
 -- ale
 add('w0rp/ale')
 vim.g.ale_floating_preview = 1
@@ -376,12 +388,12 @@ vim.g.ale_lint_on_text_changed = 'normal'
 vim.g.ale_lint_on_insert_leave = 1
 vim.g.ale_linters = {
   haskell = { 'hie', 'hlint', 'hdevtools', 'stack-build' },
-  ocaml = { 'merlin' },
+  -- ocaml = { 'merlin' },
   rust = { 'cargo', 'analyzer' },
 }
 vim.g.ale_fix_on_save = 1
 vim.g.ale_fixers = {
-  ocaml = { 'ocamlformat' },
+  -- ocaml = { 'ocamlformat' },
   javascript = { 'prettier' },
   javascriptreact = { 'prettier' },
   json = { 'prettier' },
@@ -394,14 +406,15 @@ vim.g.ale_fixers = {
 -- vim.keymap.set('n', ',fd', '<cmd>ALEGoToTypeDefinition<cr>', { silent = true })
 -- vim.keymap.set('n', ',fn', '<cmd>ALENextWrap<cr>', { silent = true })
 -- vim.keymap.set('n', ',fe', '<cmd>ALEDetail<cr>', { silent = true })
+]]
 
 -- linediff
 add('AndrewRadev/linediff.vim')
 vim.keymap.set('n', ',dm', '<cmd>LinediffMerge<CR>', { silent = true })
 vim.keymap.set('n', ',dk', '<cmd>LinediffPick<CR>', { silent = true })
 vim.keymap.set('n', ',dr', '<cmd>LinediffReset<CR>', { silent = true })
-vim.keymap.set('v', ',da', '<cmd>LinediffAdd<CR>', { silent = true })
-vim.keymap.set('v', ',db', '<cmd>LinediffLast<CR>', { silent = true })
+vim.keymap.set('v', ',da', '<cmd>\'<,\'>LinediffAdd<CR>', { silent = true })
+vim.keymap.set('v', ',db', '<cmd>\'<,\'>LinediffLast<CR>', { silent = true })
 
 -- startify
 add('mhinz/vim-startify')
@@ -494,6 +507,7 @@ vim.keymap.set('v', 'gm', ',cm', { silent = true, remap = true })
 
 -- (reintroduce or kill?)
 -- merlin
+--[[
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'ocaml',
   callback = function()
@@ -505,6 +519,7 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('n', ',fo', '<cmd>MerlinOccurrences<cr>', { buffer = true, silent = true })
   end,
 })
+]]
 
 -- tabular
 add('godlygeek/tabular')
@@ -526,7 +541,7 @@ vim.opt.background = "dark"
 vim.api.nvim_set_hl(0, 'EnclosingExpr', { ctermbg = 17, bg = '#2d362a' })
 vim.api.nvim_set_hl(0, 'SpellBad', { italic = true, undercurl = true, bg = 'NONE', sp = '#cc6666' })
 vim.api.nvim_set_hl(0, 'Operator', { link = 'Keyword' })
-vim.api.nvim_set_hl(0, 'ocamlPpxIdentifier', { link = 'Keyword' })
+-- vim.api.nvim_set_hl(0, 'ocamlPpxIdentifier', { link = 'Keyword' })
 vim.api.nvim_set_hl(0, 'sexplibUnquotedAtom', {})
 
 vim.api.nvim_set_hl(0, 'ALEError', { italic = true, undercurl = true, bg = 'NONE', sp = '#cc6666' })

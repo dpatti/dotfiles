@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-# Note: I haven't tested this
 set -x
 
 cd "$(mktemp -d)"
@@ -9,14 +7,13 @@ cd "$(mktemp -d)"
 # prereqs
 sudo pacman -Sy base-devel gmp git
 
-# aura
-git clone https://aur.archlinux.org/aura-bin.git
-cd aura-bin
-makepkg
-sudo pacman -U aura-bin-*.pkg.tar.zst
+# paru
+git clone https://aur.archlinux.org/paru-git.git
+cd paru-git
+makepkg -si
 
 # pellets
-aura -A pellets
+paru -S pellets
 
 # go
 sudo pellets

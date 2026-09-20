@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-command=(aura -A --unsuppress --noconfirm --delmakedeps "$@")
+# command=(aura -A --unsuppress --noconfirm --delmakedeps "$@")
+command=(paru -Syu)
 
 # Drop back to user for building packages, which helps with signature
 # verifcation

@@ -20,7 +20,7 @@ layout = avoidStruts tall ||| noBorders Full
 terminalCommand = "alacritty"
 
 launcherKeys =
-  [ ("M-S-z", spawn "slock")
+  [ ("M-S-z", spawn "loginctl lock-session")
   , ("M-x", spawn "bash ~/.xprofile")
   , ("M-S-<Return>", safeSpawn terminalCommand ["-e", "tmux"])
   , ("M-C-S-<Return>", safeSpawn terminalCommand [])

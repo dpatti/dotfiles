@@ -1,3 +1,6 @@
+# Set the correct bind map before loading plugins
+bindkey -A emacs main
+
 # Plugins ----------------------------------------------------------------------
 
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -46,8 +49,6 @@ setopt RC_QUOTES             # Two single quotes escape in a single-quoted strin
 setopt LONG_LIST_JOBS        # Print more info when jobs complete
 
 WORDCHARS='_-'
-
-bindkey -A emacs main
 
 # Adapted from https://wiki.archlinux.org/title/Zsh#Key_bindings
 # create a zkbd compatible hash (see man 5 terminfo)

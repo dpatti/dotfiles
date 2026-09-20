@@ -1,6 +1,7 @@
 # Package management
 pellets [aur]
 aura-bin [aur]
+paru-git [aur]
 pacman-contrib # for `pacdiff`
 etckeeper
 nix
@@ -26,7 +27,6 @@ iwd
 impala # tui for iwd
 
 # System
-batify-git [aur] # battery notifications
 btrfs-progs
 sbctl # secure boot
 fwupd # firmware update
@@ -46,6 +46,7 @@ moreutils
 openssh
 rsync
 socat
+squashfs-tools
 sudo
 strace
 tcpdump
@@ -70,14 +71,16 @@ imagemagick
 jq
 libfaketime
 nmap
+peek # gif screen record
 pv
 restic
 ripgrep
-sysz [aur] # fzf+systemd
+systemctl-tui
 whois
 xdotool # programmatic keyboard/mouse control
 jujutsu
 evtest # reading from /dev/input/eventN files
+qpdf # pdf manipulation
 
 # Development
 base-devel
@@ -94,6 +97,7 @@ capnproto
 # Terminal Apps
 alacritty
 atop
+btop
 fish
 htop
 mtr
@@ -134,7 +138,6 @@ google-chrome [aur]
 dropbox [aur]
 dropbox-cli [aur] # for managing the exclude list
 firefox
-# ?unused? silentcast [aur]
 vlc
 viewnior
 spotify [aur]
@@ -143,9 +146,13 @@ discord
 wireshark-qt
 signal-desktop
 
+# Laptop
+xf86-input-synaptics
+acpilight [aur] # backlight
+batsignal
+
 # Graphical
 mesa
-xf86-input-synaptics
 xorg [group]
 xorg-xinit
 xclip
@@ -158,7 +165,6 @@ xmobar
 dmenu # launcher
 dunst # notifications
 arandr
-acpilight [aur] # backlight
 xss-lock
 
 # Wayland
@@ -173,3 +179,8 @@ timidity++
 
 # 2025-05: liburing
 liburing
+
+# 2026-07: littleman
+go
+just
+npm

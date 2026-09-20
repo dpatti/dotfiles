@@ -10,8 +10,8 @@ set -x
 
 sudo pellets
 
-# aura -Syu
-aura --sync --refresh --sysupgrade
+sudo pacman -Syu
+paru -Syu --review
 
 # aura -Aux --noconfirm
-aura --aursync --sysupgrade --unsuppress --noconfirm --delmakedeps
+# aura --aursync --sysupgrade --unsuppress --noconfirm --delmakedeps
